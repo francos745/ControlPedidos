@@ -1,0 +1,38 @@
+﻿/* Botón propio
+-------------------------------------------------- */
+ 
+/* Redefine los estilos de .btn */
+/* Modificar el texto y el color de fondo en los tres estados
+   principales del botón: default, hover y active. */
+.btn-vitalicia,
+.btn-vitalicia:hover,
+.btn-vitalicia:active {
+  color: white;
+ 
+  text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
+  background-color: #ff9a17;
+  
+	font-style: normal;
+    font-weight: bold;
+	
+	font-weight: bold;
+}
+ 
+/* Aplicar gradientes de colores */
+/* Nota: no se muestran aquí todos los gradientes que tendrás que
+   definir para los diferentes navegadores. */
+.btn-vitalicia {
+  background-repeat: repeat-x;
+  
+}
+ 
+/* Estilos del estado :hover del botón */
+/* Uno de los estilos más sencillos y eficaces para el estado :hover
+   consiste en subir hacia arriba ligeramente la imagen de fondo del
+   botón, pero puedes definir otros estilos adicionales si quieres. */
+.btn-vitalicia:hover {
+  background-position: 0 -15px;
+     background-color: RGB(0,61,61);
+        color:#FFF;
+}
+

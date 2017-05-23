@@ -118,10 +118,11 @@ Public Class residente
 
 
     'antes llamada validarIngreso: valida que no se ingresen dos articulos iguales al crear una solicitud o modificarla
-    Function validarNuevaLinea(ByVal codProyecto As String, ByVal material As String, ByVal articulo As String) As Boolean 'si devuelve TRUE significa que existen registros con los mismos valores
+    Function validarNuevaLinea(ByVal codProyecto As String, ByVal actividad As String, ByVal material As String, ByVal articulo As String) As Boolean 'si devuelve TRUE significa que existen registros con los mismos valores
         Dim contador As Integer
         query = " SELECT COUNT('A') FROM SOL_PEDIDOS.PEDIDOS.SOL_RES_DET"
         query += " WHERE COD_SOL='" & codProyecto & "'"
+        query += " AND ACTIVIDAD ='" & actividad & "'"
         query += " AND MATERIAL ='" & material & "'"
         query += " AND ARTICULO='" & articulo & "'"
         query += " AND COD_CONT_LINEA<>'B'"

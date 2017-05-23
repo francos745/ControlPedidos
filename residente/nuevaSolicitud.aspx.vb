@@ -311,7 +311,7 @@ Partial Class nuevaSolicitud
             lblMensajeS.Attributes("class") = "label label-info"
         End If
         If lblId.Text = "0" Then
-            If res.validarNuevaLinea(lblCodigoProyecto.Text, obtenerMaterial, obtenerArticulo) Then
+            If res.validarNuevaLinea(lblCodigoProyecto.Text, actividad, obtenerMaterial, obtenerArticulo) Then
                 lblMensajeS.Attributes("Style") = ""
                 lblMensajeS.Attributes("class") = "alert alert-danger"
                 lblMensaje.Text = "Ya se ingresó el item. Intente con otro."

@@ -263,7 +263,11 @@
                         <li><a href="#"><asp:Button ID="btnPM" runat="server" Text="Presupuesto de materiales" CssClass="btn btn-default btn-md" /></a></li>
                         <li><a href="#"><asp:Button ID="btnExcel" runat="server" Text="Cargar Solicitud" CssClass="btn btn-default btn-md" /></a></li>
                         <li><a href="#"><asp:Button ID="btnCuadroCom" runat="server" Text="Cuadro de Comunicacion" CssClass="btn btn-default btn-md" /></a></li>
-
+                        <li><a href="#"><input id="btnActualizar" type="button" value="Actualizar" class="btn btn-default btn-md"  runat="server"/></a></li>
+                                
+                                    
+                               
+                           
                     </ul>
                 </li>
                 <li class="dropdown"  style="display:none;">
@@ -315,57 +319,72 @@
 				
                 
                 <h4 class="text-center"><asp:Label ID="lblCodigoProyecto" style="display:none;" runat="server" Text="Label"></asp:Label></h4>
-                <div class="container">
+                
                     <div class="row">
-                        <div class="col-sm-3" >
-                            
-                        </div>
+                      
                         <div class="col-sm-4" >
                             <div class="control-group">
                                 <label for="nueva" class="control-label"> Número de Solicitud: </label>
                                 <div class="controls" style="text-align:left;">
                                     <asp:DropDownList ID="cmbCodigoProyecto" runat="server" class="search-box" AutoPostBack="true" placeholder="No hay elementos disponibles" ></asp:DropDownList>
-                                         
+                                          <br />
+                            <h5 class="text-center"><asp:Label ID="lblProyecto" runat="server" Text="Label"></asp:Label></h5>
+                           
                                 </div>
                             </div>
                                
                                    <h4> <strong><span runat="server" id="lblMensaje3S" class=""><asp:Label ID="lblMensaje3" runat="server" Text=""></asp:Label></span></strong></h4>
                                
-                            <h5 class="text-center"><asp:Label ID="lblProyecto" runat="server" Text="Label"></asp:Label></h5>
-                        </div>
-                        <div class="col-sm-2" >
-                            <br />
-                            <div class="btn-group btn-group-justified" role="group" aria-label="...">
-                                <div class="btn-group" role="group">
-                                    <input id="btnActualizar" type="button" value="Actualizar" class="btn btn-default btn-md"  runat="server"/>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-sm-3" >
-                        </div>
-                    </div>
-
-                    <div class="row">
-                        <div class="col-sm-3" >
-                        </div>
-
-                        <div class="col-sm-6" >
-                            <div runat="server" id="Div1" class="">
-                            <strong><asp:Label ID="Label1" runat="server" Text=""></asp:Label></strong>
-                        </div>
-                        </div>
-
-                        <div class="col-sm-3" >
-                        </div>
-                        
-                    </div>
-                </div>
-                
-                <div class="container">
-                    <div class="row">
-                        <div class="col-sm-3" >
                             
                         </div>
+                        
+                        <div class="col-sm-4" >
+                            <fieldset class="row" id="contTextos" runat="server" disabled="disabled" >
+                                <div class="col-sm-6" >
+                                    <label for="nueva" class="control-label">Solicitante:</label>
+                                    <div class="controls">
+                                        <asp:TextBox ID="txtSolicitante" maxlength="50"  runat="server" class="form-control input-sm" placeholder="Solicitante"></asp:TextBox>
+                                    </div>
+                                    <label for="actual" class="control-label">Fecha Solicitud: </label>
+                                    <div class="controls">
+                                        <asp:TextBox ID="txtFechaSol" runat="server" class="form-control input-sm" placeholder="Fecha"></asp:TextBox>
+                                    </div>
+
+                                </div>
+
+                                <div class="col-sm-6" >
+                                    <label for="actual" class="control-label">Fecha Aprob SO: </label>
+                                    <div class="controls">
+                                        <asp:TextBox ID="txtFechaSO" runat="server" class="form-control input-sm" placeholder="Fecha"></asp:TextBox>
+                                    </div>
+                                    <label for="actual" class="control-label">Fecha Aprob DO: </label>
+                                    <div class="controls">
+                                        <asp:TextBox ID="txtFechaDO" runat="server" class="form-control input-sm" placeholder="Fecha"></asp:TextBox>
+                                    </div>
+                                </div>              
+                            </fieldset>
+                        </div>
+                        <div class="col-sm-4" >
+            
+                            <div class="row" id="contObsRechazadas" runat="server" style="display:none;" >
+                                <div class="col-sm-12" >
+                                    <div class="control-group">
+                                        <label for="nueva" class="control-label">Observaciones Ingeniería: </label>
+
+                                        <div class="controls text-right ">
+                                            <h4><span class="label label-success" id="formato"><asp:Label ID="txtCaracter" runat="server" Text=""></asp:Label></span></h4>
+                                            <textarea name="txtObservaciones" id="txtObsRechazados" runat="server" onkeyup="contarCaracteres(this)" onkeydown="contarCaracteres(this)" onkeypress="contarCaracteres(this)" maxlength="1500" cols="40" rows="2" class="form-control input-sm" placeholder="Observaciones" ></textarea>
+                                        </div>
+                                    </div>
+                                </div>          
+                            </div>
+                        </div>
+                    </div>
+
+                 
+               
+                    <div class="row">
+                        
 
                         <div class="col-sm-6" >
                             <div class="btn-group btn-group-justified" role="group" aria-label="...">
@@ -383,10 +402,12 @@
 
                         <div class="col-sm-3" >
                         </div>
+                        <div class="col-sm-3" >
+                            
+                        </div>
                     </div>
                     <div class="row">
-                        <div class="col-sm-3" >
-                        </div>
+                        
 
                         <div class="col-sm-6" >
                             
@@ -398,10 +419,12 @@
 
                         <div class="col-sm-3" >
                         </div>
+
+                        <div class="col-sm-3" >
+                        </div>
                         
                     </div>
-                </div>
-                
+               
             </div>
     </div>
              <!---------------FIN TITULOS----------------------->
@@ -419,7 +442,7 @@
                             <ControlStyle CssClass="label label-warning" />
                         </asp:CommandField>
                         
-                        <asp:CommandField ButtonType="Link" DeleteText="A/R" ShowDeleteButton="True" ControlStyle-CssClass="buttonControl" HeaderText="Aceptar / Rechazar"  >
+                        <asp:CommandField ButtonType="Link" DeleteText="A/R" ShowDeleteButton="True" ControlStyle-CssClass="buttonControl" HeaderText=""  >
                             <ControlStyle CssClass="label label-warning" />
                         </asp:CommandField>
 
@@ -685,59 +708,24 @@
                 </div>
             </div>
         </div>
+            
+        </div>
+        
+        
+        
+    </div>
+    <div class="row">
+        <div class="col-sm-12">
             <div id="contObservaciones" runat="server"> 
                 <div class="control-group">
                     <label for="nueva" class="control-label">Observaciones: </label>
                     <div class="controls text-right ">
-                        <textarea name="txtObservaciones" id="txtObservaciones" onkeyup="contarCaracteres(this)" onkeydown="contarCaracteres(this)" onkeypress="contarCaracteres(this)" runat="server" maxlength="1500" cols="40" rows="4" class="form-control input-md" placeholder="Observaciones" disabled="disabled"></textarea>
+                        <textarea name="txtObservaciones" id="txtObservaciones" onkeyup="contarCaracteres(this)" onkeydown="contarCaracteres(this)" onkeypress="contarCaracteres(this)" runat="server" maxlength="1500" cols="40" rows="4" class="form-control input-sm" placeholder="Observaciones" disabled="disabled"></textarea>
                     </div>
                 </div>
             </div>
         </div>
-        <div class="col-sm-4" >
-            <fieldset class="row" id="contTextos" runat="server" disabled="disabled" >
-                <div class="col-sm-6" >
-                                <label for="nueva" class="control-label">Solicitante:</label>
-                                <div class="controls">
-                                    <asp:TextBox ID="txtSolicitante" maxlength="50"  runat="server" class="form-control input-sm" placeholder="Solicitante"></asp:TextBox>
-                                </div>
-                                <label for="actual" class="control-label">Fecha Solicitud: </label>
-                                <div class="controls">
-                                    <asp:TextBox ID="txtFechaSol" runat="server" class="form-control input-sm" placeholder="Fecha"></asp:TextBox>
-                                </div>
-
-                            </div>
-
-                            <div class="col-sm-6" >
-                                <label for="actual" class="control-label">Fecha Aprob SO: </label>
-                                <div class="controls">
-                                    <asp:TextBox ID="txtFechaSO" runat="server" class="form-control input-sm" placeholder="Fecha"></asp:TextBox>
-                                </div>
-                                <label for="actual" class="control-label">Fecha Aprob DO: </label>
-                                <div class="controls">
-                                    <asp:TextBox ID="txtFechaDO" runat="server" class="form-control input-sm" placeholder="Fecha"></asp:TextBox>
-                                </div>
-                            </div>              
-                        </fieldset>
-        </div>
-        
-        <div class="col-sm-4" >
-            
-            <div class="row" id="contObsRechazadas" runat="server" style="display:none;" >
-                <div class="col-sm-12" >
-                    <div class="control-group">
-                        <label for="nueva" class="control-label">Observaciones Ingeniería: </label>
-
-                        <div class="controls text-right ">
-                            <h4><span class="label label-success" id="formato"><asp:Label ID="txtCaracter" runat="server" Text=""></asp:Label></span></h4>
-                            <textarea name="txtObservaciones" id="txtObsRechazados" runat="server" onkeyup="contarCaracteres(this)" onkeydown="contarCaracteres(this)" onkeypress="contarCaracteres(this)" maxlength="1500" cols="40" rows="2" class="form-control input-md" placeholder="Observaciones" ></textarea>
-                        </div>
-                    </div>
-                </div>          
-            </div>
-        </div>
     </div>
- 
    
     <br/>
     

@@ -415,12 +415,12 @@
                         DataSourceID="Detalles" CssClass="testgrid1" selectedindex="1"
                         EnableModelValidation="True" Width="100%" Visible="true">
                     <Columns>
-                        <asp:CommandField ButtonType="button" SelectText ="Editar" ShowSelectButton="True" ControlStyle-CssClass="buttonControl"  >
-                            <ControlStyle CssClass="btn btn-vitalicia btn-xs" />
+                        <asp:CommandField ButtonType="Link" SelectText ="Editar" ShowSelectButton="True" ControlStyle-CssClass="buttonControl"  >
+                            <ControlStyle CssClass="label label-warning" />
                         </asp:CommandField>
                         
-                        <asp:CommandField ButtonType="button" DeleteText="A/R" ShowDeleteButton="True" ControlStyle-CssClass="buttonControl" HeaderText="Aceptar / Rechazar"  >
-                            <ControlStyle CssClass="btn btn-vitalicia btn-xs" />
+                        <asp:CommandField ButtonType="Link" DeleteText="A/R" ShowDeleteButton="True" ControlStyle-CssClass="buttonControl" HeaderText="Aceptar / Rechazar"  >
+                            <ControlStyle CssClass="label label-warning" />
                         </asp:CommandField>
 
                         <asp:BoundField DataField="NUMERO" HeaderText="NO." ReadOnly="True" Visible="True" SortExpression="ID" />

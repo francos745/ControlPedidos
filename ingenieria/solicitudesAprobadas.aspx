@@ -311,8 +311,7 @@
                 <h4 class="text-center"><asp:Label ID="lblCodigoProyecto" style="display:none;" runat="server" Text="Label"></asp:Label></h4>
                 
                     <div class="row">
-                        <div class="col-sm-4" >
-                        </div>
+                        
                         <div class="col-sm-4" >
                             <div class="control-group">
                                 <label for="nueva" class="control-label"> Número de Solicitud: </label>
@@ -321,25 +320,55 @@
                                 
                                 </div>
                             </div>
-                             <h4> <strong><span runat="server" id="lblMensaje3S" class=""><asp:Label ID="lblMensaje3" runat="server" Text=""></asp:Label></span></strong></h4>
-                               
-                            <h4 class="text-center"><asp:Label ID="lblProyecto" runat="server" Text="Label"></asp:Label></h4>
+                             
                         </div>
 
-                        <div class="col-sm-4" >
+                        <div class="col-sm-8" >
+                            <fieldset class="row" id="contTextos" runat="server" disabled="disabled" >
+                                <div class="col-sm-3" >
+                                                <label for="nueva" class="control-label">Solicitante:</label>
+                                                <div class="controls">
+                                                    <asp:TextBox ID="txtSolicitante" maxlength="50"  runat="server" class="form-control input-sm" placeholder="Solicitante"></asp:TextBox>
+                                                </div>
+                                    </div>
+                                    <div class="col-sm-3" >
+                                                <label for="actual" class="control-label">Fecha Solicitud: </label>
+                                                <div class="controls">
+                                                    <asp:TextBox ID="txtFechaSol" runat="server" class="form-control input-sm" placeholder="Fecha"></asp:TextBox>
+                                                </div>
+
+
+                                            </div>
+
+                                            <div class="col-sm-3" >
+                                                <label for="actual" class="control-label">Fecha Aprobación SO: </label>
+                                                <div class="controls">
+                                                    <asp:TextBox ID="txtFechaSO" runat="server" class="form-control input-sm" placeholder="Fecha"></asp:TextBox>
+                                                </div>
+                                                </div>
+                                        <div class="col-sm-3" >
+                                                <label for="actual" class="control-label">Fecha Aprobación DO: </label>
+                                                <div class="controls">
+                                                    <asp:TextBox ID="txtFechaDO" runat="server" class="form-control input-sm" placeholder="Fecha"></asp:TextBox>
+                                                </div>
+                                            </div>              
+                                        </fieldset>
                         </div>
+                       
                     </div>
 
                     
                 
                 
-                <div class="container">
+               
                     <div class="row">
-                        <div class="col-sm-3" >
-                            
-                        </div>
+                       
 
-                        <div class="col-sm-6" >
+                        <div class="col-sm-4" >
+                            <h4> <strong><span runat="server" id="lblMensaje3S" class=""><asp:Label ID="lblMensaje3" runat="server" Text=""></asp:Label></span></strong></h4>
+                               
+                            <h4 class="text-center"><asp:Label ID="lblProyecto" runat="server" Text="Label"></asp:Label></h4>
+
                             <div class="btn-group btn-group-justified" role="group" aria-label="...">
                                 <div class="btn-group" role="group">
                                     <input id="btnMoverACursadas" type="button" value="Mover a Pendientes" data-target="#modalConfirmarAprobar" class="btn btn-vitalicia btn-md"  runat="server" data-toggle="modal" data-backdrop="static" />
@@ -351,12 +380,12 @@
                             </div>
                         </div>
 
-                        <div class="col-sm-3" >
+                        <div class="col-sm-8" >
+                           
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col-sm-3" >
-                        </div>
+                        
 
                         <div class="col-sm-6" >
                             
@@ -368,10 +397,11 @@
 
                         <div class="col-sm-3" >
                         </div>
+                        <div class="col-sm-3" >
+                        </div>
                         
                     </div>
-                </div>
-                
+               
             </div>
     </div>
              <!---------------FIN TITULOS----------------------->
@@ -540,49 +570,20 @@
             
         </div>
     </div>
-
-
-        <div class="row" >
-        <div class="col-sm-4">
-        
+    <div class="row">
+        <div class="col-sm-12" >
             <div id="contObservaciones" runat="server"> 
                 <div class="control-group">
-                    <label for="nueva" class="control-label">Observaciones: </label>
+                <label for="nueva" class="control-label">Observaciones: </label>
                     <div class="controls text-right ">
-                        <textarea name="txtObservaciones" id="txtObservaciones" onkeyup="contarCaracteres(this)" onkeydown="contarCaracteres(this)" onkeypress="contarCaracteres(this)" runat="server" maxlength="1500" cols="40" rows="4" class="form-control input-md" placeholder="Observaciones" disabled="disabled"></textarea>
+                        <textarea name="txtObservaciones" id="txtObservaciones" onkeyup="contarCaracteres(this)" onkeydown="contarCaracteres(this)" onkeypress="contarCaracteres(this)" runat="server" maxlength="1500" cols="40" rows="4" class="form-control input-sm" placeholder="Observaciones" disabled="disabled"></textarea>
                     </div>
                 </div>
             </div>
         </div>
-        <div class="col-sm-4" >
-            <fieldset class="row" id="contTextos" runat="server" disabled="disabled" >
-                <div class="col-sm-6" >
-                                <label for="nueva" class="control-label">Solicitante:</label>
-                                <div class="controls">
-                                    <asp:TextBox ID="txtSolicitante" maxlength="50"  runat="server" class="form-control input-md" placeholder="Solicitante"></asp:TextBox>
-                                </div>
-                                <label for="actual" class="control-label">Fecha Solicitud: </label>
-                                <div class="controls">
-                                    <asp:TextBox ID="txtFechaSol" runat="server" class="form-control input-md" placeholder="Fecha"></asp:TextBox>
-                                </div>
-
-                            </div>
-
-                            <div class="col-sm-6" >
-                                <label for="actual" class="control-label">Fecha Aprobación SO: </label>
-                                <div class="controls">
-                                    <asp:TextBox ID="txtFechaSO" runat="server" class="form-control input-md" placeholder="Fecha"></asp:TextBox>
-                                </div>
-                                <label for="actual" class="control-label">Fecha Aprobación DO: </label>
-                                <div class="controls">
-                                    <asp:TextBox ID="txtFechaDO" runat="server" class="form-control input-md" placeholder="Fecha"></asp:TextBox>
-                                </div>
-                            </div>              
-                        </fieldset>
-        </div>
-        
     </div>
- 
+
+        
    
    
     

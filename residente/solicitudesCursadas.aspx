@@ -403,7 +403,7 @@
             <div class="control-group" runat="server" id="txtActividadS">
                 <label for="nueva" class="control-label">Ingrese una nueva Actividad: </label>
                 <div class="controls">
-                    <asp:TextBox ID="txtActividad" runat="server" onchange="validarEspeciales(this)" onkeypress="validarLetras()" class="form-control input-md" AutoPostBack="false" placeholder="Actividad"></asp:TextBox>
+                    <asp:TextBox ID="txtActividad" runat="server" class="form-control input-md" AutoPostBack="false" placeholder="Actividad"></asp:TextBox>
                 </div>
             </div>  
         </div>
@@ -411,7 +411,7 @@
             <div class="control-group" runat="server" id="txtMaterialS">
                 <label for="nueva" class="control-label">Ingrese un nuevo material: </label>
                 <div class="controls">
-                    <asp:TextBox ID="txtMaterial" runat="server" onchange="validarEspeciales(this)"  onkeypress="validarLetras()" class="form-control input-md" AutoPostBack="false" placeholder="Material"></asp:TextBox>
+                    <asp:TextBox ID="txtMaterial" runat="server" class="form-control input-md" AutoPostBack="false" placeholder="Material"></asp:TextBox>
                 </div>
             </div>       
         </div>
@@ -445,7 +445,7 @@
             <div class="control-group" runat="server" id="txtArticuloS">
                 <label for="nueva" class="control-label">Ingrese un nuevo Artículo: </label>
                 <div class="controls">
-                    <asp:TextBox ID="txtArticulo" runat="server" onchange="validarEspeciales(this)" onkeypress="validarLetras()" class="form-control input-md" AutoPostBack="false" placeholder="Artículo"></asp:TextBox>
+                    <asp:TextBox ID="txtArticulo" runat="server" class="form-control input-md" AutoPostBack="false" placeholder="Artículo"></asp:TextBox>
                 </div>
             </div>
         </div>

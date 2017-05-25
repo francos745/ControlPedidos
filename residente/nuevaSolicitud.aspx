@@ -355,21 +355,10 @@
             <div class="control-group" runat="server" id="txtActividadS">
                 <label for="nueva" class="control-label">Ingrese una nueva Actividad: </label>
                 <div class="controls">
-                    <div class="input-group">
-                          <asp:TextBox ID="txtActividad" runat="server" onchange="validarEspeciales(this)" onkeypress="validarLetras()" class="form-control input-md" AutoPostBack="false" placeholder="Actividad"></asp:TextBox>
-                          <div class="input-group-btn">
-                            <button type="button" class="btn btn-default dropdown-toggle"
-                                    data-toggle="dropdown">
-                              α <span class="caret"></span>
-                            </button>
- 
-                            <ul class="dropdown-menu pull-right" role="menu">
-                              
-                              <li><input id="Button2" type="button" value="Ver caracteres inválidos" data-target="#modalCaracteres" class="btn btn-default btn-md"  runat="server" data-toggle="modal" data-backdrop="static" /></li>
-                              
-                            </ul>
-                          </div>
-                        </div>                    
+                    
+                          <asp:TextBox ID="txtActividad" runat="server" class="form-control input-md" AutoPostBack="false" placeholder="Actividad"></asp:TextBox>
+                         
+                                      
                 </div>
             </div>  
         </div>
@@ -377,22 +366,9 @@
             <div class="control-group" runat="server" id="txtMaterialS">
                 <label for="nueva" class="control-label">Ingrese un nuevo material: </label>
                 <div class="controls">                    
-                        <div class="input-group">
-                          <asp:TextBox ID="txtMaterial" runat="server" onchange="validarEspeciales(this)"  onkeypress="validarLetras()" class="form-control input-md" AutoPostBack="false" placeholder="Material"></asp:TextBox>
- 
-                          <div class="input-group-btn">
-                            <button type="button" class="btn btn-default dropdown-toggle"
-                                    data-toggle="dropdown">
-                              α <span class="caret"></span>
-                            </button>
- 
-                            <ul class="dropdown-menu pull-right" role="menu">
-                              
-                              <li><input id="Button1" type="button" value="Ver caracteres inválidos" data-target="#modalCaracteres" class="btn btn-default btn-md"  runat="server" data-toggle="modal" data-backdrop="static" /></li>
-                              
-                            </ul>
-                          </div>
-                        </div>                     
+                        
+                          <asp:TextBox ID="txtMaterial" runat="server" class="form-control input-md" AutoPostBack="false" placeholder="Material"></asp:TextBox>
+                    
                 </div>
             </div>       
         </div>
@@ -426,22 +402,10 @@
             <div class="control-group" runat="server" id="txtArticuloS">
                 <label for="nueva" class="control-label">Ingrese un nuevo Artículo: </label>
                 <div class="controls">
-                    <div class="input-group">
-                          <asp:TextBox ID="txtArticulo" runat="server" onchange="validarEspeciales(this)" onkeypress="validarLetras()" class="form-control input-md" AutoPostBack="false" placeholder="Artículo"></asp:TextBox>
-                          <div class="input-group-btn">
-                            <button type="button" class="btn btn-default dropdown-toggle"
-                                    data-toggle="dropdown">
-                              α <span class="caret"></span>
-                            </button>
- 
-                            <ul class="dropdown-menu pull-right" role="menu">
-                              
-                              <li><input id="Button3" type="button" value="Ver caracteres inválidos" data-target="#modalCaracteres" class="btn btn-default btn-md"  runat="server" data-toggle="modal" data-backdrop="static" /></li>
-                              
-                            </ul>
-                          </div>
-                        </div>
-
+                    
+                          <asp:TextBox ID="txtArticulo" runat="server" class="form-control input-md" AutoPostBack="false" placeholder="Artículo"></asp:TextBox>
+                          
+                        
 
 
                     

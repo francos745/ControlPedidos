@@ -291,10 +291,10 @@ Partial Class ingenieria_solicitudesCursadasIng
         query += " FROM   SOL_PEDIDOS.VITALICIA.FASE_PY A"
         query += " WHERE FASE NOT IN (SELECT FASE FROM  SOL_PEDIDOS.VITALICIA.FASE_PY WHERE FASE LIKE '%00.00.00' )"
         query += " AND FASE NOT IN (SELECT FASE FROM   SOL_PEDIDOS.VITALICIA.FASE_PY WHERE FASE LIKE '%00.00')"
-        query += " AND PROYECTO = '" & lblProyecto.Text & "' AND FASE LIKE '%00')"
+        query += " AND PROYECTO = '" & Server.HtmlDecode(lblProyecto.Text) & "' AND FASE LIKE '%00')"
         query += " ORDER BY FASE"
         fn.llenarComboBoxOpciones2(cmbActividad, query, "NUMERO", "FASE", "NOMBRE")
-        Dim UItem As New ListItem("***Actividad Original***", lblActividad.Text)
+        Dim UItem As New ListItem("***Actividad Original***", Server.HtmlDecode(lblActividad.Text))
         cmbActividad.Items.Add(UItem)
     End Sub
 
@@ -310,10 +310,10 @@ Partial Class ingenieria_solicitudesCursadasIng
         query += " AND FASE NOT IN (SELECT FASE FROM SOL_PEDIDOS.VITALICIA.FASE_PY WHERE FASE LIKE '%00.00')"
         query += " AND TIPO='A'"
         query += " AND FASE NOT IN (SELECT FASE FROM SOL_PEDIDOS.VITALICIA.FASE_PY WHERE FASE LIKE '%00')"
-        query += " AND FASE LIKE'" & actividad & "%' "
+        query += " AND FASE LIKE'" & Server.HtmlDecode(actividad) & "%' "
         query += " ORDER BY NOMBRE"
         fn.llenarComboBox2(cmbMaterial, query, "NOMBRE", "FASE")
-        Dim UItem As New ListItem("***Material Original***", lblMaterial.Text)
+        Dim UItem As New ListItem("***Material Original***", Server.HtmlDecode(lblMaterial.Text))
         cmbMaterial.Items.Add(UItem)
     End Sub
 
@@ -323,7 +323,7 @@ Partial Class ingenieria_solicitudesCursadasIng
         query += " WHERE FASE = '" & Server.HtmlDecode(cmbMaterial.SelectedValue) & "' "
         query += " AND A.ARTICULO= B.ARTICULO ORDER BY DESCRIPCION"
         fn.llenarComboBox2(cmbArticulo, query, "DESCRIPCION", "ARTICULO")
-        Dim UItem As New ListItem("***Articulo Original***", lblArticulo.Text)
+        Dim UItem As New ListItem("***Articulo Original***", Server.HtmlDecode(lblArticulo.Text))
         cmbArticulo.Items.Add(UItem)
 
     End Sub

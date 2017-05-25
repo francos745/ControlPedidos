@@ -512,7 +512,7 @@
 
                         <asp:BoundField DataField="REFERENCIA" HeaderText="REFERENCIA" ReadOnly="True" SortExpression="ART" />
                          
-                        <asp:BoundField DataField="ACTIVIDAD" HeaderText="ACTIVIDAD" ReadOnly="True" SortExpression="ART" />
+                        <asp:BoundField DataField="NUMERO" HeaderText="ACTIVIDAD" ReadOnly="True" SortExpression="ART" />
                          
                         <asp:BoundField DataField="MATERIAL" HeaderText="MATERIAL" ReadOnly="True" SortExpression="ART" />
                          
@@ -587,13 +587,13 @@
                         <div class="row">
                             <div class="col-sm-1">                                                        
                             </div> 
-                            <div class="col-sm-3">    
-                                <label for="nueva" class="control-label">Cód. Act.:</label>
+                            <div class="col-sm-2">    
+                                <label for="nueva" class="control-label">Núm. Act.:</label>
                                 <div class="controls">
                                      <asp:TextBox ID="txtCodActividad" maxlength="25"  runat="server" class="form-control input-md disabled" placeholder=""></asp:TextBox>                                    
                                 </div>                            
                             </div> 
-                            <div class="col-sm-7" >
+                            <div class="col-sm-8" >
                                 <label for="nueva" class="control-label">Actividad:</label>
                                 <div class="controls">
                                      <asp:TextBox ID="txtActividad" maxlength="25"  runat="server" class="form-control input-md disabled" placeholder=""></asp:TextBox>                                    
@@ -604,15 +604,17 @@
                             
                         </div>
                         <div class="row">
-                            <div class="col-sm-1">                                                        
-                            </div> 
-                            <div class="col-sm-3">    
+                            <div class="col-sm-1"  style="display:none;" >   
                                 <label for="nueva" class="control-label">Cód. Mat.:</label>
                                 <div class="controls">
                                      <asp:TextBox ID="txtCodMaterial" maxlength="25"  runat="server" class="form-control input-md disabled" placeholder=""></asp:TextBox>                                    
-                                </div>                            
+                                </div>                                                      
                             </div> 
-                            <div class="col-sm-7" >
+                            <div class="col-sm-1" >   
+                                                                                
+                            </div> 
+                          
+                            <div class="col-sm-10" >
                                 <label for="nueva" class="control-label">Material:</label>
                                 <div class="controls">
                                      <asp:TextBox ID="txtMaterial" maxlength="25"  runat="server" class="form-control input-md disabled" placeholder=""></asp:TextBox>                                    
@@ -622,7 +624,7 @@
                             </div> 
                             
                         </div>
-                        <div class="row">
+                        <div class="row" style="display:none;">
                             <div class="col-sm-1">                                                        
                             </div> 
                             <div class="col-sm-3">    

@@ -10,7 +10,7 @@ Partial Class ingenieria_devoluciones
     Dim com As New comun
     Sub llenarTablaConversion()
 
-        query = " SELECT * FROM SOL_PEDIDOS.PEDIDOS.DEVOLUCION_DET WHERE ESTADO_LIN='R'"
+        query = " SELECT * , ISNULL((SELECT NRO FROM SOL_PEDIDOS.VITALICIA.PROY_FASE_CANT B WHERE A.ACTIVIDAD=B.FASE),0) NUMERO FROM SOL_PEDIDOS.PEDIDOS.DEVOLUCION_DET A WHERE ESTADO_LIN='R'"
 
         Detalles.ConnectionString = fn.ObtenerCadenaConexion("conn")
         Detalles.SelectCommand = query
@@ -21,7 +21,7 @@ Partial Class ingenieria_devoluciones
     Protected Sub dtgDetalle_PreRender(sender As Object, e As EventArgs) Handles dtgDetalle.PreRender
 
 
-        query = " SELECT * FROM SOL_PEDIDOS.PEDIDOS.DEVOLUCION_DET WHERE ESTADO_LIN='R'"
+        query = " SELECT * , ISNULL((SELECT NRO FROM SOL_PEDIDOS.VITALICIA.PROY_FASE_CANT B WHERE A.ACTIVIDAD=B.FASE),0) NUMERO FROM SOL_PEDIDOS.PEDIDOS.DEVOLUCION_DET A WHERE ESTADO_LIN='R'"
 
 
         Detalles.ConnectionString = fn.ObtenerCadenaConexion("conn")

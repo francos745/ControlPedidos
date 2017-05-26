@@ -29,7 +29,7 @@ Partial Class ingenieria_presupuestoMateriales
         query += " SUM(CANT_ACTAS_A)CANT_ACTAS_A,SUM(CANT_PRESUP_ACTAS_A)CANT_PRESUP_ACTAS_A,"
         query += " SUM(CANT_SOL_APROB_P)CANT_SOL_APROB_P,SUM(CANT_DISP_P)CANT_DISP_P,"
         query += " SUM(CANT_SOL_APROB_A)CANT_SOL_APROB_A,SUM(CANT_DISP_A)CANT_DISP_A,"
-        query += " SUM(CANT_DEV_P)CANT_DEV_P,SUM(CANT_DEV_A)CANT_DEV_A"
+        query += " SUM(CANT_DEV_P)CANT_DEV_P,SUM(CANT_DEV_A)CANT_DEV_A, (SUM(CANT_ACTAS_P)-SUM(CANT_APROB_ACTAS_P))CANT_APROB_ACTAS_P,(SUM(CANT_ACTAS_A)-SUM(CANT_APROB_ACTAS_A))CANT_APROB_ACTAS_A"
         query += " FROM SOL_PEDIDOS.PEDIDOS.PRECIO_UNITARIO"
         query += " WHERE PROYECTO='" & cmbProyecto.SelectedValue & "'"
         query += " GROUP BY NOM_MATERIAL,UM_P"
@@ -135,7 +135,7 @@ Partial Class ingenieria_presupuestoMateriales
         query += " SUM(CANT_ACTAS_A)CANT_ACTAS_A,SUM(CANT_PRESUP_ACTAS_A)CANT_PRESUP_ACTAS_A,"
         query += " SUM(CANT_SOL_APROB_P)CANT_SOL_APROB_P,SUM(CANT_DISP_P)CANT_DISP_P,"
         query += " SUM(CANT_SOL_APROB_A)CANT_SOL_APROB_A,SUM(CANT_DISP_A)CANT_DISP_A,"
-        query += " SUM(CANT_DEV_P)CANT_DEV_P,SUM(CANT_DEV_A)CANT_DEV_A"
+        query += " SUM(CANT_DEV_P)CANT_DEV_P,SUM(CANT_DEV_A)CANT_DEV_A, (SUM(CANT_ACTAS_P)-SUM(CANT_APROB_ACTAS_P))CANT_APROB_ACTAS_P,(SUM(CANT_ACTAS_A)-SUM(CANT_APROB_ACTAS_A))CANT_APROB_ACTAS_A"
         query += " FROM SOL_PEDIDOS.PEDIDOS.PRECIO_UNITARIO"
         query += " WHERE PROYECTO='" & cmbProyecto.SelectedValue & "'"
         query += " GROUP BY NOM_MATERIAL,UM_P"
@@ -162,13 +162,24 @@ Partial Class ingenieria_presupuestoMateriales
 
     Protected Sub dtgDetalleAct_PreRender(sender As Object, e As EventArgs) Handles dtgDetalleAct.PreRender
 
-        'query = "SELECT * FROM SOL_PEDIDOS.PEDIDOS.PRECIO_UNITARIO_DET WHERE NOM_MATERIAL=@DETALLE_ACTIVIDAD AND PROYECTO='" & cmbProyecto.SelectedValue & "'"
+        Dim row As GridViewRow
+
+        row = dtgMateriales.SelectedRow
+
+
+        Dim fila As Integer = row.RowIndex.ToString
+
+
+        Dim material As String = Server.HtmlDecode(dtgMateriales.Rows(fila).Cells(1).Text)
+
+        'query = "SELECT * FROM SOL_PEDIDOS.PEDIDOS.PRECIO_UNITARIO_DET WHERE NOM_MATERIAL='" & MAT & "' AND PROYECTO='" & cmbProyecto.SelectedValue & "' AND CANT_SOL_APROB_P+CANT_APROB_ACTAS_P+CANT_SOL_PEND_P+CANT_SOL_RECH_P<>0"
         query = " SELECT NOM_MATERIAL,UM_P,CODIGO_SOLICITUD,SUM(CANT_SOL_APROB_P)CANT_SOL_APROB_P,SUM(CANT_APROB_ACTAS_P)CANT_APROB_ACTAS_P,SUM(CANT_SOL_PEND_P)CANT_SOL_PEND_P,SUM(CANT_SOL_RECH_P)CANT_SOL_RECH_P,(CANT_DISP_P2)CANT_DISP_P,FECHA_APROBACION"
         query += " FROM SOL_PEDIDOS.PEDIDOS.PRECIO_UNITARIO_DET "
-        query += " WHERE NOM_MATERIAL=@DETALLE_ACTIVIDAD"
+        query += " WHERE NOM_MATERIAL='" & material & "' "
         query += " AND PROYECTO='" & cmbProyecto.SelectedValue & "'"
         query += " AND CANT_SOL_APROB_P+CANT_APROB_ACTAS_P+CANT_SOL_PEND_P+CANT_SOL_RECH_P<>0"
         query += " GROUP BY NOM_MATERIAL,UM_P,CODIGO_SOLICITUD,FECHA_APROBACION,CANT_DISP_P2"
+
         detalleActividad.ConnectionString = fn.ObtenerCadenaConexion("conn")
         detalleActividad.SelectCommand = query
 
@@ -298,7 +309,7 @@ Partial Class ingenieria_presupuestoMateriales
     End Sub
 
 #Region "CHANGE SELECTED INDEX TABLA ACTIVIDADES"
-    Protected Sub dtgDetalle_SelectedIndexChanged(sender As Object, e As EventArgs) Handles dtgMateriales.SelectedIndexChanged
+    Protected Sub dtgMateriales_SelectedIndexChanged(sender As Object, e As EventArgs) Handles dtgMateriales.SelectedIndexChanged
         ' Get the currently selected row using the SelectedRow property.
 
         Dim row As GridViewRow
@@ -390,7 +401,7 @@ Partial Class ingenieria_presupuestoMateriales
 
         If lblUMActual.Text = "Presupuesto" Then
 
-            e.Row.Cells(10).Visible = False
+
             e.Row.Cells(11).Visible = False
             e.Row.Cells(12).Visible = False
             e.Row.Cells(13).Visible = False
@@ -398,7 +409,8 @@ Partial Class ingenieria_presupuestoMateriales
             e.Row.Cells(15).Visible = False
             e.Row.Cells(16).Visible = False
             e.Row.Cells(17).Visible = False
-
+            e.Row.Cells(18).Visible = False
+            e.Row.Cells(19).Visible = False
 
         Else
             e.Row.Cells(2).Visible = False
@@ -409,7 +421,7 @@ Partial Class ingenieria_presupuestoMateriales
             e.Row.Cells(7).Visible = False
             e.Row.Cells(8).Visible = False
             e.Row.Cells(9).Visible = False
-
+            e.Row.Cells(10).Visible = False
 
         End If
 

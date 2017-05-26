@@ -471,6 +471,8 @@
                         <asp:BoundField DataField="CANT_DEV_P" HeaderText="CANTIDAD DEVUELTA" ReadOnly="True" SortExpression="SOL" DataFormatString="{0:N}" />
                         
                         <asp:BoundField DataField="CANT_SOL_APROB_P" HeaderText="CANTIDAD EJECUTADA" ReadOnly="True" SortExpression="SOL" DataFormatString="{0:N}" />
+                        
+                        <asp:BoundField DataField="CANT_APROB_ACTAS_P" HeaderText="CANTIDAD DISPONIBLE CON ACTAS" ReadOnly="True" SortExpression="SOL" DataFormatString="{0:N}" />
 
                         <asp:BoundField DataField="CANT_DISP_P" HeaderText="CANTIDAD DISPONIBLE" ReadOnly="True" SortExpression="SOL" DataFormatString="{0:N}" />
 
@@ -488,6 +490,8 @@
                         <asp:BoundField DataField="CANT_DEV_A" HeaderText="CANTIDAD DEVUELTA" ReadOnly="True" SortExpression="SOL" DataFormatString="{0:N}" />
                         
                         <asp:BoundField DataField="CANT_SOL_APROB_A" HeaderText="CANTIDAD EJECUTADA" ReadOnly="True" SortExpression="SOL" DataFormatString="{0:N}" />
+
+                        <asp:BoundField DataField="CANT_APROB_ACTAS_A" HeaderText="CANTIDAD DISPONIBLE CON ACTAS" ReadOnly="True" SortExpression="SOL" DataFormatString="{0:N}" />
 
                         <asp:BoundField DataField="CANT_DISP_A" HeaderText="CANTIDAD DISPONIBLE" ReadOnly="True" SortExpression="SOL" DataFormatString="{0:N}" />
                         

@@ -3,6 +3,8 @@ Imports System.Data
 Imports System.Data.SqlClient
 Imports System.Drawing
 Imports Docs.Excel
+Imports System.Web.Services
+
 Partial Class ingenieria_solicitudesCursadasIng
     Inherits System.Web.UI.Page
 
@@ -31,7 +33,7 @@ Partial Class ingenieria_solicitudesCursadasIng
 
     'VALIDAR INICIO DE SESION
     Sub validarInicioSesion()
-        liberarSolicitud()
+
         If Session("usuario") = "" Then
 
             Response.Redirect("Ingreso.aspx")
@@ -480,12 +482,7 @@ Partial Class ingenieria_solicitudesCursadasIng
         lblUsuario.Text = Session("usuario")
         Response.AddHeader("Refresh", Convert.ToString((Session.Timeout * 60) + 5))
 
-
         validarInicioSesion()
-
-
-
-
 
         If Not Page.IsPostBack Then
             llenarComboCodigoSolicitud()
@@ -1240,5 +1237,21 @@ Partial Class ingenieria_solicitudesCursadasIng
 
 #End Region
 
+#Region "Funciones WEB"
+    <WebMethod()>
+    Public Shared Function liberarSolicitud(usuario As String) As String
+        Dim query As String
+        Dim fn As New Funciones
+        query = " UPDATE SOL_PEDIDOS.PEDIDOS.ACCESO SET CODIGO = 'ND' WHERE USUARIO='" & usuario & "'"
 
+
+        Try
+            fn.ejecutarComandoSQL2(query)
+        Catch ex As Exception
+            Return query
+        End Try
+
+        Return "a"
+    End Function
+#End Region
 End Class

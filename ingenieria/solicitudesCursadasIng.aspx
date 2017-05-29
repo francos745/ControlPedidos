@@ -111,6 +111,8 @@
         }
     </script>
 
+   
+
     <style type="text/css">
         body{font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;color:#444;font-size:13px;}
         p,div,ul,li{padding:0px; margin-right: 0px;
@@ -171,12 +173,12 @@
         }
     </style>
 
-    
+     
 
 </head>
 
 
-<body>
+<body onbeforeunload="window.open('../cerrarSesion.aspx')"> 
     
     <div class="container-fluid text-center">
         <form class="form-horizontal" role="form" runat="server">

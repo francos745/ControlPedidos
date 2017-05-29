@@ -159,7 +159,8 @@
 </head>
 
 
-<body>
+
+<body onbeforeunload="window.open('../cerrarSesion.aspx')">
     
     <div class="container-fluid text-center">
         <form class="form-horizontal" role="form" runat="server">

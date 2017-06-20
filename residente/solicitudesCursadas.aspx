@@ -732,7 +732,7 @@
            fecha = document.getElementById('<%= txtFechaAux.ClientID %>').value;
            document.getElementById('<%= txtObservaciones.ClientID %>').value = obs;
            document.getElementById('<%= txtSolicitante.ClientID %>').value=sol;
-           document.getElementById('<%= txtFecha.ClientID %>').value=fecha;
+           //document.getElementById('<%= txtFecha.ClientID %>').value=fecha;
        }
 
                

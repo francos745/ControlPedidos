@@ -66,67 +66,12 @@ Partial Class logistica_conversionUM
         query += " SELECT B.RowPointer FROM SOL_PEDIDOS.PEDIDOS.CONVERSION B)"
         fn.ejecutarComandoSQL2(query)
     End Sub
-    Function contarCifras(ByVal numero As Integer) As Integer
-
-        Dim cifras As Integer
-
-        While numero <> 0
-            numero = numero Mod 10
-            cifras += 1
-
-        End While
-        Return cifras
-    End Function
-
-    Function quitarRepetidos(ByVal numero As Integer, ByVal cifra As Integer) As Integer
-        Dim aux As Integer
-        Dim cont As Integer = 0
-        Dim n As Integer
-        While numero <> 0
-            aux = numero Mod 10
-            If cifra = aux Then
-                n = n + 0
-            Else
-                n = n + (aux * 10 ^ cont)
-                cont += 1
-            End If
-            numero = CInt(numero / 10)
-        End While
-        Return n
-
-    End Function
 
 
-    Function comprimir(ByVal numero As Integer) As Boolean
-        Dim res As Boolean = False
-
-        Dim primerCifra As Integer
-        Dim n As Integer = 0
-        Dim contador As Integer = 0
-        While numero <> 0
-            primerCifra = CInt(numero / 10 ^ (contarCifras(numero) - 1))
-            numero = quitarRepetidos(numero, primerCifra)
-
-            n = (n * 10 ^ contador) + primerCifra
-        End While
-
-        Return n
-    End Function
-
-
-    'Function problema(ByVal numero As Integer) As Integer
-    '    Dim aux As Integer
-    '    Dim aux2 As Integer = numero
-    '    If verificarRepetidos(numero) Then
-
-    '    End If
-
-
-    'End Function
 
     Protected Sub Page_Load(sender As Object, e As EventArgs) Handles Me.Load
         'VALIDAMOS QUE EXISTA UN PROYECTO REGISTRADO
-        MsgBox(comprimir(44444445))
+
         If Session("almacenero") = "" Then
             Response.Redirect("Ingreso.aspx")
         End If

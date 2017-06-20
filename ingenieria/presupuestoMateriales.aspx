@@ -1,4 +1,4 @@
-﻿<%@ Language="VB" AutoEventWireup="false" CodeFile="presupuestoMateriales.aspx.vb" Inherits="ingenieria_presupuestoMateriales" %>
+﻿<%@ Language="VB" AutoEventWireup="false" EnableEventValidation = "false" CodeFile="presupuestoMateriales.aspx.vb" Inherits="ingenieria_presupuestoMateriales" %>
 
 <!DOCTYPE html>
 
@@ -561,6 +561,48 @@
                        </Columns>
                 </asp:GridView>
                 </div>
+                    <asp:Panel ID="Panel1" style="display:none;" runat="server">
+
+                        <table style="width: 100%">
+                            <tr>
+                                <td style="background-color: white; border: 1px solid black" align="center">
+                                    <asp:Label ID="lblTitulo" runat="server" Text="texto de prueba" Style="font-weight: bold;
+                                        color: black;"></asp:Label>
+                                </td>
+                            </tr>
+                        </table>
+                        <br />
+                 <div id="Div3"  runat="server">
+                <asp:GridView ID="dtgDetalleAct2" runat="server" 
+                        AutoGenerateColumns="False" DataKeyNames="NOM_MATERIAL" 
+                        DataSourceID="detalleActividad" CssClass="testgrid1" selectedindex="1"
+                        EnableModelValidation="True" Width="100%" Visible="true">
+                    <Columns>
+                       
+                        
+                        <asp:BoundField DataField="NOM_MATERIAL" HeaderText="MATERIAL" ReadOnly="True" SortExpression="ART" />
+
+                        <asp:BoundField DataField="UM_P" HeaderText="UNIDAD MEDIDA" ReadOnly="True" SortExpression="UMP" />
+
+                        <asp:BoundField DataField="CODIGO_SOLICITUD" HeaderText="CODIGO SOLICITUD" ReadOnly="True" SortExpression="UMP" />
+                        
+                        <asp:BoundField DataField="CANT_SOL_APROB_P" HeaderText="CANTIDAD EJECUTADA" ReadOnly="True" SortExpression="SOL" DataFormatString="{0:N}" />
+
+                        <asp:BoundField DataField="CANT_APROB_ACTAS_P" HeaderText="CANTIDAD EJECUTADA EN ACTAS" ReadOnly="True" SortExpression="SOL" DataFormatString="{0:N}" />
+
+                        <asp:BoundField DataField="CANT_SOL_PEND_P" HeaderText="CANTIDAD SOLICITADA" ReadOnly="True" SortExpression="SOL" DataFormatString="{0:N}" />
+
+                        <asp:BoundField DataField="CANT_SOL_RECH_P" HeaderText="CANTIDAD RECHAZADA" ReadOnly="True" SortExpression="SOL" DataFormatString="{0:N}" />
+
+                        <asp:BoundField DataField="CANT_DISP_P" HeaderText="CANTIDAD DISPONIBLE" ReadOnly="True" SortExpression="SOL" DataFormatString="{0:N}" />
+
+                        <asp:BoundField DataField="FECHA_APROBACION" HeaderText="FECHA APROBACIÓN INGENIERIA" ReadOnly="True" SortExpression="SOL" />
+                        
+                                                                      
+                       </Columns>
+                </asp:GridView>
+                </div>
+                        </asp:Panel>
                 
                     <asp:SqlDataSource ID="detalleActividad" runat="server" ProviderName="System.Data.SqlClient" >
                          <SelectParameters>
@@ -585,9 +627,7 @@
                         DataSourceID="detalleDevolucion" CssClass="testgrid1" selectedindex="1"
                         EnableModelValidation="True" Width="100%" Visible="true">
                     <Columns>
-                        <asp:CommandField ButtonType="Link" SelectText ="Ver Detalle" ShowSelectButton="True" ControlStyle-CssClass="buttonControl"  >
-                            <ControlStyle CssClass="label label-warning" />
-                        </asp:CommandField>
+                       
                          <asp:BoundField DataField="FECHA" HeaderText="FECHA" ReadOnly="True" SortExpression="ART" />
 
                          <asp:BoundField DataField="PROYECTO" HeaderText="PROYECTO" ReadOnly="True" SortExpression="ART" />

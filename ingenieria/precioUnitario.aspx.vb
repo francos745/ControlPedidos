@@ -1,4 +1,6 @@
 ﻿
+Imports System.IO
+
 Partial Class ingenieria_precioUnitario
     Inherits System.Web.UI.Page
     Dim query As String
@@ -61,6 +63,16 @@ Partial Class ingenieria_precioUnitario
         detalleActividad.SelectCommand = query
 
         dtgDetalleAct.DataSourceID = "detalleActividad"
+
+    End Sub
+    Sub llenarTablaDetalleActividades2()
+
+        query = "SELECT * FROM SOL_PEDIDOS.PEDIDOS.PRECIO_UNITARIO_DET WHERE MATERIAL=@DETALLE_ACTIVIDAD AND CANT_SOL_APROB_P+CANT_APROB_ACTAS_P+CANT_SOL_PEND_P+CANT_SOL_RECH_P<>0"
+
+        detalleActividad.ConnectionString = fn.ObtenerCadenaConexion("conn")
+        detalleActividad.SelectCommand = query
+
+        dtgDetalleAct2.DataSourceID = "detalleActividad"
 
     End Sub
 
@@ -352,10 +364,49 @@ Partial Class ingenieria_precioUnitario
 
     Protected Sub btnCuadroCom_Click(sender As Object, e As EventArgs) Handles btnCuadroCom.Click
         If dtgDetalleAct.Rows.Count <> 0 Then
-            ing.generarExcelPresupuestos(dtgDetalleAct, "ANALISIS DE PRECIO UNITARIO", lblActividadDetalle.Text.Replace("Detalles del material: ", ""))
+            ExportToExcel()
+
+            'ing.generarExcelPresupuestos(dtgDetalleAct, "ANALISIS DE PRECIO UNITARIO", lblActividadDetalle.Text.Replace("Detalles del material: ", ""))
         End If
     End Sub
+    Protected Sub ExportToExcel()
 
+        Dim row As GridViewRow
+
+        row = dtgActividades.SelectedRow
+
+
+        Dim fila As Integer = row.RowIndex.ToString
+
+        Dim estado As String = dtgActividades.Rows(fila).Cells(1).Text
+
+        llenarTablaDetalleActividades2()
+        lblTitulo.Text = "Presupuesto de Materiales"
+
+
+
+        Response.Clear()
+        Response.Buffer = True
+        Response.AddHeader("content-disposition", "attachment;filename=Analisis de Precio Unitario" & Now.Date.ToString & ".xls")
+
+        Response.Charset = ""
+        Response.Cache.SetCacheability(HttpCacheability.NoCache)
+
+        Response.ContentType = "application/vnd.xls"
+
+        Response.ContentEncoding = System.Text.Encoding.UTF8
+        Using sw As New StringWriter()
+            Dim hw As New HtmlTextWriter(sw)
+            Panel1.RenderControl(hw)
+            Response.Output.Write(sw.ToString())
+            Response.Flush()
+            Response.End()
+        End Using
+    End Sub
+
+    Public Overrides Sub VerifyRenderingInServerForm(control As Control)
+        ' Verifies that the control is rendered
+    End Sub
     Protected Sub btnCerrarSesion_Click(sender As Object, e As EventArgs) Handles btnCerrarSesion.Click
         Session.Clear()
         Response.Redirect("Ingreso.aspx")

@@ -411,6 +411,9 @@ Partial Class ingenieria_solicitudesAprobadas
             e.Row.Cells(25).Visible = False
             e.Row.Cells(26).Visible = False
             e.Row.Cells(27).Visible = False
+            e.Row.Cells(12).Visible = False
+            e.Row.Cells(13).Visible = False
+            e.Row.Cells(14).Visible = False
             e.Row.Cells(28).Visible = False
             e.Row.Cells(29).Visible = False
 
@@ -424,6 +427,9 @@ Partial Class ingenieria_solicitudesAprobadas
             e.Row.Cells(9).Visible = False
             e.Row.Cells(10).Visible = False
             e.Row.Cells(11).Visible = False
+            e.Row.Cells(25).Visible = False
+            e.Row.Cells(26).Visible = False
+            e.Row.Cells(27).Visible = False
             e.Row.Cells(12).Visible = False
             e.Row.Cells(13).Visible = False
             e.Row.Cells(14).Visible = False

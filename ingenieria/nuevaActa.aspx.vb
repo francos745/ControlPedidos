@@ -55,8 +55,8 @@ Partial Class ingenieria_nuevaActa
     End Sub
 
     Sub llenarComboProyecto()
-        query = " SELECT USUARIO FROM SOL_PEDIDOS.PEDIDOS.ACCESO WHERE CODIGO<>'ND'"
-        fn.llenarComboBox2(cmbProyecto, query, "USUARIO", "USUARIO")
+        query = " SELECT PROYECTO FROM SOL_PEDIDOS.VITALICIA.PROYECTO_PY  "
+        fn.llenarComboBox2(cmbProyecto, query, "PROYECTO", "PROYECTO")
     End Sub
     Sub llenarComboActividad()
 

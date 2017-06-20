@@ -52,9 +52,6 @@ Partial Class solicitudesRechazadas
         Detalles.SelectCommand = query
 
         dtgDetalle.DataSourceID = "Detalles"
-
-
-
     End Sub
 
     'renderizar tabla
@@ -103,16 +100,13 @@ Partial Class solicitudesRechazadas
         lblUsuario.Text = Session("proyecto")
         lblProyecto.Text = Session("proyecto")
 
-        'validarReimpresionRendicion()
-
 
         If Not Page.IsPostBack Then
             txtFecha.Text = DateTime.Now.AddDays(3).ToString("dd/MM/yyyy")
 
             llenarComboCodigoSolicitud()
             lblCodigoProyecto.Text = cmbCodigoProyecto.SelectedValue
-            'llenarObsSolFecha(cmbCodigoProyecto.SelectedValue.ToString)
-            'llenarObsSolFecha(lblCodigoProyecto.Text)
+
         End If
         lblCodigoProyecto.Text = cmbCodigoProyecto.SelectedValue
         llenarObsSolFecha(cmbCodigoProyecto.SelectedValue.ToString)

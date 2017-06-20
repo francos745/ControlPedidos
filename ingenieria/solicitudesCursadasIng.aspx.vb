@@ -231,25 +231,43 @@ Partial Class ingenieria_solicitudesCursadasIng
 
     End Function
 
-    Function validarAprobMaterial() As Boolean
+    Function validarAprobMaterial() As String
+        '14
 
-
-        Dim material As Integer = 0
+        Dim material As Integer = 0 'variable para contar si c[odigo del material es igual al nombre de material
+        Dim disponible As Integer = 0 'variable para contar los registros que tengan cantidad menor a 0
         Dim filas As Integer = dtgDetalle.Rows.Count - 1
         For i As Integer = 0 To filas
+
             If dtgDetalle.Rows(i).Cells(18).Text = "P" Then
+
                 If dtgDetalle.Rows(i).Cells(5).Text = dtgDetalle.Rows(i).Cells(20).Text Then
                     material += 1
+
+                End If
+                If dtgDetalle.Rows(i).Cells(14).Text < 0 Then
+
+                    disponible += 1
+
                 End If
             End If
 
         Next
 
 
-        If material <> 0 Then
-            Return False
+        If material = 0 Then
+            If disponible = 0 Then
+
+                Return "ok"
+
+            Else
+
+                Return "d" ' regresa d = disponible, en caso de que exista un error en cantidades disponibles menores a 0
+
+            End If
         Else
-            Return True
+
+            Return "m" ' regresa m=(material), en caso de que haya un error de codigo de material
         End If
 
 
@@ -622,14 +640,16 @@ Partial Class ingenieria_solicitudesCursadasIng
 
     Protected Sub btnAprobarSi_Click(sender As Object, e As EventArgs) Handles btnAprobarSi.ServerClick
         'validamos que se haya escrito una fecha en el campo de fecha de aprobacion
+        Dim validador As String = ""
         If txtFechaSO.Text.Contains("20") Or txtFechaDO.Text.Contains("20") = True Then
             Dim A = 0
         Else
             mostrarMensaje("Debe cargar otra solicitud con la fecha de aprobación del Supervisor de Obra o del Director de Obra.", "error")
             Exit Sub
         End If
+        validador = validarAprobMaterial()
 
-        If validarAprobMaterial() Then
+        If validador = "ok" Then
             If validarAprobRechazados() Then
                 If contObsRechazadas.Attributes("Style") = "" Then
                     If txtObsRechazados.InnerText <> "" Then
@@ -850,7 +870,12 @@ Partial Class ingenieria_solicitudesCursadasIng
                 mostrarMensaje("No es posible aprobar una solicitud con todas las lineas rechazadas.", "error")
             End If
         Else
-            mostrarMensaje("No es posible aprobar una solicitud con materiales inexistentes", "error")
+            If validador = "m" Then
+                mostrarMensaje("No es posible aprobar una solicitud con cantidades disponibles menores a 0", "error")
+            Else
+                mostrarMensaje("No es posible aprobar una solicitud con materiales inexistentes.", "error")
+            End If
+
         End If
 
 

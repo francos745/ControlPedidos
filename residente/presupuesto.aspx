@@ -536,39 +536,40 @@
                             <ControlStyle CssClass="label label-warning" />
                            
                         </asp:CommandField>
-                        
+                       
+
                         <asp:BoundField DataField="NOM_MATERIAL" HeaderText="MATERIAL" ReadOnly="True" SortExpression="ART" />
 
                         <asp:BoundField DataField="UM_P" HeaderText="UM" ReadOnly="True" SortExpression="UMP" />
 
-                        <asp:BoundField DataField="CODIGO_SOLICITUD" HeaderText="COD SOLICITUD" ReadOnly="True" SortExpression="UMP" />
-                        
+                        <asp:BoundField DataField="CANT_SOL_PEND_P" HeaderText="CANT PENDIENTE" ReadOnly="True" SortExpression="SOL" DataFormatString="{0:N}" />
+
                         <asp:BoundField DataField="CANT_SOL_APROB_P" HeaderText="CANT EJECUTADA" ReadOnly="True" SortExpression="SOL" DataFormatString="{0:N}" />
 
                         <asp:BoundField DataField="CANT_APROB_ACTAS_P" HeaderText="CANT EJECUTADA ACTAS" ReadOnly="True" SortExpression="SOL" DataFormatString="{0:N}" />
 
-                        <asp:BoundField DataField="CANT_SOL_PEND_P" HeaderText="CANT PENDIENTE" ReadOnly="True" SortExpression="SOL" DataFormatString="{0:N}" />
-
                         <asp:BoundField DataField="CANT_SOL_RECH_P" HeaderText="CANT RECH" ReadOnly="True" SortExpression="SOL" DataFormatString="{0:N}" />
 
                         <asp:BoundField DataField="CANT_DISP_P" HeaderText="DISPONIBLE" ReadOnly="True" SortExpression="SOL" DataFormatString="{0:N}" />
+                        
+                        <asp:BoundField DataField="CODIGO_SOLICITUD" HeaderText="COD SOLICITUD" ReadOnly="True" SortExpression="UMP" />
 
                         <asp:BoundField DataField="FECHA_APROBACION" HeaderText="FECHA APROB ING" ReadOnly="True" SortExpression="SOL" />
 
 
                         <asp:BoundField DataField="UM_A" HeaderText="UM" ReadOnly="True" SortExpression="UMP" />
 
-                        <asp:BoundField DataField="CODIGO_SOLICITUD" HeaderText="COD SOLICITUD" ReadOnly="True" SortExpression="UMP" />
-                        
+                        <asp:BoundField DataField="CANT_SOL_PEND_A" HeaderText="CANT PENDIENTE" ReadOnly="True" SortExpression="SOL" DataFormatString="{0:N}" />
+
                         <asp:BoundField DataField="CANT_SOL_APROB_A" HeaderText="CANT EJECUTADA" ReadOnly="True" SortExpression="SOL" DataFormatString="{0:N}" />
 
                         <asp:BoundField DataField="CANT_APROB_ACTAS_A" HeaderText="CANT EJECUTADA ACTAS" ReadOnly="True" SortExpression="SOL" DataFormatString="{0:N}" />
 
-                        <asp:BoundField DataField="CANT_SOL_PEND_A" HeaderText="CANT PENDIENTE" ReadOnly="True" SortExpression="SOL" DataFormatString="{0:N}" />
-
                         <asp:BoundField DataField="CANT_SOL_RECH_A" HeaderText="CANT RECH" ReadOnly="True" SortExpression="SOL" DataFormatString="{0:N}" />
 
                         <asp:BoundField DataField="CANT_DISP_A" HeaderText="DISPONIBLE" ReadOnly="True" SortExpression="SOL" DataFormatString="{0:N}" />
+                        
+                        <asp:BoundField DataField="CODIGO_SOLICITUD" HeaderText="COD SOLICITUD" ReadOnly="True" SortExpression="UMP" />
 
                         <asp:BoundField DataField="FECHA_APROBACION" HeaderText="FECHA APROB ING" ReadOnly="True" SortExpression="SOL" />
                                                 

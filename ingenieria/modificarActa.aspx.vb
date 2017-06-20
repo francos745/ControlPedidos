@@ -32,8 +32,8 @@ Partial Class ingenieria_modificarActa
     End Sub
 
     Sub llenarComboProyecto()
-        query = " SELECT USUARIO FROM SOL_PEDIDOS.PEDIDOS.ACCESO WHERE CODIGO<>'ND'"
-        fn.llenarComboBox2(cmbProyecto, query, "USUARIO", "USUARIO")
+        query = " SELECT PROYECTO FROM SOL_PEDIDOS.VITALICIA.PROYECTO_PY  "
+        fn.llenarComboBox2(cmbProyecto, query, "PROYECTO", "PROYECTO")
     End Sub
 
     Sub llenarComboCodigoActa()
@@ -152,7 +152,7 @@ Partial Class ingenieria_modificarActa
 
         If pedido <> "" Then
             fsCombos.Attributes("style") = "display:none;"
-            lblCantAux.Text = CDbl(dtgDetalle.Rows(fila).Cells(8).Text) * 1
+            lblCantAux.Text = fn.DevolverDatoQuery("SELECT ISNULL(SUM(CANT_ACTA_APS),0)CANT FROM SOL_PEDIDOS.PEDIDOS.SOLICITUD_ING_LINEA WHERE ID_ACTA='" & dtgDetalle.Rows(fila).Cells(2).Text & "'")
 
         Else
             fsCombos.Attributes("style") = ""

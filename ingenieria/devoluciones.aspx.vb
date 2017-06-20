@@ -48,7 +48,6 @@ Partial Class ingenieria_devoluciones
         Dim proyecto As String = e.Row.Cells(0).Text ' PROYECTO
         Dim codControl As String = e.Row.Cells(14).Text ' CÓDIGO DE CONTROL
 
-        'MsgBox(codControl + " " + A + " " + B + " " + C + " " + D + " " + g + " " + F)
         If proyecto = "&nbsp;" Or proyecto = "PROYECTO" Then
             Dim Bq As Integer = 0
 

@@ -1,4 +1,7 @@
 ﻿
+Imports System.Drawing
+Imports System.IO
+
 Partial Class ingenieria_presupuestoMateriales
     Inherits System.Web.UI.Page
     Dim query As String
@@ -61,9 +64,27 @@ Partial Class ingenieria_presupuestoMateriales
 
 
     End Sub
+    Sub llenarTablaDetalleActividades2(ByVal MAT As String)
+
+        'query = "SELECT * FROM SOL_PEDIDOS.PEDIDOS.PRECIO_UNITARIO_DET WHERE NOM_MATERIAL='" & MAT & "' AND PROYECTO='" & cmbProyecto.SelectedValue & "' AND CANT_SOL_APROB_P+CANT_APROB_ACTAS_P+CANT_SOL_PEND_P+CANT_SOL_RECH_P<>0"
+        query = " SELECT NOM_MATERIAL,UM_P,CODIGO_SOLICITUD,SUM(CANT_SOL_APROB_P)CANT_SOL_APROB_P,SUM(CANT_APROB_ACTAS_P)CANT_APROB_ACTAS_P,SUM(CANT_SOL_PEND_P)CANT_SOL_PEND_P,SUM(CANT_SOL_RECH_P)CANT_SOL_RECH_P,(CANT_DISP_P2)CANT_DISP_P,FECHA_APROBACION"
+        query += " FROM SOL_PEDIDOS.PEDIDOS.PRECIO_UNITARIO_DET "
+        query += " WHERE NOM_MATERIAL='" & MAT & "' "
+        query += " AND PROYECTO='" & cmbProyecto.SelectedValue & "'"
+        query += " AND CANT_SOL_APROB_P+CANT_APROB_ACTAS_P+CANT_SOL_PEND_P+CANT_SOL_RECH_P<>0"
+        query += " GROUP BY NOM_MATERIAL,UM_P,CODIGO_SOLICITUD,FECHA_APROBACION,CANT_DISP_P2"
+
+        detalleActividad.ConnectionString = fn.ObtenerCadenaConexion("conn")
+        detalleActividad.SelectCommand = query
+
+
+        dtgDetalleAct2.DataSourceID = "detalleActividad"
+
+
+    End Sub
 
     Sub llenarTablaDetalleDevoluciones(ByVal mat As String)
-        query = "SELECT FECHA,PROYECTO,NOM_ACTIVIDAD,NOM_MATERIAL,UM_P,CANT_P FROM SOL_PEDIDOS.PEDIDOS.DEVOLUCION_DET WHERE ESTADO_LIN='A' AND COD_CONT_LINEA<>'B' AND NOM_MATERIAL='" & mat & "' "
+        query = "SELECT FECHA,PROYECTO,NOM_ACTIVIDAD,NOM_MATERIAL,UM_P,CANT_P FROM SOL_PEDIDOS.PEDIDOS.DEVOLUCION_DET WHERE ESTADO_LIN='A' AND COD_CONT_LINEA<>'B' AND PROYECTO='" & cmbProyecto.SelectedValue & "'  AND NOM_MATERIAL='" & mat & "' "
 
         detalleDevolucion.ConnectionString = fn.ObtenerCadenaConexion("conn")
         detalleDevolucion.SelectCommand = query
@@ -199,8 +220,83 @@ Partial Class ingenieria_presupuestoMateriales
 
     End Sub
 
+    '--------------------------------------------------------------------------------------------------------------------------
+    'Sub ExportToExcel()
+    '    Response.Clear()
+    '    Response.Buffer = True
+    '    Response.AddHeader("content-disposition", "attachment;filename=GridViewExport.xls")
+    '    Response.Charset = ""
+    '    Response.ContentType = "application/vnd.ms-excel"
+    '    Using sw As New StringWriter()
+    '        Dim hw As New HtmlTextWriter(sw)
+
+    '        'To Export all pages
+    '        dtgDetalleAct2.AllowPaging = False
+
+
+    '        dtgDetalleAct2.HeaderRow.BackColor = Color.White
+    '        For Each cell As TableCell In dtgDetalleAct2.HeaderRow.Cells
+    '            cell.BackColor = dtgDetalleAct2.HeaderStyle.BackColor
+    '        Next
+
+    '        dtgDetalleAct2.RenderControl(hw)
+    '        'style to format numbers to string
+    '        Dim style As String = "<style> .textmode { } </style>"
+    '        Response.Write(style)
+    '        Response.Output.Write(sw.ToString())
+    '        Response.Flush()
+    '        Response.[End]()
+    '    End Using
+    'End Sub
+
+    'Public Overrides Sub VerifyRenderingInServerForm(control As Control)
+    '    ' Verifies that the control is rendered
+    'End Sub
+
+    Protected Sub ExportToExcel()
+
+        Dim row As GridViewRow
+
+        row = dtgMateriales.SelectedRow
+
+
+        Dim fila As Integer = row.RowIndex.ToString
+
+        Dim estado As String = dtgMateriales.Rows(fila).Cells(1).Text
+        Dim material As String = Server.HtmlDecode(dtgMateriales.Rows(fila).Cells(1).Text)
+        llenarTablaDetalleActividades2(material)
+        lblTitulo.Text = "Presupuesto de Materiales-" & material
+
+
+
+        Response.Clear()
+        Response.Buffer = True
+        Response.AddHeader("content-disposition", "attachment;filename=Presupuesto de Materiales-" & material & Now.Date.ToString & ".xls")
+
+        Response.Charset = ""
+        Response.Cache.SetCacheability(HttpCacheability.NoCache)
+
+        Response.ContentType = "application/vnd.xls"
+
+        Response.ContentEncoding = System.Text.Encoding.UTF8
+        Using sw As New StringWriter()
+            Dim hw As New HtmlTextWriter(sw)
+            Panel1.RenderControl(hw)
+            Response.Output.Write(sw.ToString())
+            Response.Flush()
+            Response.End()
+        End Using
+    End Sub
+
+    Public Overrides Sub VerifyRenderingInServerForm(control As Control)
+        ' Verifies that the control is rendered
+    End Sub
+    '--------------------------------------------------------------------------------------------------------------------------
+
+
+
     Protected Sub dtgSolicitud_PreRender(sender As Object, e As EventArgs) Handles dtgSolicitud.PreRender
-        query = "SELECT * FROM SOL_PEDIDOS.PEDIDOS.SOL_ING_DET WHERE COD_SOL=@CODIGO_SOLICITUD AND COD_CONT_LINEA<>'B'"
+        query = "Select * FROM SOL_PEDIDOS.PEDIDOS.SOL_ING_DET WHERE COD_SOL=@CODIGO_SOLICITUD And COD_CONT_LINEA<>'B'"
 
         detalleSolicitudes.ConnectionString = fn.ObtenerCadenaConexion("conn")
         detalleSolicitudes.SelectCommand = query
@@ -384,7 +480,8 @@ Partial Class ingenieria_presupuestoMateriales
 
     Protected Sub btnCuadroCom_Click(sender As Object, e As EventArgs) Handles btnCuadroCom.Click
         If dtgDetalleAct.Rows.Count <> 0 Then
-            ing.generarExcelPresupuestos(dtgDetalleAct, "PRESUPUESTO DE MATERIALES", lblActividadDetalle.Text.Replace("Detalles del material: ", ""))
+            'ing.generarExcelPresupuestos(dtgDetalleAct, "PRESUPUESTO DE MATERIALES", lblActividadDetalle.Text.Replace("Detalles del material: ", ""))
+            ExportToExcel()
         End If
     End Sub
 

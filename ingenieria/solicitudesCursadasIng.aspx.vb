@@ -236,6 +236,7 @@ Partial Class ingenieria_solicitudesCursadasIng
 
         Dim material As Integer = 0 'variable para contar si c[odigo del material es igual al nombre de material
         Dim disponible As Integer = 0 'variable para contar los registros que tengan cantidad menor a 0
+        Dim actas As Integer = 0 ' variable para determinar si hace falta asignar algun acta
         Dim filas As Integer = dtgDetalle.Rows.Count - 1
         For i As Integer = 0 To filas
 
@@ -250,6 +251,11 @@ Partial Class ingenieria_solicitudesCursadasIng
                     disponible += 1
 
                 End If
+
+                If dtgDetalle.Rows(i).Cells(14).Text - dtgDetalle.Rows(i).Cells(10).Text + dtgDetalle.Rows(i).Cells(22).Text < 0 Then
+                    actas += 1
+                End If
+
             End If
 
         Next
@@ -258,7 +264,15 @@ Partial Class ingenieria_solicitudesCursadasIng
         If material = 0 Then
             If disponible = 0 Then
 
-                Return "ok"
+                If actas = 0 Then
+
+                    Return "ok"
+
+                Else
+
+                    Return "a" ' regresa a = falta acta, en caso de que exista un error en falta de asignacion de actas
+
+                End If
 
             Else
 
@@ -873,7 +887,11 @@ Partial Class ingenieria_solicitudesCursadasIng
             If validador = "m" Then
                 mostrarMensaje("No es posible aprobar una solicitud con cantidades disponibles menores a 0", "error")
             Else
-                mostrarMensaje("No es posible aprobar una solicitud con materiales inexistentes.", "error")
+                If validador = "a" Then
+                    mostrarMensaje("Existen líneas de pedido que requieren de un acta para ser aprobadas", "error")
+                Else
+                    mostrarMensaje("No es posible aprobar una solicitud con materiales inexistentes.", "error")
+                End If
             End If
 
         End If

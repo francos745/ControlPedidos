@@ -1246,6 +1246,7 @@ Partial Class ingenieria_solicitudesCursadasIng
         e.Row.Cells(34).Visible = False
         e.Row.Cells(16).Visible = False
         e.Row.Cells(17).Visible = False
+        e.Row.Cells(15).Visible = False
 
         If lblUMActual.Text = "Presupuesto" Then
             e.Row.Cells(24).Visible = False

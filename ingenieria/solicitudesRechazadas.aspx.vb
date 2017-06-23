@@ -354,6 +354,7 @@ Partial Class ingenieria_solicitudesRechazadas
 
 #Region "Ocultar"
     Protected Sub GrdVwSecciones_RowCreated(sender As Object, e As GridViewRowEventArgs) Handles dtgDetalle.RowCreated
+        e.Row.Cells(12).Visible = False
         If lblUMActual.Text = "Presupuesto" Then
 
             e.Row.Cells(17).Visible = False

@@ -419,6 +419,7 @@ Partial Class ingenieria_precioUnitario
         e.Row.Cells(2).Visible = True
 
         If lblUMActual.Text = "Presupuesto" Then
+
             e.Row.Cells(13).Visible = False
             e.Row.Cells(14).Visible = False
             e.Row.Cells(15).Visible = False

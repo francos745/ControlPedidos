@@ -106,50 +106,8 @@ Partial Class ingenieria_solicitudesRechazadas
         txtFechaDO.Text = fechaDo
     End Sub
 
-    Sub ocultarMostrarFormulario(ByVal bool As Boolean)
-        If bool Then
-            contNavbar.Attributes("Style") = ""
-
-            contObservaciones.Attributes("Style") = ""
-            contTitulos.Attributes("Style") = ""
-            contTextos.Attributes("Style") = ""
-            contObsRechazadas.Attributes("Style") = ""
-            contDtgDetalle.Attributes("Style") = ""
 
 
-            mostrarObservacionesRechazadas()
-
-        Else
-            contNavbar.Attributes("Style") = "display:none;"
-
-            contObservaciones.Attributes("Style") = "display:none;"
-            contTitulos.Attributes("Style") = "display:none;"
-            contTextos.Attributes("Style") = "display:none;"
-            contObsRechazadas.Attributes("Style") = "display:none;"
-            contDtgDetalle.Attributes("Style") = "display:none;"
-
-        End If
-
-
-    End Sub
-
-    Sub mostrarObservacionesRechazadas()
-
-        Dim cant As Integer = 0
-        For i As Integer = 0 To dtgDetalle.Rows.Count - 1
-            If dtgDetalle.Rows(i).Cells(17).Text = "R" Then
-                cant += 1
-                Exit For
-            End If
-        Next
-        If cant = 0 Then
-            contObsRechazadas.Attributes("Style") = "display:none;"
-        Else
-            contObsRechazadas.Attributes("Style") = ""
-        End If
-
-
-    End Sub
 
     Function validarAprobRechazados() As Boolean
 
@@ -258,17 +216,7 @@ Partial Class ingenieria_solicitudesRechazadas
         llenarTablaDetallesPedido()
     End Sub
 
-    Protected Sub btnAlmacenes_Click(sender As Object, e As EventArgs) Handles btnAlmacenes.Click
-        lblUMActual.Text = "Almacén"
-        llenarObsSolFecha(cmbCodigoProyecto.SelectedValue)
-        mostrarObservacionesRechazadas()
-    End Sub
 
-    Protected Sub btnPresupuesto_Click(sender As Object, e As EventArgs) Handles btnPresupuesto.Click
-        lblUMActual.Text = "Presupuesto"
-        llenarObsSolFecha(cmbCodigoProyecto.SelectedValue)
-        mostrarObservacionesRechazadas()
-    End Sub
 
     Protected Sub btnPU_Click(sender As Object, e As EventArgs) Handles btnPU.Click
         Dim sUrl As String = "precioUnitario.aspx"
@@ -315,7 +263,7 @@ Partial Class ingenieria_solicitudesRechazadas
         lblCodigoProyecto.Text = cmbCodigoProyecto.SelectedValue
         llenarObsSolFecha(cmbCodigoProyecto.SelectedValue)
         llenarTablaDetallesPedido()
-        txtObsRechazados.InnerText = ""
+        txtObservaciones.InnerText = ""
 
     End Sub
 
@@ -355,6 +303,10 @@ Partial Class ingenieria_solicitudesRechazadas
 #Region "Ocultar"
     Protected Sub GrdVwSecciones_RowCreated(sender As Object, e As GridViewRowEventArgs) Handles dtgDetalle.RowCreated
         e.Row.Cells(12).Visible = False
+        e.Row.Cells(13).Visible = False
+        e.Row.Cells(14).Visible = False
+
+
         If lblUMActual.Text = "Presupuesto" Then
 
             e.Row.Cells(17).Visible = False

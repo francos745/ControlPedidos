@@ -447,46 +447,48 @@
                         <asp:BoundField DataField="NOM_MATERIAL" HeaderText="MATERIAL" ReadOnly="True" SortExpression="ART" />
 
                         <asp:BoundField DataField="UM_P" HeaderText="UNIDAD MEDIDA" ReadOnly="True" SortExpression="UMP" />
-
-                        <asp:BoundField DataField="CANT_SOL_P" HeaderText="CANTIDAD SOLICITADA"  SortExpression="SOL" DataFormatString="{0:N}" />
-
+                        
                         <asp:BoundField DataField="RENDIMIENTO_P" HeaderText="RENDIMIENTO" ReadOnly="True" SortExpression="SOL" DataFormatString="{0:N}" />
+                        
+                        <asp:BoundField DataField="CANT_SOL_P" HeaderText="CANTIDAD SOLICITADA"  SortExpression="SOL" ReadOnly="True" DataFormatString="{0:N}" />
                         
                         <asp:BoundField DataField="CANT_PRESUP_P" HeaderText="CANTIDAD PRESUPUESTADA" ReadOnly="True" SortExpression="SOL" DataFormatString="{0:N}" />
 
-                        <asp:BoundField DataField="CANT_ACTAS_P" HeaderText="CANTTIDAD ACTAS" ReadOnly="True" SortExpression="SOL" DataFormatString="{0:N}" />
+                        <asp:BoundField DataField="CANT_ACTAS_P" HeaderText="CANTIDAD ACTAS" ReadOnly="True" SortExpression="SOL" DataFormatString="{0:N}" />
 
+                         <asp:BoundField DataField="CANT_PRESUP_ACTAS_P" HeaderText="CANTIDAD PRESUPUESTADA + ACTAS" ReadOnly="True" SortExpression="SOL" DataFormatString="{0:N}" />
+                        
                         <asp:BoundField DataField="CANT_DEV_P" HeaderText="CANTIDAD DEVUELTA" ReadOnly="True" SortExpression="SOL" DataFormatString="{0:N}" />
 
-                        <asp:BoundField DataField="CANT_PRESUP_ACTAS_P" HeaderText="CANTIDAD PRESUPUESTADA + ACTAS" ReadOnly="True" SortExpression="SOL" DataFormatString="{0:N}" />
-                        
                         <asp:BoundField DataField="CANT_SOL_APROB_P" HeaderText="CANTIDAD EJECUTADA" ReadOnly="True" SortExpression="SOL" DataFormatString="{0:N}" />
 
                         <asp:BoundField DataField="CANT_APROB_ACTAS_P" HeaderText="CANTIDAD EJECUTADA EN ACTAS" ReadOnly="True" SortExpression="SOL" DataFormatString="{0:N}" />
 
-                        <asp:BoundField DataField="CANT_DISP_P" HeaderText="CANTIDAD DISPONIBLE" ReadOnly="True" SortExpression="SOL" DataFormatString="{0:N}" />
+                        <asp:BoundField DataField="CANT_DISP_P" HeaderText="CANTIDAD DISPONIBLE" ReadOnly="True" SortExpression="SOL" DataFormatString="{0:N}" ItemStyle-HorizontalAlign="Left" />
 
 
 
                         <asp:BoundField DataField="UM_A" HeaderText="UNIDAD MEDIDA" ReadOnly="True" SortExpression="UMP" />
-
-                        <asp:BoundField DataField="CANT_SOL_A" HeaderText="ANTERIORES SIN APROBAR"  SortExpression="SOL" DataFormatString="{0:N}" />
-
+                        
                         <asp:BoundField DataField="RENDIMIENTO_A" HeaderText="RENDIMIENTO" ReadOnly="True" SortExpression="SOL" DataFormatString="{0:N}" />
+                        
+                        <asp:BoundField DataField="CANT_SOL_A" HeaderText="CANTIDAD SOLICITADA"  SortExpression="SOL" ReadOnly="True" DataFormatString="{0:N}" />
                         
                         <asp:BoundField DataField="CANT_PRESUP_A" HeaderText="CANTIDAD PRESUPUESTADA" ReadOnly="True" SortExpression="SOL" DataFormatString="{0:N}" />
 
-                        <asp:BoundField DataField="CANT_ACTAS_A" HeaderText="CANTTIDAD ACTAS" ReadOnly="True" SortExpression="SOL" DataFormatString="{0:N}" />
+                        <asp:BoundField DataField="CANT_ACTAS_A" HeaderText="CANTIDAD ACTAS" ReadOnly="True" SortExpression="SOL" DataFormatString="{0:N}" />
+
+                        
+                         <asp:BoundField DataField="CANT_PRESUP_ACTAS_A" HeaderText="CANTIDAD PRESUPUESTADA + ACTAS" ReadOnly="True" SortExpression="SOL" DataFormatString="{0:N}" />
+                        
                         
                         <asp:BoundField DataField="CANT_DEV_A" HeaderText="CANTIDAD DEVUELTA" ReadOnly="True" SortExpression="SOL" DataFormatString="{0:N}" />
-                        
-                        <asp:BoundField DataField="CANT_PRESUP_ACTAS_A" HeaderText="CANTIDAD PRESUPUESTADA + ACTAS " ReadOnly="True" SortExpression="SOL" DataFormatString="{0:N}" />
-                        
+
                         <asp:BoundField DataField="CANT_SOL_APROB_A" HeaderText="CANTIDAD EJECUTADA" ReadOnly="True" SortExpression="SOL" DataFormatString="{0:N}" />
 
                         <asp:BoundField DataField="CANT_APROB_ACTAS_A" HeaderText="CANTIDAD EJECUTADA EN ACTAS" ReadOnly="True" SortExpression="SOL" DataFormatString="{0:N}" />
 
-                        <asp:BoundField DataField="CANT_DISP_A" HeaderText="CANTIDAD DISPONIBLE" ReadOnly="True" SortExpression="SOL" DataFormatString="{0:N}" />
+                        <asp:BoundField DataField="CANT_DISP_A" HeaderText="CANTIDAD DISPONIBLE" ReadOnly="True" SortExpression="SOL" DataFormatString="{0:N}" ItemStyle-HorizontalAlign="Left" />
                         
                        </Columns>
                 </asp:GridView>

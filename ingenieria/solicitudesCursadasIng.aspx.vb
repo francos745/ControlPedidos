@@ -238,6 +238,13 @@ Partial Class ingenieria_solicitudesCursadasIng
         Dim disponible As Integer = 0 'variable para contar los registros que tengan cantidad menor a 0
         Dim actas As Integer = 0 ' variable para determinar si hace falta asignar algun acta
         Dim filas As Integer = dtgDetalle.Rows.Count - 1
+        Dim cantDisp As Double
+        Dim cantActa As Double
+        Dim cantEjecActa As Double
+        Dim cantAsigActa As Double
+
+
+
         For i As Integer = 0 To filas
 
             If dtgDetalle.Rows(i).Cells(18).Text = "P" Then
@@ -252,7 +259,13 @@ Partial Class ingenieria_solicitudesCursadasIng
 
                 End If
 
-                If dtgDetalle.Rows(i).Cells(14).Text - dtgDetalle.Rows(i).Cells(10).Text + dtgDetalle.Rows(i).Cells(22).Text < 0 Then
+                cantDisp = CDbl(dtgDetalle.Rows(i).Cells(14).Text)
+                cantActa = CDbl(dtgDetalle.Rows(i).Cells(10).Text)
+                cantEjecActa = CDbl(dtgDetalle.Rows(i).Cells(13).Text)
+                cantAsigActa = CDbl(dtgDetalle.Rows(i).Cells(22).Text)
+
+                'cantidad disponible - (cantidad en actas - cantidad ejecutada en actas) + cantidad acta asignada 
+                If cantDisp - (cantActa - cantEjecActa) + cantAsigActa < 0 Then
                     actas += 1
                 End If
 
@@ -262,21 +275,21 @@ Partial Class ingenieria_solicitudesCursadasIng
 
 
         If material = 0 Then
-            If disponible = 0 Then
+            If actas = 0 Then
 
-                If actas = 0 Then
+                If disponible = 0 Then
 
                     Return "ok"
 
                 Else
 
-                    Return "a" ' regresa a = falta acta, en caso de que exista un error en falta de asignacion de actas
+                    Return "d" ' regresa a = falta acta, en caso de que exista un error en falta de asignacion de actas
 
                 End If
 
             Else
 
-                Return "d" ' regresa d = disponible, en caso de que exista un error en cantidades disponibles menores a 0
+                Return "a" ' regresa d = disponible, en caso de que exista un error en cantidades disponibles menores a 0
 
             End If
         Else

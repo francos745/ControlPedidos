@@ -39,6 +39,26 @@ Partial Class ingenieria_materialesRechazados
         Page.ClientScript.RegisterStartupScript(Page.ClientScript.[GetType](), "onLoad", "MostrarLabel();", True)
     End Sub
 
+    Protected Sub btnPU_Click(sender As Object, e As EventArgs) Handles btnPU.Click
+        Dim sUrl As String = "precioUnitario.aspx"
+        Dim sScript As String = "<script language =javascript> "
+        sScript += "window.open('" & sUrl & "',null,'toolbar=0,scrollbars=1,location=0,statusbar=0,menubar=0,resizable=1,width=500,height=300,left=100,top=100');"
+        sScript += "</script> "
+        Response.Write(sScript)
+        mostrarMensaje("", "exito")
+        mostrarMensaje("", "exito")
+        llenarObsSolFecha(cmbCodigoProyecto.SelectedValue)
+    End Sub
+
+    Protected Sub btnPM_Click(sender As Object, e As EventArgs) Handles btnPM.Click
+        Dim sUrl As String = "presupuestoMateriales.aspx"
+        Dim sScript As String = "<script language =javascript> "
+        sScript += "window.open('" & sUrl & "',null,'toolbar=0,scrollbars=1,location=0,statusbar=0,menubar=0,resizable=1,width=500,height=300,left=100,top=100');"
+        sScript += "</script> "
+        Response.Write(sScript)
+        mostrarMensaje("", "exito")
+        llenarObsSolFecha(cmbCodigoProyecto.SelectedValue)
+    End Sub
 
 
     Sub llenarObsSolFecha(ByVal codigo As String)

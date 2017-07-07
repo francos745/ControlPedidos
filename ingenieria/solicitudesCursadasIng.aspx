@@ -340,13 +340,15 @@
                             
                         </div>
                         
-                        <div class="col-sm-4" >
+                        <div class="col-sm-8" >
                             <fieldset class="row" id="contTextos" runat="server" disabled="disabled" >
-                                <div class="col-sm-6" >
+                                <div class="col-sm-3" >
                                     <label for="nueva" class="control-label">Solicitante:</label>
                                     <div class="controls">
                                         <asp:TextBox ID="txtSolicitante" maxlength="50"  runat="server" class="form-control input-sm" placeholder="Solicitante"></asp:TextBox>
                                     </div>
+                                </div>
+                                <div class="col-sm-3" >
                                     <label for="actual" class="control-label">Fecha Solicitud: </label>
                                     <div class="controls">
                                         <asp:TextBox ID="txtFechaSol" runat="server" class="form-control input-sm" placeholder="Fecha"></asp:TextBox>
@@ -354,32 +356,22 @@
 
                                 </div>
 
-                                <div class="col-sm-6" >
+                                <div class="col-sm-3" >
                                     <label for="actual" class="control-label">Fecha Aprob SO: </label>
                                     <div class="controls">
                                         <asp:TextBox ID="txtFechaSO" runat="server" class="form-control input-sm" placeholder="Fecha"></asp:TextBox>
                                     </div>
+                                </div>
+                                 <div class="col-sm-3" >
                                     <label for="actual" class="control-label">Fecha Aprob DO: </label>
                                     <div class="controls">
                                         <asp:TextBox ID="txtFechaDO" runat="server" class="form-control input-sm" placeholder="Fecha"></asp:TextBox>
                                     </div>
                                 </div>              
                             </fieldset>
-                        </div>
-                        <div class="col-sm-4" >
+                        
             
-                            <div class="row" id="contObsRechazadas" runat="server" style="display:none;" >
-                                <div class="col-sm-12" >
-                                    <div class="control-group">
-                                        <label for="nueva" class="control-label">Observaciones Ingeniería: </label>
-
-                                        <div class="controls text-right ">
-                                            <h4><span class="label label-success" id="formato"><asp:Label ID="txtCaracter" runat="server" Text=""></asp:Label></span></h4>
-                                            <textarea name="txtObservaciones" id="txtObsRechazados" runat="server" onkeyup="contarCaracteres(this)" onkeydown="contarCaracteres(this)" onkeypress="contarCaracteres(this)" maxlength="1500" cols="40" rows="2" class="form-control input-sm" placeholder="Observaciones" ></textarea>
-                                        </div>
-                                    </div>
-                                </div>          
-                            </div>
+                            
                         </div>
                     </div>
 
@@ -728,6 +720,18 @@
             </div>
         </div>
     </div>
+                    <div class="row" id="contObsRechazadas" runat="server" style="display:none;" >
+                                <div class="col-sm-12" >
+                                    <div class="control-group">
+                                        <label for="nueva" class="control-label">Observaciones Ingeniería: </label>
+
+                                        <div class="controls text-right ">
+                                            <h4><span class="label label-success" id="formato"><asp:Label ID="txtCaracter" runat="server" Text=""></asp:Label></span></h4>
+                                            <textarea name="txtObservaciones" id="txtObsRechazados" runat="server" onkeyup="contarCaracteres(this)" onkeydown="contarCaracteres(this)" onkeypress="contarCaracteres(this)" maxlength="1500" cols="40" rows="2" class="form-control input-sm" placeholder="Observaciones" ></textarea>
+                                        </div>
+                                    </div>
+                                </div>          
+                            </div>
    
     <br/>
     

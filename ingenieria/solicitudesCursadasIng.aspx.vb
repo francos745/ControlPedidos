@@ -242,6 +242,9 @@ Partial Class ingenieria_solicitudesCursadasIng
         Dim cantActa As Double
         Dim cantEjecActa As Double
         Dim cantAsigActa As Double
+        Dim a As Double
+        Dim b As Double
+        Dim c As Double
 
 
 
@@ -263,10 +266,14 @@ Partial Class ingenieria_solicitudesCursadasIng
                 cantActa = CDbl(dtgDetalle.Rows(i).Cells(10).Text)
                 cantEjecActa = CDbl(dtgDetalle.Rows(i).Cells(13).Text)
                 cantAsigActa = CDbl(dtgDetalle.Rows(i).Cells(22).Text)
+                a = cantDisp - cantActa
+                b = cantEjecActa + cantAsigActa
+                c = a + b
 
                 'cantidad disponible - (cantidad en actas - cantidad ejecutada en actas) + cantidad acta asignada 
-                If cantDisp - (cantActa - cantEjecActa) + cantAsigActa < 0 Then
+                If c < 0 Then
                     actas += 1
+                    MsgBox(c.ToString)
                 End If
 
             End If
@@ -525,7 +532,7 @@ Partial Class ingenieria_solicitudesCursadasIng
 
     Protected Sub Page_Load(sender As Object, e As EventArgs) Handles Me.Load
         lblUsuario.Text = Session("usuario")
-        Response.AddHeader("Refresh", Convert.ToString((Session.Timeout * 60) + 5))
+        Response.AddHeader("Refresh", Convert.ToString((Session.Timeout * 60) + 2) + ";Ingreso.aspx")
 
         validarInicioSesion()
 

@@ -4,7 +4,7 @@
 
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head runat="server">
-    <title>Análisis de Precio Unitario</title>
+    <title>Presupuesto de Materiales</title>
        <meta http-equiv="content-type" content="text/html; charset=UTF-8"/>
     <meta charset="utf-8"/>
     <link rel="shortcut icon" href="../img/clever.png" />
@@ -306,7 +306,8 @@
                     </a>
                     <ul class="dropdown-menu">
                         
-                        <li><a href="#"><asp:Button ID="btnCuadroCom" runat="server" Text="Generar Excel Desglose" CssClass="btn btn-default btn-md" /></a></li>
+                        <li><a href="#"><asp:Button ID="btnExcelDetalle" runat="server" Text="Generar Excel Desglose" CssClass="btn btn-default btn-md" /></a></li>
+                        <li><a href="#"><asp:Button ID="btnExcelDevoluciones" runat="server" Text="Generar Excel Devoluciones" CssClass="btn btn-default btn-md" /></a></li>
                         
                     </ul>
                 </li>
@@ -617,10 +618,17 @@
         <div class="col-sm-12">
             <h4><span class="label alert-info" id="lblDevolucionDetalleS" runat="server"><asp:Label ID="lblDevolucionDetalle" runat="server" Text=""></asp:Label></span></h4>
             <div style="display:none;"><asp:Label ID="Label3" runat="server" Text="" ></asp:Label></div>
-           
+           <asp:Panel ID="Panel2"  runat="server">
             <div class="table-responsive" >
                 <div class="testgrid1">
-                     
+                <table style="width: 100%;display:none;">
+                    <tr>
+                        <td style="background-color: white; border: 1px solid black" align="center">
+                            <asp:Label ID="lblTitulo2" runat="server" Text="texto de prueba" Style="font-weight: bold; color: black;"></asp:Label>
+                        </td>
+                    </tr>
+                </table>
+                <br />
                 <div id="Div2" style="" runat="server">
                 <asp:GridView ID="dtgDevolucion" runat="server" 
                         AutoGenerateColumns="False" DataKeyNames="NOM_MATERIAL" 
@@ -645,7 +653,7 @@
                        </Columns>
                 </asp:GridView>
                 </div>
-                
+                </asp:Panel>
                     <asp:SqlDataSource ID="detalleDevolucion" runat="server" ProviderName="System.Data.SqlClient" >
                          <SelectParameters>
                             <asp:ControlParameter ControlID="lblActividad" DefaultValue="ninguno" Name="DETALLE_ACTIVIDAD" PropertyName="text" Type="String" />

@@ -199,6 +199,7 @@ Partial Class ingenieria_solicitudesRechazadas
     Protected Sub Page_Load(sender As Object, e As EventArgs) Handles Me.Load
         validarInicioSesion()
         lblUsuario.Text = Session("usuario")
+        Response.AddHeader("Refresh", Convert.ToString((Session.Timeout * 60) - 5) + ";Ingreso.aspx")
 
         If Not Page.IsPostBack Then
             'txtFecha.Text = DateTime.Now.AddDays(3).ToString("dd/MM/yyyy")

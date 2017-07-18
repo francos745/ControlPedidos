@@ -532,6 +532,8 @@
 
                         <asp:BoundField DataField="CANT_APROB_ACTAS_P" HeaderText="CANTIDAD EJECUTADA EN ACTAS" ReadOnly="True" SortExpression="SOL" DataFormatString="{0:N}" />
 
+                        <asp:BoundField DataField="COD_APROB_ACTAS" HeaderText="CODIGO ACTA ASIGNADA" ReadOnly="True" SortExpression="SOL" DataFormatString="{0:N}" />
+
                         <asp:BoundField DataField="CANT_SOL_PEND_P" HeaderText="CANTIDAD CURSADAS" ReadOnly="True" SortExpression="SOL" DataFormatString="{0:N}" />
 
                         <asp:BoundField DataField="CANT_SOL_RECH_P" HeaderText="CANTIDAD RECHAZADAS" ReadOnly="True" SortExpression="SOL" DataFormatString="{0:N}" />

@@ -253,7 +253,7 @@ Partial Class ingenieria_presupuestoMateriales
     '    ' Verifies that the control is rendered
     'End Sub
 
-    Protected Sub ExportToExcel()
+    Protected Sub ExportToExcel(ByVal origen As String)
 
         Dim row As GridViewRow
 
@@ -265,13 +265,17 @@ Partial Class ingenieria_presupuestoMateriales
         Dim estado As String = dtgMateriales.Rows(fila).Cells(1).Text
         Dim material As String = Server.HtmlDecode(dtgMateriales.Rows(fila).Cells(1).Text)
         llenarTablaDetalleActividades2(material)
-        lblTitulo.Text = "Presupuesto de Materiales-" & material
+        If origen = "D" Then
+            lblTitulo2.Text = "Lista de Devoluciones- " & material
+        Else
+            lblTitulo.Text = "Presupuesto de Materiales-" & material
+        End If
 
 
 
         Response.Clear()
         Response.Buffer = True
-        Response.AddHeader("content-disposition", "attachment;filename=Presupuesto de Materiales-" & material & Now.Date.ToString & ".xls")
+        Response.AddHeader("content-disposition", "attachment;filename=" & lblTitulo.Text & Now.Date.ToString & ".xls")
 
         Response.Charset = ""
         Response.Cache.SetCacheability(HttpCacheability.NoCache)
@@ -281,7 +285,12 @@ Partial Class ingenieria_presupuestoMateriales
         Response.ContentEncoding = System.Text.Encoding.UTF8
         Using sw As New StringWriter()
             Dim hw As New HtmlTextWriter(sw)
-            Panel1.RenderControl(hw)
+            If origen = "D" Then
+                Panel2.RenderControl(hw)
+            Else
+                Panel1.RenderControl(hw)
+            End If
+
             Response.Output.Write(sw.ToString())
             Response.Flush()
             Response.End()
@@ -478,10 +487,17 @@ Partial Class ingenieria_presupuestoMateriales
 
 #End Region
 
-    Protected Sub btnCuadroCom_Click(sender As Object, e As EventArgs) Handles btnCuadroCom.Click
+    Protected Sub btnCuadroCom_Click(sender As Object, e As EventArgs) Handles btnExcelDetalle.Click
         If dtgDetalleAct.Rows.Count <> 0 Then
             'ing.generarExcelPresupuestos(dtgDetalleAct, "PRESUPUESTO DE MATERIALES", lblActividadDetalle.Text.Replace("Detalles del material: ", ""))
-            ExportToExcel()
+            ExportToExcel("E")
+        End If
+    End Sub
+
+    Protected Sub btnExcelDevoluciones_Click(sender As Object, e As EventArgs) Handles btnExcelDevoluciones.Click
+        If dtgDetalleAct.Rows.Count <> 0 Then
+            'ing.generarExcelPresupuestos(dtgDetalleAct, "PRESUPUESTO DE MATERIALES", lblActividadDetalle.Text.Replace("Detalles del material: ", ""))
+            ExportToExcel("D")
         End If
     End Sub
 

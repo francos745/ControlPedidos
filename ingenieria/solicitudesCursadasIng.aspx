@@ -82,9 +82,9 @@
             $(document).ready(function () {
                 $('#dtgDetalle').dataTable({
                     
-                    "lengthMenu": [[5, 10, 15, -1], [5, 10, 15, "Todos"]],
+                    "lengthMenu": [[-1, 5, 10, 15], ["Todos", 5, 10, 15]],
                     "responsive": true,
-                    "stateSave": true,
+                    //"stateSave": true,
                     "paging": true,
                     "ordering": true,
                     "info": true,
@@ -292,6 +292,8 @@
         </div>
     </nav>
     </div>
+
+           
             <asp:UpdatePanel ID="UpdatePanel1" runat="server">
                 <ContentTemplate>
 
@@ -311,7 +313,19 @@
 
     
 
-
+                     <div class="row" id="mensaje3" runat="server">
+                        
+                        <div class="col-sm-12" >
+                            
+                                <div class="alert alert-danger alert-dismissable fade in" runat="server" id="Div6" >
+                                    <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                                    <h6><strong><asp:Label ID="lblMensajes3" runat="server" Text="" CssClass="alert alert-error"></asp:Label></strong>
+                                   </h6>
+                                </div>
+                        </div>
+                        
+                        
+                    </div>
 
 
              <!---------------INICIO TITULOS----------------------->

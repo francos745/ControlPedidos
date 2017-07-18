@@ -37,7 +37,13 @@ Partial Class ingenieria_modificarActa
     End Sub
 
     Sub llenarComboCodigoActa()
-        query = " SELECT CODIGO_ACTA,FECHA_ACTA_ING, CASE WHEN ESTADO='R' THEN {FN CONCAT(CODIGO_ACTA_ING,' - ANULADA ')} ELSE CODIGO_ACTA_ING END CODIGO_ACTA_ING FROM SOL_PEDIDOS.PEDIDOS.ACTAS_CABECERA ORDER BY CODIGO_ACTA DESC"
+        Dim extra As String
+        If checkMostrar.Checked = False Then
+            extra = " WHERE ESTADO<>'R' "
+        Else
+            extra = ""
+        End If
+        query = " SELECT CODIGO_ACTA,FECHA_ACTA_ING, CASE WHEN ESTADO='R' THEN {FN CONCAT(CODIGO_ACTA_ING,' - ANULADA ')} ELSE CODIGO_ACTA_ING END CODIGO_ACTA_ING FROM SOL_PEDIDOS.PEDIDOS.ACTAS_CABECERA" & extra & " ORDER BY CODIGO_ACTA DESC"
         fn.llenarComboBoxOpciones2(cmbCodigoActa, query, "CODIGO_ACTA_ING", "CODIGO_ACTA", "FECHA_ACTA_ING")
     End Sub
 
@@ -767,4 +773,8 @@ Partial Class ingenieria_modificarActa
 
 #End Region
 
+    Protected Sub checkMostrar_CheckedChanged(sender As Object, e As EventArgs) Handles checkMostrar.CheckedChanged
+        llenarComboCodigoActa()
+
+    End Sub
 End Class

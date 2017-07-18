@@ -195,7 +195,7 @@ Partial Class materialesRechazados
         validarInicioSesion()
         lblUsuario.Text = Session("usuario")
 
-
+        Response.AddHeader("Refresh", Convert.ToString((Session.Timeout * 60) - 5) + ";Ingreso.aspx")
         'validarReimpresionRendicion()
 
 

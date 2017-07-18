@@ -648,7 +648,7 @@ Partial Class logistica_pospuestos
         validarInicioSesion()
         lblUsuario.Text = Session("almacenero")
 
-
+        Response.AddHeader("Refresh", Convert.ToString((Session.Timeout * 60) - 5) + ";Ingreso.aspx")
         'validarReimpresionRendicion()
 
 

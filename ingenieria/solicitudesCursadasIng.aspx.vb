@@ -231,6 +231,29 @@ Partial Class ingenieria_solicitudesCursadasIng
 
     End Function
 
+    Sub verificarUM2()
+        Dim res As String
+        query = " DECLARE @valores VARCHAR(1000)"
+        query += " SELECT @valores= COALESCE(@valores + ', ', '') + DESCRIPCION "
+        query += " FROM (SELECT DISTINCT ISNULL(DESCRIPCION,'ND')DESCRIPCION FROM SOL_PEDIDOS.PEDIDOS.CONVERSION A"
+        query += " WHERE PROYECTO = '" & lblProyecto.Text & "'"
+        query += " AND ARTICULO IN (SELECT ARTICULO FROM SOL_PEDIDOS.PEDIDOS.SOLICITUD_ING_LINEA B WHERE CODIGO_SOLICITUD='" & cmbCodigoProyecto.SelectedValue & "')"
+        query += " AND FACTOR IS NULL)VISTA"
+        query += " select  @valores as valores"
+
+        res = fn.DevolverDatoQuery(query)
+
+        If res <> "" Then
+            mensaje3.Attributes("Style") = ""
+            lblMensajes3.Text = "Se encontraron los siguientes artículos sin Factor de Conversión:" & res & " . Esto puede ocasionar problemas con el funcionamiento del módulo."
+
+        Else
+            lblMensajes3.Text = ""
+            mensaje3.Attributes("Style") = "display:none;"
+        End If
+
+    End Sub
+
     Function validarAprobMaterial() As String
         '14
 
@@ -479,13 +502,6 @@ Partial Class ingenieria_solicitudesCursadasIng
         Detalles.DeleteCommand = "UPDATE SOL_PEDIDOS.PEDIDOS.SOLICITUD_ING_LINEA SET ESTADO=CASE WHEN ESTADO ='R' THEN 'P' ELSE 'R' END WHERE ID = @ID AND ID NOT IN (SELECT CODIGO_SOLICITUD FROM SOL_PEDIDOS.PEDIDOS.ACTAS_LINEA)"
 
         dtgDetalle.DataSourceID = "Detalles"
-
-
-
-
-
-
-
     End Sub
 
     Sub llenarTablaCuadroComunicacion()
@@ -532,7 +548,8 @@ Partial Class ingenieria_solicitudesCursadasIng
 
     Protected Sub Page_Load(sender As Object, e As EventArgs) Handles Me.Load
         lblUsuario.Text = Session("usuario")
-        Response.AddHeader("Refresh", Convert.ToString((Session.Timeout * 60) + 2) + ";Ingreso.aspx")
+
+        Response.AddHeader("Refresh", Convert.ToString((Session.Timeout * 60) - 5) + ";Ingreso.aspx")
 
         validarInicioSesion()
 
@@ -546,6 +563,7 @@ Partial Class ingenieria_solicitudesCursadasIng
             mostrarObservacionesRechazadas()
             'validarConcurrencia()
         End If
+        verificarUM2
     End Sub
 
 #Region "BOTONES DE NAVEGACION IZQUIERDA"

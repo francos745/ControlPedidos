@@ -69,9 +69,9 @@
             $(document).ready(function () {
                 $('#dtgDetalle').dataTable({
 
-                    "lengthMenu": [[5, 10, 15, -1], [5, 10, 15, "Todos"]],
+                    "lengthMenu": [[-1, 5, 10, 15], ["Todos", 5, 10, 15]],
                     "responsive": true,
-                    "stateSave": true,
+                    //"stateSave": true,
                     "paging": true,
                     "ordering": true,
                     "info": true,
@@ -313,23 +313,57 @@
 				
                 
                 <h4 class="text-center"><asp:Label ID="lblCodigoProyecto" style="display:none;" runat="server" Text="Label"></asp:Label></h4>
-                <div class="container">
+                
                     <div class="row">
-                        <div class="col-sm-3" >
-                            
-                        </div>
-                        <div class="col-sm-6" >
+                      
+                        <div class="col-sm-4" >
                             <div class="control-group">
                                 <label for="nueva" class="control-label"> Número de Solicitud: </label>
                                 <div class="controls" style="text-align:left;">
                                     <asp:DropDownList ID="cmbCodigoProyecto" runat="server" class="search-box" AutoPostBack="true" placeholder="No hay elementos disponibles" ></asp:DropDownList>
-                                
+                                          <br />
+                            <h5 class="text-center"><asp:Label ID="lblProyecto" runat="server" Text="Label"></asp:Label></h5>
+                           
                                 </div>
                             </div>
-                            <h5 class="text-center"><asp:Label ID="lblProyecto" runat="server" Text="Label"></asp:Label></h5>
+                               
+                                   <h4> <strong><span runat="server" id="lblMensaje3S" class=""><asp:Label ID="lblMensaje3" runat="server" Text=""></asp:Label></span></strong></h4>
+                               
+                            
                         </div>
+                        
+                        <div class="col-sm-8" >
+                            <fieldset class="row" id="contTextos" runat="server" disabled="disabled" >
+                                <div class="col-sm-3" >
+                                    <label for="nueva" class="control-label">Solicitante:</label>
+                                    <div class="controls">
+                                        <asp:TextBox ID="txtSolicitante" maxlength="50"  runat="server" class="form-control input-sm" placeholder="Solicitante"></asp:TextBox>
+                                    </div>
+                                </div>
+                                <div class="col-sm-3" >
+                                    <label for="actual" class="control-label">Fecha Solicitud: </label>
+                                    <div class="controls">
+                                        <asp:TextBox ID="txtFechaSol" runat="server" class="form-control input-sm" placeholder="Fecha"></asp:TextBox>
+                                    </div>
 
-                        <div class="col-sm-3" >
+                                </div>
+
+                                <div class="col-sm-3" >
+                                    <label for="actual" class="control-label">Fecha Aprob SO: </label>
+                                    <div class="controls">
+                                        <asp:TextBox ID="txtFechaSO" runat="server" class="form-control input-sm" placeholder="Fecha"></asp:TextBox>
+                                    </div>
+                                </div>
+                                 <div class="col-sm-3" >
+                                    <label for="actual" class="control-label">Fecha Aprob DO: </label>
+                                    <div class="controls">
+                                        <asp:TextBox ID="txtFechaDO" runat="server" class="form-control input-sm" placeholder="Fecha"></asp:TextBox>
+                                    </div>
+                                </div>              
+                            </fieldset>
+                        
+            
+                            
                         </div>
                     </div>
 
@@ -347,19 +381,15 @@
                         </div>
                         
                     </div>
-                </div>
+              
                 
-                <div class="container">
+                
                     <div class="row">
-                        <div class="col-sm-3" >
-                            
-                        </div>
+                        
 
-                        <div class="col-sm-6" >
+                        <div class="col-sm-4" >
                             <div class="btn-group btn-group-justified" role="group" aria-label="...">
-                                <div class="btn-group" role="group">
-                                   
-                                </div>                   
+                                                    
                                 
                                 <div class="btn-group" role="group">
                                     <asp:Button ID="btnVolver" runat="server" Text="Volver" CssClass="btn btn-default btn-md" causesvalidation="true" validationgroup="GrupoValidador" />
@@ -367,7 +397,10 @@
                             </div>
                         </div>
 
-                        <div class="col-sm-3" >
+                        <div class="col-sm-4" >
+                        </div>
+                        <div class="col-sm-4" >
+                            
                         </div>
                     </div>
                     <div class="row">
@@ -386,7 +419,7 @@
                         </div>
                         
                     </div>
-                </div>
+               
                 
             </div>
     </div>
@@ -516,7 +549,7 @@
 
 
         <div class="row" >
-        <div class="col-sm-4">
+        <div class="col-sm-6">
         
             <div id="contObservaciones" runat="server"> 
                 <div class="control-group">
@@ -527,34 +560,8 @@
                 </div>
             </div>
         </div>
-        <div class="col-sm-4" >
-            <fieldset class="row" id="contTextos" runat="server" disabled="disabled" >
-                <div class="col-sm-6" >
-                                <label for="nueva" class="control-label">Solicitante:</label>
-                                <div class="controls">
-                                    <asp:TextBox ID="txtSolicitante" maxlength="50"  runat="server" class="form-control input-md" placeholder="Solicitante"></asp:TextBox>
-                                </div>
-                                <label for="actual" class="control-label">Fecha Solicitud: </label>
-                                <div class="controls">
-                                    <asp:TextBox ID="txtFechaSol" runat="server" class="form-control input-md" placeholder="Fecha"></asp:TextBox>
-                                </div>
-
-                            </div>
-
-                            <div class="col-sm-6" >
-                                <label for="actual" class="control-label">Fecha Aprobación SO: </label>
-                                <div class="controls">
-                                    <asp:TextBox ID="txtFechaSO" runat="server" class="form-control input-md" placeholder="Fecha"></asp:TextBox>
-                                </div>
-                                <label for="actual" class="control-label">Fecha Aprobación DO: </label>
-                                <div class="controls">
-                                    <asp:TextBox ID="txtFechaDO" runat="server" class="form-control input-md" placeholder="Fecha"></asp:TextBox>
-                                </div>
-                            </div>              
-                        </fieldset>
-        </div>
-        
-        <div class="col-sm-4" >
+       
+        <div class="col-sm-6" >
             
             <div class="row" id="contObsRechazadas" runat="server" style="" >
                 <div class="col-sm-12" >

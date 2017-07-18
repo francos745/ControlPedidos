@@ -65,7 +65,7 @@
             $(document).ready(function () {
                 $('#dtgDetalle').dataTable({
 
-                    "lengthMenu": [[5, 10, 15, -1], [5, 10, 15, "Todos"]],
+                    "lengthMenu": [[-1, 5, 10, 15], ["Todos", 5, 10, 15]],
                     "responsive": true,
                     "stateSave": true,
                     "paging": true,
@@ -284,7 +284,10 @@
                         <label for="nueva" class="control-label"> Código de Acta: </label>
                             <div class="controls" style="text-align:left;">
                                 <asp:DropDownList ID="cmbCodigoActa" runat="server" class="search-box" AutoPostBack="true" placeholder="No hay elementos disponibles" ></asp:DropDownList>
-                                <asp:TextBox ID="txtCodigoActaAux" runat="server" style="display:none;"></asp:TextBox>                                
+                                <div class="label label-default">
+                                    <asp:CheckBox ID="checkMostrar" runat="server" AutoPostBack="true"  />Mostrar Actas Anuladas
+                                </div>
+                                <asp:TextBox ID="txtCodigoActaAux" runat="server" style="display:none;"></asp:TextBox>                              
                                 <asp:TextBox ID="txtFechaAux" runat="server" style="display:none;"></asp:TextBox>
                             </div>
                         </div>
@@ -460,8 +463,12 @@
                 <div class="btn-group" role="group">
                     <label for="nueva" class="control-label">UM: </label>
                     <div class="controls" >
-                        <asp:Label ID="lblUM" runat="server" Text="" Font-Bold="True" Font-Size="X-Large" ></asp:Label></br>
-                        <asp:Label ID="lblUMEq" runat="server" Text="KG" Font-Bold="True" Font-Size="X-Large" ></asp:Label>
+                        <asp:Label ID="lblUM" runat="server" Text="" Font-Bold="True" Font-Size="X-Large" ></asp:Label>
+                        <br>
+                        <br></br>
+                        <br></br>
+                        <asp:Label ID="lblUMEq" runat="server" Font-Bold="True" Font-Size="X-Large" Text="KG"></asp:Label>
+                        </br>
                     </div>
                 </div>
                 <div class="btn-group" role="group">
@@ -673,10 +680,7 @@
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h4 class="modal-title">Cuadro de confirmación</h4>
-                </div>
-                <div class="modal-body">
-                    <p>¿Seguro que desea cambiar el estado del Acta actual?.</p>
+                    <h4 class="modal-title">Cuadro de confirmación   <p>¿Seguro que desea cambiar el estado del Acta actual?.</p>
                     
                 </div>
 

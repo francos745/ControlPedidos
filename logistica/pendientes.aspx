@@ -94,6 +94,17 @@
                     }
                 });
             });
+
+            $('#btnAceptarEdit').on('click', function () {
+              
+                document.getElementById("btnAceptarEdit").className = "btn btn-vitalicia btn-md disabled";
+
+            });
+            $('#btnAcepAgre').on('click', function () {
+
+                document.getElementById("btnAcepAgre").className = "btn btn-vitalicia btn-md disabled";
+
+            });
         }
     </script>
 
@@ -844,7 +855,7 @@
     //}  
 
     
-
+   
     
     function mascara(d)
     {   

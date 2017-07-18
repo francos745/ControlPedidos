@@ -473,8 +473,7 @@ Partial Class logistica_pendientes
     Protected Sub Page_Load(sender As Object, e As EventArgs) Handles Me.Load
         validarInicioSesion()
         lblUsuario.Text = Session("almacenero")
-
-
+        Response.AddHeader("Refresh", Convert.ToString((Session.Timeout * 60) - 5) + ";Ingreso.aspx")
         'validarReimpresionRendicion()
 
 

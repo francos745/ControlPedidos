@@ -1,629 +1,287 @@
 ﻿
-Imports System.Drawing
-Imports System.IO
+Imports System.Data
+Imports System.Data.SqlClient
+Imports System.Web.Services
 
 Partial Class ingenieria_presupuestoMateriales
     Inherits System.Web.UI.Page
-    Dim query As String
-    Dim fn As New Funciones
-    Dim ing As New ingenieria
-
     Sub validarInicioSesion()
         If Session("usuario") = "" Then
             Response.Redirect("Ingreso.aspx")
         End If
     End Sub
-
-
-
-    Sub llenarComboProyecto()
-        cmbProyecto.Items.Clear()
-        query = " SELECT PROYECTO FROM SOL_PEDIDOS.VITALICIA.PROYECTO_PY"
-        fn.llenarComboBox(cmbProyecto, query, "PROYECTO", "PROYECTO")
-    End Sub
-
-
-    Sub llenarTablaMateriales()
-
-        query = " SELECT NOM_MATERIAL,UM_P,"
-        query += " SUM(CANT_SOL_P)CANT_SOL_P,SUM(CANT_PRESUP_P)CANT_PRESUP_P,"
-        query += " SUM(CANT_SOL_A)CANT_SOL_A,SUM(CANT_PRESUP_A)CANT_PRESUP_A,"
-        query += " SUM(CANT_ACTAS_P)CANT_ACTAS_P,SUM(CANT_PRESUP_ACTAS_P)CANT_PRESUP_ACTAS_P,"
-        query += " SUM(CANT_ACTAS_A)CANT_ACTAS_A,SUM(CANT_PRESUP_ACTAS_A)CANT_PRESUP_ACTAS_A,"
-        query += " SUM(CANT_SOL_APROB_P)CANT_SOL_APROB_P,SUM(CANT_DISP_P)CANT_DISP_P,"
-        query += " SUM(CANT_SOL_APROB_A)CANT_SOL_APROB_A,SUM(CANT_DISP_A)CANT_DISP_A,"
-        query += " SUM(CANT_DEV_P)CANT_DEV_P,SUM(CANT_DEV_A)CANT_DEV_A, (SUM(CANT_ACTAS_P)-SUM(CANT_APROB_ACTAS_P))CANT_APROB_ACTAS_P,(SUM(CANT_ACTAS_A)-SUM(CANT_APROB_ACTAS_A))CANT_APROB_ACTAS_A"
-        query += " FROM SOL_PEDIDOS.PEDIDOS.PRECIO_UNITARIO"
-        query += " WHERE PROYECTO='" & cmbProyecto.SelectedValue & "'"
-        query += " GROUP BY NOM_MATERIAL,UM_P"
-
-        Materiales.ConnectionString = fn.ObtenerCadenaConexion("conn")
-        Materiales.SelectCommand = query
-
-
-        dtgMateriales.DataSourceID = "Materiales"
-
-
-
-    End Sub
-
-    Sub llenarTablaDetalleActividades(ByVal MAT As String)
-
-        'query = "SELECT * FROM SOL_PEDIDOS.PEDIDOS.PRECIO_UNITARIO_DET WHERE NOM_MATERIAL='" & MAT & "' AND PROYECTO='" & cmbProyecto.SelectedValue & "' AND CANT_SOL_APROB_P+CANT_APROB_ACTAS_P+CANT_SOL_PEND_P+CANT_SOL_RECH_P<>0"
-        query = " SELECT NOM_MATERIAL,UM_P,CODIGO_SOLICITUD,SUM(CANT_SOL_APROB_P)CANT_SOL_APROB_P,SUM(CANT_APROB_ACTAS_P)CANT_APROB_ACTAS_P,SUM(CANT_SOL_PEND_P)CANT_SOL_PEND_P,SUM(CANT_SOL_RECH_P)CANT_SOL_RECH_P,(CANT_DISP_P2)CANT_DISP_P,FECHA_APROBACION"
-        query += " FROM SOL_PEDIDOS.PEDIDOS.PRECIO_UNITARIO_DET "
-        query += " WHERE NOM_MATERIAL='" & MAT & "' "
-        query += " AND PROYECTO='" & cmbProyecto.SelectedValue & "'"
-        query += " AND CANT_SOL_APROB_P+CANT_APROB_ACTAS_P+CANT_SOL_PEND_P+CANT_SOL_RECH_P<>0"
-        query += " GROUP BY NOM_MATERIAL,UM_P,CODIGO_SOLICITUD,FECHA_APROBACION,CANT_DISP_P2"
-
-        detalleActividad.ConnectionString = fn.ObtenerCadenaConexion("conn")
-        detalleActividad.SelectCommand = query
-
-        dtgDetalleAct.DataSourceID = "detalleActividad"
-
-
-    End Sub
-    Sub llenarTablaDetalleActividades2(ByVal MAT As String)
-
-        'query = "SELECT * FROM SOL_PEDIDOS.PEDIDOS.PRECIO_UNITARIO_DET WHERE NOM_MATERIAL='" & MAT & "' AND PROYECTO='" & cmbProyecto.SelectedValue & "' AND CANT_SOL_APROB_P+CANT_APROB_ACTAS_P+CANT_SOL_PEND_P+CANT_SOL_RECH_P<>0"
-        query = " SELECT NOM_MATERIAL,UM_P,CODIGO_SOLICITUD,SUM(CANT_SOL_APROB_P)CANT_SOL_APROB_P,SUM(CANT_APROB_ACTAS_P)CANT_APROB_ACTAS_P,SUM(CANT_SOL_PEND_P)CANT_SOL_PEND_P,SUM(CANT_SOL_RECH_P)CANT_SOL_RECH_P,(CANT_DISP_P2)CANT_DISP_P,FECHA_APROBACION"
-        query += " FROM SOL_PEDIDOS.PEDIDOS.PRECIO_UNITARIO_DET "
-        query += " WHERE NOM_MATERIAL='" & MAT & "' "
-        query += " AND PROYECTO='" & cmbProyecto.SelectedValue & "'"
-        query += " AND CANT_SOL_APROB_P+CANT_APROB_ACTAS_P+CANT_SOL_PEND_P+CANT_SOL_RECH_P<>0"
-        query += " GROUP BY NOM_MATERIAL,UM_P,CODIGO_SOLICITUD,FECHA_APROBACION,CANT_DISP_P2"
-
-        detalleActividad.ConnectionString = fn.ObtenerCadenaConexion("conn")
-        detalleActividad.SelectCommand = query
-
-
-        dtgDetalleAct2.DataSourceID = "detalleActividad"
-
-
-    End Sub
-
-    Sub llenarTablaDetalleDevoluciones(ByVal mat As String)
-        query = "SELECT FECHA,PROYECTO,NOM_ACTIVIDAD,NOM_MATERIAL,UM_P,CANT_P FROM SOL_PEDIDOS.PEDIDOS.DEVOLUCION_DET WHERE ESTADO_LIN='A' AND COD_CONT_LINEA<>'B' AND PROYECTO='" & cmbProyecto.SelectedValue & "'  AND NOM_MATERIAL='" & mat & "' "
-
-        detalleDevolucion.ConnectionString = fn.ObtenerCadenaConexion("conn")
-        detalleDevolucion.SelectCommand = query
-
-        dtgDevolucion.DataSourceID = "detalleDevolucion"
-
-    End Sub
-
-
-
-    Sub llenarTablaDetalleSolicitudes()
-
-        query = "SELECT * FROM SOL_PEDIDOS.PEDIDOS.SOL_ING_DET WHERE COD_SOL=@CODIGO_SOLICITUD AND COD_CONT_LINEA<>'B'"
-
-        detalleSolicitudes.ConnectionString = fn.ObtenerCadenaConexion("conn")
-        detalleSolicitudes.SelectCommand = query
-
-        dtgSolicitud.DataSourceID = "detalleSolicitudes"
-
-
-    End Sub
-
-    Sub llenarTablaDetallesActas()
-
-        query = " SELECT A.CODIGO_ACTA COD_ACTA,"
-
-        query += " (SELECT TOP 1 CODIGO_ACTA_ING "
-        query += " FROM SOL_PEDIDOS.PEDIDOS.ACTAS_CABECERA B"
-        query += " WHERE A.CODIGO_ACTA=B.CODIGO_ACTA) ACTA_ING,"
-
-        query += " ISNULL((SELECT B.NOMBRE  FROM SOL_PEDIDOS.VITALICIA.FASE_PY B"
-        query += " WHERE B.FASE=CONCAT(SUBSTRING(A.FASE,0,9),'.00')),'SIN FASE')NOM_ACTIVIDAD,"
-
-        query += " ISNULL((SELECT B.NOMBRE  FROM SOL_PEDIDOS.VITALICIA.FASE_PY B"
-        query += " WHERE B.FASE=A.FASE),'SIN FASE')NOM_MATERIAL,"
-
-        query += " CANTIDAD_APS CANT_P,"
-
-        query += " CANTIDAD CANT_A,"
-
-        query += "(SELECT TOP 1 FECHA_ACTA_ING "
-        query += " FROM SOL_PEDIDOS.PEDIDOS.ACTAS_CABECERA B"
-        query += " WHERE A.CODIGO_ACTA=B.CODIGO_ACTA) FECHA"
-
-        query += " FROM SOL_PEDIDOS.PEDIDOS.ACTAS_LINEA A"
-        query += " WHERE A.ID IN (SELECT ID_ACTA FROM SOL_PEDIDOS.PEDIDOS.SOLICITUD_ING_LINEA WHERE CODIGO_SOLICITUD=@CODIGO_SOLICITUD)"
-        query += " AND CODIGO_CONTROL<>'B'"
-
-
-
-        detallesActa.ConnectionString = fn.ObtenerCadenaConexion("conn")
-        detallesActa.SelectCommand = query
-
-        dtgActas.DataSourceID = "detallesActa"
-
-    End Sub
-
-
-
-
-
-#Region "Renderizar cabeceras"
-    Protected Sub dtgMateriales_PreRender(sender As Object, e As EventArgs) Handles dtgMateriales.PreRender
-
-        query = " SELECT NOM_MATERIAL,UM_P,"
-        query += " SUM(CANT_SOL_P)CANT_SOL_P,SUM(CANT_PRESUP_P)CANT_PRESUP_P,"
-        query += " SUM(CANT_SOL_A)CANT_SOL_A,SUM(CANT_PRESUP_A)CANT_PRESUP_A,"
-        query += " SUM(CANT_ACTAS_P)CANT_ACTAS_P,SUM(CANT_PRESUP_ACTAS_P)CANT_PRESUP_ACTAS_P,"
-        query += " SUM(CANT_ACTAS_A)CANT_ACTAS_A,SUM(CANT_PRESUP_ACTAS_A)CANT_PRESUP_ACTAS_A,"
-        query += " SUM(CANT_SOL_APROB_P)CANT_SOL_APROB_P,SUM(CANT_DISP_P)CANT_DISP_P,"
-        query += " SUM(CANT_SOL_APROB_A)CANT_SOL_APROB_A,SUM(CANT_DISP_A)CANT_DISP_A,"
-        query += " SUM(CANT_DEV_P)CANT_DEV_P,SUM(CANT_DEV_A)CANT_DEV_A, (SUM(CANT_ACTAS_P)-SUM(CANT_APROB_ACTAS_P))CANT_APROB_ACTAS_P,(SUM(CANT_ACTAS_A)-SUM(CANT_APROB_ACTAS_A))CANT_APROB_ACTAS_A"
-        query += " FROM SOL_PEDIDOS.PEDIDOS.PRECIO_UNITARIO"
-        query += " WHERE PROYECTO='" & cmbProyecto.SelectedValue & "'"
-        query += " GROUP BY NOM_MATERIAL,UM_P"
-
-        Materiales.ConnectionString = fn.ObtenerCadenaConexion("conn")
-        Materiales.SelectCommand = query
-
-
-        dtgMateriales.DataSourceID = "Materiales"
-
-        If dtgMateriales.Rows.Count > 0 Then
-            'This replaces <td> with <th> and adds the scope attribute
-            dtgMateriales.UseAccessibleHeader = True
-
-            'This will add the <thead> and <tbody> elements
-            dtgMateriales.HeaderRow.TableSection = TableRowSection.TableHeader
-
-            'This adds the <tfoot> element. 
-            'Remove if you don't have a footer row
-            dtgMateriales.FooterRow.TableSection = TableRowSection.TableFooter
-        End If
-
-    End Sub
-
-    Protected Sub dtgDetalleAct_PreRender(sender As Object, e As EventArgs) Handles dtgDetalleAct.PreRender
-
-        Dim row As GridViewRow
-
-        row = dtgMateriales.SelectedRow
-
-
-        Dim fila As Integer = row.RowIndex.ToString
-
-
-        Dim material As String = Server.HtmlDecode(dtgMateriales.Rows(fila).Cells(1).Text)
-
-        'query = "SELECT * FROM SOL_PEDIDOS.PEDIDOS.PRECIO_UNITARIO_DET WHERE NOM_MATERIAL='" & MAT & "' AND PROYECTO='" & cmbProyecto.SelectedValue & "' AND CANT_SOL_APROB_P+CANT_APROB_ACTAS_P+CANT_SOL_PEND_P+CANT_SOL_RECH_P<>0"
-        query = " SELECT NOM_MATERIAL,UM_P,CODIGO_SOLICITUD,SUM(CANT_SOL_APROB_P)CANT_SOL_APROB_P,SUM(CANT_APROB_ACTAS_P)CANT_APROB_ACTAS_P,SUM(CANT_SOL_PEND_P)CANT_SOL_PEND_P,SUM(CANT_SOL_RECH_P)CANT_SOL_RECH_P,(CANT_DISP_P2)CANT_DISP_P,FECHA_APROBACION"
-        query += " FROM SOL_PEDIDOS.PEDIDOS.PRECIO_UNITARIO_DET "
-        query += " WHERE NOM_MATERIAL='" & material & "' "
-        query += " AND PROYECTO='" & cmbProyecto.SelectedValue & "'"
-        query += " AND CANT_SOL_APROB_P+CANT_APROB_ACTAS_P+CANT_SOL_PEND_P+CANT_SOL_RECH_P<>0"
-        query += " GROUP BY NOM_MATERIAL,UM_P,CODIGO_SOLICITUD,FECHA_APROBACION,CANT_DISP_P2"
-
-        detalleActividad.ConnectionString = fn.ObtenerCadenaConexion("conn")
-        detalleActividad.SelectCommand = query
-
-        dtgDetalleAct.DataSourceID = "detalleActividad"
-
-        If dtgDetalleAct.Rows.Count > 0 Then
-            'This replaces <td> with <th> and adds the scope attribute
-            dtgDetalleAct.UseAccessibleHeader = True
-
-            'This will add the <thead> and <tbody> elements
-            dtgDetalleAct.HeaderRow.TableSection = TableRowSection.TableHeader
-
-            'This adds the <tfoot> element. 
-            'Remove if you don't have a footer row
-            dtgDetalleAct.FooterRow.TableSection = TableRowSection.TableFooter
-        End If
-
-    End Sub
-
-    '--------------------------------------------------------------------------------------------------------------------------
-    'Sub ExportToExcel()
-    '    Response.Clear()
-    '    Response.Buffer = True
-    '    Response.AddHeader("content-disposition", "attachment;filename=GridViewExport.xls")
-    '    Response.Charset = ""
-    '    Response.ContentType = "application/vnd.ms-excel"
-    '    Using sw As New StringWriter()
-    '        Dim hw As New HtmlTextWriter(sw)
-
-    '        'To Export all pages
-    '        dtgDetalleAct2.AllowPaging = False
-
-
-    '        dtgDetalleAct2.HeaderRow.BackColor = Color.White
-    '        For Each cell As TableCell In dtgDetalleAct2.HeaderRow.Cells
-    '            cell.BackColor = dtgDetalleAct2.HeaderStyle.BackColor
-    '        Next
-
-    '        dtgDetalleAct2.RenderControl(hw)
-    '        'style to format numbers to string
-    '        Dim style As String = "<style> .textmode { } </style>"
-    '        Response.Write(style)
-    '        Response.Output.Write(sw.ToString())
-    '        Response.Flush()
-    '        Response.[End]()
-    '    End Using
-    'End Sub
-
-    'Public Overrides Sub VerifyRenderingInServerForm(control As Control)
-    '    ' Verifies that the control is rendered
-    'End Sub
-
-    Protected Sub ExportToExcel(ByVal origen As String)
-
-        Dim row As GridViewRow
-
-        row = dtgMateriales.SelectedRow
-
-
-        Dim fila As Integer = row.RowIndex.ToString
-
-        Dim estado As String = dtgMateriales.Rows(fila).Cells(1).Text
-        Dim material As String = Server.HtmlDecode(dtgMateriales.Rows(fila).Cells(1).Text)
-        llenarTablaDetalleActividades2(material)
-        If origen = "D" Then
-            lblTitulo2.Text = "Lista de Devoluciones- " & material
-        Else
-            lblTitulo.Text = "Presupuesto de Materiales-" & material
-        End If
-
-
-
-        Response.Clear()
-        Response.Buffer = True
-        Response.AddHeader("content-disposition", "attachment;filename=" & lblTitulo.Text & Now.Date.ToString & ".xls")
-
-        Response.Charset = ""
-        Response.Cache.SetCacheability(HttpCacheability.NoCache)
-
-        Response.ContentType = "application/vnd.xls"
-
-        Response.ContentEncoding = System.Text.Encoding.UTF8
-        Using sw As New StringWriter()
-            Dim hw As New HtmlTextWriter(sw)
-            If origen = "D" Then
-                Panel2.RenderControl(hw)
-            Else
-                Panel1.RenderControl(hw)
-            End If
-
-            Response.Output.Write(sw.ToString())
-            Response.Flush()
-            Response.End()
-        End Using
-    End Sub
-
-    Public Overrides Sub VerifyRenderingInServerForm(control As Control)
-        ' Verifies that the control is rendered
-    End Sub
-    '--------------------------------------------------------------------------------------------------------------------------
-
-
-
-    Protected Sub dtgSolicitud_PreRender(sender As Object, e As EventArgs) Handles dtgSolicitud.PreRender
-        query = "Select * FROM SOL_PEDIDOS.PEDIDOS.SOL_ING_DET WHERE COD_SOL=@CODIGO_SOLICITUD And COD_CONT_LINEA<>'B'"
-
-        detalleSolicitudes.ConnectionString = fn.ObtenerCadenaConexion("conn")
-        detalleSolicitudes.SelectCommand = query
-
-        dtgSolicitud.DataSourceID = "detalleSolicitudes"
-        If dtgSolicitud.Rows.Count > 0 Then
-            'This replaces <td> with <th> and adds the scope attribute
-            dtgSolicitud.UseAccessibleHeader = True
-
-            'This will add the <thead> and <tbody> elements
-            dtgSolicitud.HeaderRow.TableSection = TableRowSection.TableHeader
-
-            'This adds the <tfoot> element. 
-            'Remove if you don't have a footer row
-            dtgSolicitud.FooterRow.TableSection = TableRowSection.TableFooter
-        End If
-
-    End Sub
-
-    Protected Sub dtgActas_PreRender(sender As Object, e As EventArgs) Handles dtgActas.PreRender
-
-        query = " SELECT A.CODIGO_ACTA COD_ACTA,"
-
-        query += " (SELECT TOP 1 CODIGO_ACTA_ING "
-        query += " FROM SOL_PEDIDOS.PEDIDOS.ACTAS_CABECERA B"
-        query += " WHERE A.CODIGO_ACTA=B.CODIGO_ACTA) ACTA_ING,"
-
-        query += " ISNULL((SELECT B.NOMBRE  FROM SOL_PEDIDOS.VITALICIA.FASE_PY B"
-        query += " WHERE B.FASE=CONCAT(SUBSTRING(A.FASE,0,9),'.00')),'SIN FASE')NOM_ACTIVIDAD,"
-
-        query += " ISNULL((SELECT B.NOMBRE  FROM SOL_PEDIDOS.VITALICIA.FASE_PY B"
-        query += " WHERE B.FASE=A.FASE),'SIN FASE')NOM_MATERIAL,"
-
-        query += " CANTIDAD_APS CANT_P,"
-
-        query += " CANTIDAD CANT_A,"
-
-        query += "(SELECT TOP 1 FECHA_ACTA_ING "
-        query += " FROM SOL_PEDIDOS.PEDIDOS.ACTAS_CABECERA B"
-        query += " WHERE A.CODIGO_ACTA=B.CODIGO_ACTA) FECHA"
-
-        query += " FROM SOL_PEDIDOS.PEDIDOS.ACTAS_LINEA A"
-        query += " WHERE A.ID IN (SELECT ID_ACTA FROM SOL_PEDIDOS.PEDIDOS.SOLICITUD_ING_LINEA WHERE CODIGO_SOLICITUD=@CODIGO_SOLICITUD)"
-        query += " AND CODIGO_CONTROL<>'B'"
-
-
-
-        detallesActa.ConnectionString = fn.ObtenerCadenaConexion("conn")
-        detallesActa.SelectCommand = query
-
-        dtgActas.DataSourceID = "detallesActa"
-
-        If dtgActas.Rows.Count > 0 Then
-            'This replaces <td> with <th> and adds the scope attribute
-            dtgActas.UseAccessibleHeader = True
-
-            'This will add the <thead> and <tbody> elements
-            dtgActas.HeaderRow.TableSection = TableRowSection.TableHeader
-
-            'This adds the <tfoot> element. 
-            'Remove if you don't have a footer row
-            dtgActas.FooterRow.TableSection = TableRowSection.TableFooter
-        End If
-
-    End Sub
-
-#End Region
-
     Protected Sub Page_Load(sender As Object, e As EventArgs) Handles Me.Load
         validarInicioSesion()
         lblUsuario.Text = Session("usuario")
-
-
-
-
-        If Not Page.IsPostBack Then
-
-            llenarComboProyecto()
-
-            llenarTablaMateriales()
-            llenarTablaDetalleActividades("S")
-            llenarTablaDetalleSolicitudes()
-
-        End If
-
     End Sub
 
-    Protected Sub cmbProyecto_SelectedIndexChanged(sender As Object, e As EventArgs) Handles cmbProyecto.SelectedIndexChanged
-        llenarTablaMateriales()
-        lblCodSolicitud.Text = ""
-        lblActividad.Text = ""
-        lblActividadDetalle.Text = ""
-        lblSolicitudDesc.Text = ""
-        lblSolicitudDesc2.Text = ""
-    End Sub
+    <WebMethod()>
+    Public Shared Function llenarComboProyectos() As List(Of ListItem)
+        Dim query As String
+        query = " SELECT PROYECTO FROM ("
+        query += " SELECT PROYECTO"
+        query += " FROM SOL_PEDIDOS.PEDIDOS.PRECIO_UNITARIO"
+        query += " GROUP BY PROYECTO,NOM_MATERIAL,UM_P"
+        query += " )VISTA"
+        query += " GROUP BY PROYECTO"
+        query += " ORDER BY COUNT('A') DESC"
+
+        Dim constr As String = ConfigurationManager.ConnectionStrings("conn").ConnectionString
+        Using con As New SqlConnection(constr)
+            Using cmd As New SqlCommand(query)
+                Dim customers As New List(Of ListItem)()
+                cmd.CommandType = CommandType.Text
+                cmd.Connection = con
+                con.Open()
+                Using sdr As SqlDataReader = cmd.ExecuteReader()
+                    While sdr.Read()
+                        customers.Add(New ListItem() With {
+                          .Value = sdr("PROYECTO").ToString(),
+                          .Text = sdr("PROYECTO").ToString()
+                        })
+                    End While
+                End Using
+                con.Close()
+                Return customers
+            End Using
+        End Using
+    End Function
+
+    <WebMethod()>
+    Public Shared Function obtenerTablaMateriales(proyecto As String) As List(Of tabla)
+
+        Dim query As String
+        query = " SELECT NOM_MATERIAL,UM_P,"
+        query += " FORMAT(SUM(CANT_SOL_P),'##,0.00')CANT_SOL_P,FORMAT(SUM(CANT_PRESUP_P),'##,0.00')CANT_PRESUP_P,"
+        query += " FORMAT(SUM(CANT_SOL_A),'##,0.00')CANT_SOL_A,FORMAT(SUM(CANT_PRESUP_A),'##,0.00')CANT_PRESUP_A,"
+        query += " FORMAT(SUM(CANT_ACTAS_P),'##,0.00')CANT_ACTAS_P,FORMAT(SUM(CANT_PRESUP_ACTAS_P),'##,0.00')CANT_PRESUP_ACTAS_P,"
+        query += " FORMAT(SUM(CANT_ACTAS_A),'##,0.00')CANT_ACTAS_A,FORMAT(SUM(CANT_PRESUP_ACTAS_A),'##,0.00')CANT_PRESUP_ACTAS_A,"
+        query += " FORMAT(SUM(CANT_SOL_APROB_P),'##,0.00')CANT_SOL_APROB_P,FORMAT(SUM(CANT_DISP_P),'##,0.00')CANT_DISP_P,"
+        query += " FORMAT(SUM(CANT_SOL_APROB_A),'##,0.00')CANT_SOL_APROB_A,FORMAT(SUM(CANT_DISP_A),'##,0.00')CANT_DISP_A,"
+        query += " FORMAT(SUM(CANT_DEV_P),'##,0.00')CANT_DEV_P,FORMAT(SUM(CANT_DEV_A),'##,0.00')CANT_DEV_A, "
+        query += " FORMAT(SUM(CANT_ACTAS_P)-SUM(CANT_APROB_ACTAS_P),'##,0.00')CANT_APROB_ACTAS_P,"
+        query += " FORMAT(SUM(CANT_ACTAS_A)-SUM(CANT_APROB_ACTAS_A),'##,0.00')CANT_APROB_ACTAS_A"
+        query += " FROM SOL_PEDIDOS.PEDIDOS.PRECIO_UNITARIO"
+        query += " WHERE PROYECTO='" & proyecto & "'"
+        query += " GROUP BY NOM_MATERIAL,UM_P"
+
+
+        Dim constr As String = ConfigurationManager.ConnectionStrings("conn").ConnectionString
+        Using con As New SqlConnection(constr)
+            Using cmd As New SqlCommand(query)
+                Dim lineas As New List(Of tabla)()
+                cmd.CommandType = CommandType.Text
+                cmd.Connection = con
+                con.Open()
+                Using sdr As SqlDataReader = cmd.ExecuteReader()
+                    While sdr.Read()
+                        lineas.Add(New tabla() With {
+                            .c1 = sdr("NOM_MATERIAL").ToString(),
+                            .c2 = sdr("UM_P").ToString(),
+                            .c3 = sdr("CANT_SOL_P").ToString(),
+                            .c4 = sdr("CANT_PRESUP_P").ToString(),
+                            .c5 = sdr("CANT_ACTAS_P").ToString(),
+                            .c6 = sdr("CANT_PRESUP_ACTAS_P").ToString(),
+                            .c7 = sdr("CANT_DEV_P").ToString(),
+                            .c8 = sdr("CANT_SOL_APROB_P").ToString(),
+                            .c9 = sdr("CANT_APROB_ACTAS_P").ToString(),
+                            .c10 = sdr("CANT_DISP_P").ToString()})
+
+
+                    End While
+                End Using
+                con.Close()
+                Return lineas
+            End Using
+        End Using
+
+    End Function
+
+
+    <WebMethod()>
+    Public Shared Function obtenerTablaDetalles(proyecto As String, material As String) As List(Of tabla)
+
+        Dim query As String
+
+        material = HttpContext.Current.Server.HtmlDecode(material)
+
+        query = " SELECT NOM_MATERIAL,UM_P,CODIGO_SOLICITUD,FORMAT(SUM(CANT_SOL_APROB_P),'##,0.00')CANT_SOL_APROB_P,FORMAT(SUM(CANT_APROB_ACTAS_P),'##,0.00')CANT_APROB_ACTAS_P,FORMAT(SUM(CANT_SOL_PEND_P),'##,0.00')CANT_SOL_PEND_P,FORMAT(SUM(CANT_SOL_RECH_P),'##,0.00')CANT_SOL_RECH_P,FORMAT(CANT_DISP_P2,'##,0.00')CANT_DISP_P,FECHA_APROBACION "
+        query += " FROM SOL_PEDIDOS.PEDIDOS.PRECIO_UNITARIO_DET "
+        query += " WHERE NOM_MATERIAL='" & material & "' "
+        query += " AND PROYECTO='" & proyecto & "'"
+        ' query += " AND CANT_SOL_APROB_P+CANT_APROB_ACTAS_P+CANT_SOL_PEND_P+CANT_SOL_RECH_P<>0"
+        query += " GROUP BY NOM_MATERIAL,UM_P,CODIGO_SOLICITUD,FECHA_APROBACION,CANT_DISP_P2"
+
+
+
+
+        Dim constr As String = ConfigurationManager.ConnectionStrings("conn").ConnectionString
+        Using con As New SqlConnection(constr)
+            Using cmd As New SqlCommand(query)
+                Dim lineas As New List(Of tabla)()
+                cmd.CommandType = CommandType.Text
+                cmd.Connection = con
+                con.Open()
+                Using sdr As SqlDataReader = cmd.ExecuteReader()
+                    While sdr.Read()
+                        lineas.Add(New tabla() With {
+                            .c1 = sdr("NOM_MATERIAL").ToString(),
+                            .c2 = sdr("UM_P").ToString(),
+                            .c3 = sdr("CODIGO_SOLICITUD").ToString(),
+                            .c4 = sdr("CANT_SOL_APROB_P").ToString(),
+                            .c5 = sdr("CANT_APROB_ACTAS_P").ToString(),
+                            .c6 = sdr("CANT_SOL_PEND_P").ToString(),
+                            .c7 = sdr("CANT_SOL_RECH_P").ToString(),
+                            .c8 = sdr("CANT_DISP_P").ToString(),
+                            .c9 = sdr("FECHA_APROBACION").ToString()})
+                    End While
+                End Using
+                con.Close()
+                Return lineas
+            End Using
+        End Using
+
+    End Function
+
+
+    <WebMethod()>
+    Public Shared Function obtenerTablaDevoluciones(proyecto As String, material As String) As List(Of tabla)
+        material = HttpContext.Current.Server.HtmlDecode(material)
+        Dim query As String
+        query = "SELECT FECHA,PROYECTO,NOM_ACTIVIDAD,NOM_MATERIAL,UM_P,FORMAT(CANT_P,'##,0.00')CANT_P FROM SOL_PEDIDOS.PEDIDOS.DEVOLUCION_DET WHERE ESTADO_LIN='A' AND COD_CONT_LINEA<>'B' AND PROYECTO='" & proyecto & "'  AND NOM_MATERIAL='" & material & "' "
+
+
+        Dim constr As String = ConfigurationManager.ConnectionStrings("conn").ConnectionString
+        Using con As New SqlConnection(constr)
+            Using cmd As New SqlCommand(query)
+                Dim lineas As New List(Of tabla)()
+                cmd.CommandType = CommandType.Text
+                cmd.Connection = con
+                con.Open()
+                Using sdr As SqlDataReader = cmd.ExecuteReader()
+                    While sdr.Read()
+                        lineas.Add(New tabla() With {
+                            .c1 = sdr("FECHA").ToString(),
+                            .c2 = sdr("PROYECTO").ToString(),
+                            .c3 = sdr("NOM_ACTIVIDAD").ToString(),
+                            .c4 = sdr("NOM_MATERIAL").ToString(),
+                            .c5 = sdr("UM_P").ToString(),
+                            .c6 = sdr("CANT_P").ToString()})
+                    End While
+                End Using
+                con.Close()
+                Return lineas
+            End Using
+        End Using
+
+    End Function
+
+    <WebMethod()>
+    Public Shared Function obtenerTablaSolicitudes(codigoSolicitud As String) As List(Of tabla)
+
+        Dim query As String
+        query = " SELECT NUMERO,NOM_ACTIVIDAD,NOM_MATERIAL,NOM_ARTICULO,UM_P,"
+        query += " FORMAT((CANT_SOL_P),'##,0.00')CANT_SOL_P,"
+        query += " FORMAT((CANT_PRESUP_P),'##,0.00')CANT_PRESUP_P,"
+        query += " FORMAT((CANT_ACTAS_P),'##,0.00')CANT_ACTAS_P,"
+        query += " FORMAT((CANT_SOL_APROB_P),'##,0.00')CANT_SOL_APROB_P,"
+        query += " FORMAT((CANT_APROB_ACTAS_P),'##,0.00')CANT_APROB_ACTAS_P,"
+        query += " FORMAT((CANT_DISP2_P),'##,0.00')CANT_DISP2_P,"
+        query += " FORMAT((CANT_SOL_PEND_P),'##,0.00')CANT_SOL_PEND_P,"
+        query += " ESTADO_LIN "
+        query += " FROM SOL_PEDIDOS.PEDIDOS.SOL_ING_DET WHERE COD_SOL='" & codigoSolicitud & "' AND COD_CONT_LINEA<>'B'"
+
+        Dim constr As String = ConfigurationManager.ConnectionStrings("conn").ConnectionString
+        Using con As New SqlConnection(constr)
+            Using cmd As New SqlCommand(query)
+                Dim lineas As New List(Of tabla)()
+                cmd.CommandType = CommandType.Text
+                cmd.Connection = con
+                con.Open()
+                Using sdr As SqlDataReader = cmd.ExecuteReader()
+                    While sdr.Read()
+                        lineas.Add(New tabla() With {
+                            .c1 = sdr("NUMERO").ToString(),
+                            .c2 = sdr("NOM_ACTIVIDAD").ToString(),
+                            .c3 = sdr("NOM_MATERIAL").ToString(),
+                            .c4 = sdr("NOM_ARTICULO").ToString(),
+                            .c5 = sdr("UM_P").ToString(),
+                            .c6 = sdr("CANT_SOL_P").ToString(),
+                            .c7 = sdr("CANT_PRESUP_P").ToString(),
+                            .c8 = sdr("CANT_ACTAS_P").ToString(),
+                            .c9 = sdr("CANT_SOL_APROB_P").ToString(),
+                            .c10 = sdr("CANT_APROB_ACTAS_P").ToString(),
+                            .c11 = sdr("CANT_DISP2_P").ToString(),
+                            .c12 = sdr("CANT_SOL_PEND_P").ToString(),
+                            .c13 = sdr("ESTADO_LIN").ToString()})
+
+                    End While
+                End Using
+                con.Close()
+                Return lineas
+            End Using
+        End Using
+
+    End Function
+
+    <WebMethod()>
+    Public Shared Function obtenerTablaActas(codigoSolicitud As String) As List(Of tabla)
+
+        Dim query As String
+        query = " SELECT A.CODIGO_ACTA COD_ACTA,"
+
+        query += " (SELECT TOP 1 CODIGO_ACTA_ING "
+        query += " FROM SOL_PEDIDOS.PEDIDOS.ACTAS_CABECERA B"
+        query += " WHERE A.CODIGO_ACTA=B.CODIGO_ACTA) ACTA_ING,"
+
+        query += " ISNULL((SELECT B.NOMBRE  FROM SOL_PEDIDOS.VITALICIA.FASE_PY B"
+        query += " WHERE B.FASE=CONCAT(SUBSTRING(A.FASE,0,9),'.00')),'SIN FASE')NOM_ACTIVIDAD,"
+
+        query += " ISNULL((SELECT B.NOMBRE  FROM SOL_PEDIDOS.VITALICIA.FASE_PY B"
+        query += " WHERE B.FASE=A.FASE),'SIN FASE')NOM_MATERIAL,"
+
+        query += " FORMAT(CANTIDAD_APS,'##,0.00') CANT_P,"
+
+        query += " CANTIDAD CANT_A,"
+
+        query += "(SELECT TOP 1 FECHA_ACTA_ING "
+        query += " FROM SOL_PEDIDOS.PEDIDOS.ACTAS_CABECERA B"
+        query += " WHERE A.CODIGO_ACTA=B.CODIGO_ACTA) FECHA"
+
+        query += " FROM SOL_PEDIDOS.PEDIDOS.ACTAS_LINEA A"
+        query += " WHERE A.ID IN (SELECT ID_ACTA FROM SOL_PEDIDOS.PEDIDOS.SOLICITUD_ING_LINEA WHERE CODIGO_SOLICITUD='" & codigoSolicitud & "')"
+        query += " AND CODIGO_CONTROL<>'B'"
+
+
+        Dim constr As String = ConfigurationManager.ConnectionStrings("conn").ConnectionString
+        Using con As New SqlConnection(constr)
+            Using cmd As New SqlCommand(query)
+                Dim lineas As New List(Of tabla)()
+                cmd.CommandType = CommandType.Text
+                cmd.Connection = con
+                con.Open()
+                Using sdr As SqlDataReader = cmd.ExecuteReader()
+                    While sdr.Read()
+                        lineas.Add(New tabla() With {
+                            .c1 = sdr("COD_ACTA").ToString(),
+                            .c2 = sdr("ACTA_ING").ToString(),
+                            .c3 = sdr("NOM_ACTIVIDAD").ToString(),
+                            .c4 = sdr("NOM_MATERIAL").ToString(),
+                            .c5 = sdr("CANT_P").ToString(),
+                            .c6 = sdr("FECHA").ToString(),
+                            .c7 = sdr("CANT_A").ToString(),
+                            .c8 = sdr("FECHA").ToString()})
+
+
+
+
+                    End While
+                End Using
+                con.Close()
+                Return lineas
+            End Using
+        End Using
+
+    End Function
 
-
-    Protected Sub btnAlmacenes_Click(sender As Object, e As EventArgs) Handles btnAlmacenes.Click
-        lblUMActual.Text = "Almacén"
-
-    End Sub
-
-    Protected Sub btnPresupuesto_Click(sender As Object, e As EventArgs) Handles btnPresupuesto.Click
-        lblUMActual.Text = "Presupuesto"
-
-    End Sub
-
-#Region "CHANGE SELECTED INDEX TABLA ACTIVIDADES"
-    Protected Sub dtgMateriales_SelectedIndexChanged(sender As Object, e As EventArgs) Handles dtgMateriales.SelectedIndexChanged
-        ' Get the currently selected row using the SelectedRow property.
-
-        Dim row As GridViewRow
-
-        row = dtgMateriales.SelectedRow
-
-
-        Dim fila As Integer = row.RowIndex.ToString
-
-        Dim estado As String = dtgMateriales.Rows(fila).Cells(1).Text
-        Dim material As String = Server.HtmlDecode(dtgMateriales.Rows(fila).Cells(1).Text)
-        lblActividad.Text = (estado)
-        lblActividadDetalle.Text = "Detalles del material: " & material
-        lblDevolucionDetalle.Text = "Detalles de Devolucion del material: " & material
-
-        llenarTablaDetalleActividades(material)
-        llenarTablaDetalleDevoluciones(material)
-
-
-    End Sub
-
-
-
-    Protected Sub dtgDetalle_SelectedIndexChanging(sender As Object, e As GridViewSelectEventArgs) Handles dtgMateriales.SelectedIndexChanging
-
-        Dim row As GridViewRow
-
-        row = dtgMateriales.Rows(e.NewSelectedIndex)
-
-
-        If row.Cells(1).Text = "ANATR" Then
-            e.Cancel = True
-        End If
-    End Sub
-
-#End Region
-
-#Region "CHANGE SELECTED INDEX TABLA DETALLES ACTIVIDAD"
-    Protected Sub dtgDetalleAct_SelectedIndexChanged(sender As Object, e As EventArgs) Handles dtgDetalleAct.SelectedIndexChanged
-        ' Get the currently selected row using the SelectedRow property.
-
-        Dim row As GridViewRow
-
-        row = dtgDetalleAct.SelectedRow
-
-
-        Dim fila As Integer = row.RowIndex.ToString
-
-        Dim estado As String = dtgDetalleAct.Rows(fila).Cells(3).Text
-        lblCodSolicitud.Text = (estado)
-
-        lblSolicitudDesc.Text = "Detalle de la solicitud: " & estado
-        lblSolicitudDesc2.Text = "Detalle de Actas para la solicitud: " & estado
-        llenarTablaDetalleSolicitudes()
-        llenarTablaDetallesActas()
-    End Sub
-
-
-
-    Protected Sub dtgDetalleAct_SelectedIndexChanging(sender As Object, e As GridViewSelectEventArgs) Handles dtgDetalleAct.SelectedIndexChanging
-        Dim row As GridViewRow
-
-        row = dtgDetalleAct.Rows(e.NewSelectedIndex)
-
-
-        If row.Cells(1).Text = "ANATR" Then
-            e.Cancel = True
-        End If
-    End Sub
-
-#End Region
-
-    Protected Sub btnCuadroCom_Click(sender As Object, e As EventArgs) Handles btnExcelDetalle.Click
-        If dtgDetalleAct.Rows.Count <> 0 Then
-            'ing.generarExcelPresupuestos(dtgDetalleAct, "PRESUPUESTO DE MATERIALES", lblActividadDetalle.Text.Replace("Detalles del material: ", ""))
-            ExportToExcel("E")
-        End If
-    End Sub
-
-    Protected Sub btnExcelDevoluciones_Click(sender As Object, e As EventArgs) Handles btnExcelDevoluciones.Click
-        If dtgDetalleAct.Rows.Count <> 0 Then
-            'ing.generarExcelPresupuestos(dtgDetalleAct, "PRESUPUESTO DE MATERIALES", lblActividadDetalle.Text.Replace("Detalles del material: ", ""))
-            ExportToExcel("D")
-        End If
-    End Sub
-
-    Protected Sub btnCerrarSesion_Click(sender As Object, e As EventArgs) Handles btnCerrarSesion.Click
-        Session.Clear()
-        Response.Redirect("Ingreso.aspx")
-    End Sub
-
-
-#Region "Ocultar"
-    Protected Sub GrdVwSecciones_RowCreated(sender As Object, e As GridViewRowEventArgs) Handles dtgMateriales.RowCreated
-
-
-
-        If lblUMActual.Text = "Presupuesto" Then
-
-
-            e.Row.Cells(11).Visible = False
-            e.Row.Cells(12).Visible = False
-            e.Row.Cells(13).Visible = False
-            e.Row.Cells(14).Visible = False
-            e.Row.Cells(15).Visible = False
-            e.Row.Cells(16).Visible = False
-            e.Row.Cells(17).Visible = False
-            e.Row.Cells(18).Visible = False
-            e.Row.Cells(19).Visible = False
-
-        Else
-            e.Row.Cells(2).Visible = False
-            e.Row.Cells(3).Visible = False
-            e.Row.Cells(4).Visible = False
-            e.Row.Cells(5).Visible = False
-            e.Row.Cells(6).Visible = False
-            e.Row.Cells(7).Visible = False
-            e.Row.Cells(8).Visible = False
-            e.Row.Cells(9).Visible = False
-            e.Row.Cells(10).Visible = False
-
-        End If
-
-
-    End Sub
-
-    Protected Sub dtgDetalleAct_RowCreated(sender As Object, e As GridViewRowEventArgs) Handles dtgDetalleAct.RowCreated
-
-
-        If lblUMActual.Text = "Presupuesto" Then
-
-            e.Row.Cells(10).Visible = False
-            e.Row.Cells(11).Visible = False
-            e.Row.Cells(12).Visible = False
-            e.Row.Cells(13).Visible = False
-            e.Row.Cells(14).Visible = False
-            e.Row.Cells(15).Visible = False
-            e.Row.Cells(16).Visible = False
-            e.Row.Cells(17).Visible = False
-
-
-        Else
-            e.Row.Cells(2).Visible = False
-            e.Row.Cells(3).Visible = False
-            e.Row.Cells(4).Visible = False
-            e.Row.Cells(5).Visible = False
-            e.Row.Cells(6).Visible = False
-            e.Row.Cells(7).Visible = False
-            e.Row.Cells(8).Visible = False
-            e.Row.Cells(9).Visible = False
-
-
-        End If
-
-
-    End Sub
-
-    Protected Sub dtgSolicitud_RowCreated(sender As Object, e As GridViewRowEventArgs) Handles dtgSolicitud.RowCreated
-
-        e.Row.Cells(0).Visible = True
-        e.Row.Cells(1).Visible = True
-        e.Row.Cells(2).Visible = True
-        e.Row.Cells(3).Visible = True
-
-        If lblUMActual.Text = "Presupuesto" Then
-            e.Row.Cells(13).Visible = False
-            e.Row.Cells(14).Visible = False
-            e.Row.Cells(15).Visible = False
-            e.Row.Cells(16).Visible = False
-            e.Row.Cells(17).Visible = False
-            e.Row.Cells(18).Visible = False
-            e.Row.Cells(19).Visible = False
-            e.Row.Cells(20).Visible = False
-            e.Row.Cells(21).Visible = False
-
-
-
-        Else
-
-
-            e.Row.Cells(4).Visible = False
-            e.Row.Cells(5).Visible = False
-            e.Row.Cells(6).Visible = False
-            e.Row.Cells(7).Visible = False
-            e.Row.Cells(8).Visible = False
-            e.Row.Cells(9).Visible = False
-            e.Row.Cells(10).Visible = False
-            e.Row.Cells(11).Visible = False
-            e.Row.Cells(12).Visible = False
-
-        End If
-
-
-    End Sub
-
-
-    Protected Sub dtgActas_RowCreated(sender As Object, e As GridViewRowEventArgs) Handles dtgActas.RowCreated
-
-
-
-        If lblUMActual.Text = "Presupuesto" Then
-            e.Row.Cells(6).Visible = False
-            e.Row.Cells(7).Visible = False
-        Else
-            e.Row.Cells(4).Visible = False
-            e.Row.Cells(5).Visible = False
-        End If
-
-
-    End Sub
-#End Region
 End Class

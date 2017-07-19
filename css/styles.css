@@ -219,3 +219,63 @@
 	color: #000;
 	
 	}
+
+/***----------------------------------------*/
+.testgrid4 th 
+    {
+        border:0px;
+	background: #ff9a17;
+	background-position: 5px;
+	padding: 5px 5px;
+	text-align:center;
+	font-family: "Arial Narrow", Arial;
+    border-bottom: 1px solid #800000;
+	color:#fff;
+    font-size: 10px;
+    line-height: 11.4px;
+	 }
+.testgrid4
+	{
+	text-align:center;
+	width: 100%;
+	
+	}
+.testgrid4 tr {	background: #ffffff; }
+
+.testgrid4 th 
+    {
+        border:10px;
+	background: #ff9a17;
+	background-position: 5px;
+	padding: 5px 5px;
+	text-align:center;
+	font-family: "Arial Narrow", Arial;
+    border: 0.1px solid #fff;
+	color:#fff;
+    font-size: 10px;
+    line-height: 11.4px;
+	 }
+.testgrid4 td 
+    {
+	
+	
+	
+	
+	font-family: Arial, Helvetica, sans-serif;
+	color: #000000;
+	
+    font-size:small;
+	white-space: nowrap;
+	
+    font-family: "Arial Narrow", Arial;
+	font-size: 11px;
+	font-style: normal;
+    font-weight:bold;
+	font-variant: normal;
+	 border: 0.1px solid #000;
+	line-height: 13.6px;
+	
+	
+    padding-left:10px;
+    padding-right:10px;
+	}

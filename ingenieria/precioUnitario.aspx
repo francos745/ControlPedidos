@@ -1,4 +1,5 @@
-﻿<%@ Page culture="es-MX" UICulture="es-MX"  Language="VB" AutoEventWireup="false" EnableEventValidation = "false" CodeFile="precioUnitario.aspx.vb" Inherits="ingenieria_precioUnitario" %>
+﻿<%@ Page Language="VB" AutoEventWireup="false" CodeFile="precioUnitario.aspx.vb" Inherits="ingenieria_precioUnitario" %>
+
 
 <!DOCTYPE html>
 
@@ -12,6 +13,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
     
     
+    
     <link href="../css/dataTables.bootstrap.min.css" rel="stylesheet" />
     <link href="../css/responsive.bootstrap.min.css" rel="stylesheet" />
 
@@ -21,166 +23,29 @@
     <link href="../css/Estilos.css" rel="stylesheet" />
     <!-- Include Date Range Picker -->
     <link href="../css/daterangepicker.css" rel="stylesheet"  />
-    
+    <link href="../css/select2.min.css" rel="stylesheet" /> 
+   <!-- botones de exportacion a excel en tablas -->
+    <link href="../css/buttons.dataTables.min.css" rel="stylesheet" /> 
+
     <script src="../js/jquery.min.js"></script>
     <script src="../js/bootstrap.min.js"></script>
     <script src="../js/jquery.dataTables.min.js"></script> 
-    <script src="../js/jquery.sumoselect.js"></script>
+    <script src="../js/select2.full.js"></script>
     <script src="../js/dataTables.bootstrap.min.js"></script>
     <script src="../js/moment.min.js"></script>
     <!-- Include Date Range Picker -->
     <script src="../js/daterangepicker.js"></script>
+    <!-- botones de exportacion a excel en tablas -->
+    <script src="../js/dataTables.buttons.min.js"></script>
+     <script src="../js/jszip.min.js"></script>    
+     <script src="../js/buttons.html5.min.js"></script>
+   
     
     
-    <script type="text/javascript">
-        function pageLoad(sender, args) {
-            window.asd = $('.SlectBox').SumoSelect({ csvDispCount: 6 });
-            window.test = $('.testsel').SumoSelect({okCancelInMulti:true });
-            window.testSelAll = $('.testSelAll').SumoSelect({okCancelInMulti:true, selectAll:true });
-            window.testSelAlld = $('.SlectBox-grp').SumoSelect({okCancelInMulti:true, selectAll:true });
+    
 
-            window.testSelAll2 = $('.testSelAll2').SumoSelect({selectAll:true });
-           
-
-            window.Search = $('.search-box').SumoSelect({ csvDispCount: 3, search: true, searchText:'Ingrese aquí.' });
-            window.searchSelAll = $('.search-box-sel-all').SumoSelect({ csvDispCount: 3, selectAll:true, search: true, searchText:'Ingrese aquí.', okCancelInMulti:true });
-            window.searchSelAll = $('.search-box-open-up').SumoSelect({ csvDispCount: 3, selectAll:true, search: true, searchText:'Ingrese aquí.', up:true });
-
-            window.groups_eg_g = $('.groups_eg_g').SumoSelect({selectAll:true, search:true });
-       
-
-            $('input[name="txtFecha"]').daterangepicker(
-      {
-          locale: {
-              format: 'DD-MM-YYYY'
-          },
-          showDropdowns: true,
-          singleDatePicker: true
-
-      }
-
-      );
-
-
-            $(document).ready(function () {
-                $('#dtgActividades').dataTable({
-                    "lengthMenu": [[5, 10, 15, -1], [5, 10, 15, "Todos"]],
-                    "responsive": true,
-                    "stateSave": true,
-                    "paging": true,
-                    "ordering": true,
-                    "info": true,
-
-                    "language": {
-                        "emptyTable": "Sin información disponible",
-                        "info": "Mostrando _START_ a _END_ de _TOTAL_ registros",
-                        "infoEmpty": "Mostrando 0 to 0 de 0 registros",
-                        "infoFiltered": "(filtered from _MAX_ total entries)",
-                        "lengthMenu": "Mostrar _MENU_ registros",
-                        "loadingRecords": "Cargando...",
-                        "processing": "Procesando...",
-                        "search": "Buscar:",
-                        "zeroRecords": "No se encontraron registros",
-                        "paginate": {
-                            "first": "Primera",
-                            "last": "Última",
-                            "next": "Siguiente",
-                            "previous": "Anterior"
-                        },
-                    }
-                });
-            });
-
-            $(document).ready(function () {
-                $('#dtgDetalleAct').dataTable({
-                    "lengthMenu": [[5, 10, 15, -1], [5, 10, 15, "Todos"]],
-                    "responsive": true,
-                    "stateSave": true,
-                    "paging": true,
-                    "ordering": true,
-                    "info": true,
-
-                    "language": {
-                        "emptyTable": "Sin información disponible",
-                        "info": "Mostrando _START_ a _END_ de _TOTAL_ registros",
-                        "infoEmpty": "Mostrando 0 to 0 de 0 registros",
-                        "infoFiltered": "(filtered from _MAX_ total entries)",
-                        "lengthMenu": "Mostrar _MENU_ registros",
-                        "loadingRecords": "Cargando...",
-                        "processing": "Procesando...",
-                        "search": "Buscar:",
-                        "zeroRecords": "No se encontraron registros",
-                        "paginate": {
-                            "first": "Primera",
-                            "last": "Última",
-                            "next": "Siguiente",
-                            "previous": "Anterior"
-                        },
-                    }
-                });
-            });
-
-            $(document).ready(function () {
-                $('#dtgSolicitud').dataTable({
-                    "lengthMenu": [[5, 10, 15, -1], [5, 10, 15, "Todos"]],
-                    "responsive": true,
-                    "stateSave": true,
-                    "paging": true,
-                    "ordering": true,
-                    "info": true,
-
-                    "language": {
-                        "emptyTable": "Sin información disponible",
-                        "info": "Mostrando _START_ a _END_ de _TOTAL_ registros",
-                        "infoEmpty": "Mostrando 0 to 0 de 0 registros",
-                        "infoFiltered": "(filtered from _MAX_ total entries)",
-                        "lengthMenu": "Mostrar _MENU_ registros",
-                        "loadingRecords": "Cargando...",
-                        "processing": "Procesando...",
-                        "search": "Buscar:",
-                        "zeroRecords": "No se encontraron registros",
-                        "paginate": {
-                            "first": "Primera",
-                            "last": "Última",
-                            "next": "Siguiente",
-                            "previous": "Anterior"
-                        },
-                    }
-                });
-            });
-
-            $(document).ready(function () {
-                $('#dtgActas').dataTable({
-                    "lengthMenu": [[5, 10, 15, -1], [5, 10, 15, "Todos"]],
-                    "responsive": true,
-                    "stateSave": true,
-                    "paging": true,
-                    "ordering": true,
-                    "info": true,
-
-                    "language": {
-                        "emptyTable": "Sin información disponible",
-                        "info": "Mostrando _START_ a _END_ de _TOTAL_ registros",
-                        "infoEmpty": "Mostrando 0 to 0 de 0 registros",
-                        "infoFiltered": "(filtered from _MAX_ total entries)",
-                        "lengthMenu": "Mostrar _MENU_ registros",
-                        "loadingRecords": "Cargando...",
-                        "processing": "Procesando...",
-                        "search": "Buscar:",
-                        "zeroRecords": "No se encontraron registros",
-                        "paginate": {
-                            "first": "Primera",
-                            "last": "Última",
-                            "next": "Siguiente",
-                            "previous": "Anterior"
-                        },
-                    }
-                });
-            });
-
-
-        }
-    </script>
+    
+   
 
     <style type="text/css">
         body{font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;color:#444;font-size:13px;}
@@ -242,7 +107,19 @@
         }
     </style>
 
-   
+    <script type="text/javascript">
+        function MostrarLabel() {
+            setTimeout("OcultarLabel()", 3000);
+            var msj = document.getElementById("lblMensajeSS");
+            msj.style.visibility = "visible";
+            }
+
+        function OcultarLabel() {
+            var msj = document.getElementById("lblMensajeSS");
+            msj.style.visibility = "hidden";
+            }
+    </script>
+
 </head>
 
 
@@ -251,23 +128,48 @@
     <div class="container-fluid text-center">
         <form class="form-horizontal" role="form" runat="server">
 
+
+
+    <nav class="navbar navbar-default" style="background-color: #fff;" role="navigation">
+    <!-- El logotipo y el icono que despliega el menú se agrupan
+       para mostrarlos mejor en los dispositivos móviles -->
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+              <span class="sr-only">Desplegar navegación</span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+            </button>
+      
            
-            
-
-
-
-    
-    
+            <a class="navbar-brand" href="#"><strong>PRESUPUESTO DE MATERIALES</strong></a>
+        </div>
  
-        
-                                     <div class="navbar-right">
-                        <asp:Button ID="btnCuadroCom" runat="server" Text="Generar Excel Desglose" CssClass="btn btn-default btn-md" />             
-                   </div>
-                </br>
-            </br>
-                
+  <!-- Agrupar los enlaces de navegación, los formularios y cualquier
+       otro elemento que se pueda ocultar al minimizar la barra -->
+        <div class="collapse navbar-collapse navbar-ex1-collapse">
+            <!-- <ul class="nav navbar-nav">
+                <li class="active"><a href="#">Solicitudes <br/>Aprobadas</a></li>
+                <li><a href="#">Solicitudes<br/> Cursadas</a></li>
+                <li class="active"><a href="#">Materiales<br/> Rechazados</a></li>
+                <li><a href="#">Presupuesto</a></li>
+                <li class="active"><a href="#">Cambiar<br/> Contraseña</a></li>
+            </ul>-->
             
-            <asp:UpdatePanel ID="UpdatePanel1" runat="server">
+           <ul class="nav navbar-nav navbar-right">
+                <li class="active"><a href="#"><strong>Cantidad: <br /><asp:Label ID="lblCantidad" runat="server" Text="" Font-Size="Small"></asp:Label></strong></a></li>
+                <li><a href="#"><strong>Unidad de Medida: <br /><asp:Label ID="lblUm" runat="server" Text="" Font-Size="Small"></asp:Label></strong></a></li>
+                
+                <li class="active" ><a href="#"><strong>Usuario: <br /><asp:Label ID="lblUsuario" runat="server" Text="" Font-Size="Small"  ></asp:Label></strong></a></li>
+                <li class="" style="display:none;"><a href="#">
+                    <asp:Button ID="btnCerrarSesion" runat="server" Text="Cerrar Sesión" CssClass="btn btn-vitalicia btn-xs"/></a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+
+                <asp:UpdatePanel ID="UpdatePanel1" runat="server">
                 <ContentTemplate>
 
                  <asp:ScriptManager ID="ScriptManager1" runat="server">
@@ -281,58 +183,18 @@
                     </div>
                 </ProgressTemplate>
             </asp:UpdateProgress>
-    
-
-    <nav class="navbar navbar-default" style="background-color: transparent;" role="navigation">
-    <!-- El logotipo y el icono que despliega el menú se agrupan
-       para mostrarlos mejor en los dispositivos móviles -->
-        <div class="navbar-header">
-            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
-              <span class="sr-only">Desplegar navegación</span>
-              <span class="icon-bar"></span>
-              <span class="icon-bar"></span>
-              <span class="icon-bar"></span>
-            </button>
-            
-            <a class="navbar-brand" href="#"><strong>ANÁLISIS DE PRECIO UNITARIO</strong></a>
-        </div>
-         <div class="collapse navbar-collapse navbar-ex1-collapse">
-            <!-- <ul class="nav navbar-nav">
-                <li class="active"><a href="#">Solicitudes <br/>Aprobadas</a></li>
-                <li><a href="#">Solicitudes<br/> Cursadas</a></li>
-                <li class="active"><a href="#">Materiales<br/> Rechazados</a></li>
-                <li><a href="#">Presupuesto</a></li>
-                <li class="active"><a href="#">Cambiar<br/> Contraseña</a></li>
-            </ul>-->
-            
-            <ul class="nav navbar-nav navbar-right">
-                <li class="active"><a href="#"><strong>Cantidad: <br /><asp:Label ID="lblCantidad" runat="server" Text="" Font-Size="Small"></asp:Label></strong></a></li>
-                <li><a href="#"><strong>Unidad de Medida: <br /><asp:Label ID="lblUm" runat="server" Text="" Font-Size="Small"></asp:Label></strong></a></li>
-                <li class="dropdown"  style="display:none;">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                      Unidad de Medida <b class="caret"></b> <br />
-                    Actual:<strong> <asp:Label ID="lblUMActual" runat="server" Text="Presupuesto"></asp:Label></strong>
-                    </a>
-                    <ul class="dropdown-menu">
-                        
-                        <li><a href="#">
-                            <asp:Button ID="btnPresupuesto" runat="server" Text="Presupuesto" CssClass="btn btn-default btn-md" /></a></li>
-                        <li><a href="#"><asp:Button ID="btnAlmacenes" runat="server" Text="&nbsp;&nbsp;&nbsp;Almacén&nbsp;&nbsp;&nbsp;" CssClass="btn btn-default btn-md" /></a></li>
-                    </ul>
-                </li>
-                <li class="active" ><a href="#"><strong>Usuario: <br /><asp:Label ID="lblUsuario" runat="server" Text="" Font-Size="Small"  ></asp:Label></strong></a></li>
-                <li class="" style="display:none;"><a href="#">
-                    <asp:Button ID="btnCerrarSesion" runat="server" Text="Cerrar Sesión" CssClass="btn btn-vitalicia btn-xs"/></a>
-                </li>
-            </ul>
-        </div>
-    </nav>
-
-
 
              <!---------------INICIO TITULOS----------------------->
+
+                     <div class="modals" id="carga" style="display:none;">
+                        <div class="centers">
+                            <img alt="" src="../img/ajax_loader.gif" />
+                        </div>
+                    </div>
     <div id="contTitulos" runat="server">
         <div class="text-center" >
+                
+				
                 <h4 class="text-center"><asp:Label ID="lblCodigoProyecto" style="display:none;" runat="server" Text="Label"></asp:Label></h4>
                 <div class="container">
                     <div class="row">
@@ -343,24 +205,26 @@
                             <div class="control-group">
                                 <label for="nueva" class="control-label"> Proyecto: </label>
                                 <div class="controls" style="text-align:left;">
-                                    <asp:DropDownList ID="cmbProyecto" runat="server" class="search-box" AutoPostBack="true" placeholder="No hay elementos disponibles" ></asp:DropDownList>
+                                    <asp:DropDownList ID="cmbProyecto" runat="server" class="mySelect" Width="100%"></asp:DropDownList>
                                 
                                 </div>
                             </div>
+                            
+                            
+                        </div>
+                         <div class="col-sm-4" >
+                            <div class="control-group">
+                                <label for="nueva" class="control-label"> Actividad: </label>
+                                <div class="controls" style="text-align:left;">
+                                    <asp:DropDownList ID="cmbActividad" runat="server" class="mySelect" Width="100%"></asp:DropDownList>
+                                
+                                </div>
+                            </div>
+                            
                             
                         </div>
 
                         <div class="col-sm-4" >
-                            <div class="control-group">
-                                <label for="nueva" class="control-label"> Actividad: </label>
-                                <div class="controls" style="text-align:left;">
-                                    <asp:DropDownList ID="cmbActividad" runat="server" class="search-box" AutoPostBack="true" placeholder="No hay elementos disponibles" ></asp:DropDownList>
-                                
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-sm-2" >
-                            
                         </div>
                     </div>
 
@@ -389,10 +253,10 @@
                         <div class="col-sm-6" style="display:none;" >
                             <div class="btn-group btn-group-justified" role="group" aria-label="...">
                                 <div class="btn-group" role="group">
-                                    <input id="btnGenerarExcel" type="button" value="Generar Excel" data-target="#modalConfirmarAprobar" class="btn btn-vitalicia btn-xs"  runat="server" data-toggle="modal" data-backdrop="static" />
+                                    <input id="btnGenerarExcel" type="button" value="Generar Excel" data-target="#modalConfirmarAprobar" class="btn btn-vitalicia btn-md"  runat="server" data-toggle="modal" data-backdrop="static" />
                                 </div>                        
                                 <div class="btn-group" role="group">
-                                    <input id="btnSolicitud" type="button" value="Solicitud" data-target="#modalConfirmarRechazar" class="btn btn-default btn-md"  runat="server" data-toggle="modal" data-backdrop="static" />
+                                    <input id="btnSolicitud" type="button" value="Ver Solicitud" data-target="#modalConfirmarRechazar" class="btn btn-default btn-md"  runat="server" data-toggle="modal" data-backdrop="static" />
                                 </div>
                                 
                             </div>
@@ -424,326 +288,140 @@
              <!---------------FIN TITULOS----------------------->
 
 
+        
+ 
+   
+    <br/>
+    
     <div class="row">
         <div class="col-sm-12">
-            <h4><span class="label alert-info" id="lblDocsFarS" runat="server"><strong><asp:Label ID="lblDetalleAct" runat="server" Text=""></asp:Label></strong></span></h4>
+            
             
             <div class="table-responsive" >
-                <div class="testgrid1">
-                     
-                <div id="contDtgActividades" style="" runat="server">
-                <asp:GridView ID="dtgActividades" runat="server" 
-                        AutoGenerateColumns="False" DataKeyNames="MATERIAL" 
-                        DataSourceID="Actividades" CssClass="testgrid1" selectedindex="1"
-                        EnableModelValidation="True" Width="100%" Visible="true">
-                    <Columns>
-                        <asp:CommandField ButtonType="link" SelectText =" Desglose" ShowSelectButton="True" ControlStyle-CssClass="buttonControl"  >
-                             <ControlStyle CssClass="label label-warning" />
-                        </asp:CommandField>
-                                              
-                        
-                       <asp:BoundField DataField="MATERIAL" HeaderText="MATERIAL" ReadOnly="True" Visible="true" SortExpression="ID" />
-
-                        <asp:BoundField DataField="NOM_MATERIAL" HeaderText="MATERIAL" ReadOnly="True" SortExpression="ART" />
-
-                        <asp:BoundField DataField="UM_P" HeaderText="UNIDAD MEDIDA" ReadOnly="True" SortExpression="UMP" />
-                        
-                        <asp:BoundField DataField="RENDIMIENTO_P" HeaderText="RENDIMIENTO" ReadOnly="True" SortExpression="SOL" DataFormatString="{0:N}" />
-                        
-                        <asp:BoundField DataField="CANT_SOL_P" HeaderText="CANTIDAD SOLICITADA"  SortExpression="SOL" ReadOnly="True" DataFormatString="{0:N}" />
-                        
-                        <asp:BoundField DataField="CANT_PRESUP_P" HeaderText="CANTIDAD PRESUPUESTADA" ReadOnly="True" SortExpression="SOL" DataFormatString="{0:N}" />
-
-                        <asp:BoundField DataField="CANT_ACTAS_P" HeaderText="CANTIDAD ACTAS" ReadOnly="True" SortExpression="SOL" DataFormatString="{0:N}" />
-
-                         <asp:BoundField DataField="CANT_PRESUP_ACTAS_P" HeaderText="CANTIDAD PRESUPUESTADA + ACTAS" ReadOnly="True" SortExpression="SOL" DataFormatString="{0:N}" />
-                        
-                        <asp:BoundField DataField="CANT_DEV_P" HeaderText="CANTIDAD DEVUELTA" ReadOnly="True" SortExpression="SOL" DataFormatString="{0:N}" />
-
-                        <asp:BoundField DataField="CANT_SOL_APROB_P" HeaderText="CANTIDAD EJECUTADA" ReadOnly="True" SortExpression="SOL" DataFormatString="{0:N}" />
-
-                        <asp:BoundField DataField="CANT_APROB_ACTAS_P" HeaderText="CANTIDAD EJECUTADA EN ACTAS" ReadOnly="True" SortExpression="SOL" DataFormatString="{0:N}" />
-
-                        <asp:BoundField DataField="CANT_DISP_P" HeaderText="CANTIDAD DISPONIBLE" ReadOnly="True" SortExpression="SOL" DataFormatString="{0:N}" ItemStyle-HorizontalAlign="Left" />
+                <div class="testgrid4">                     
+                    <div id="contDtgMateriales" style="" runat="server">
+                        <table id="dtgMateriales" class="testgrid4" cellspacing="0" width="100%">
+                            <thead>
+                                <tr>
+                                    <th>ACCIONES</th>
+                                    <th>MATERIAL</th>
+                                    <th>MATERIAL</th>
+                                    <th>UNIDAD MEDIDA</th>
+                                    <th>RENDIMIENTO</th>
+                                    <th>CANTIDAD SOLICITADA</th>
+                                    <th>CANTIDAD PRESUPUESTADA</th>
+                                    <th>CANTIDAD ACTAS</th>
+                                    <th>CANTIDAD PRESUPUESTADA MAS ACTAS</th>
+                                    <th>CANTIDAD DEVUELTA</th>
+                                    <th>CANTIDAD EJECUTADA</th>
+                                    <th>CANTIDAD DISPONIBLE CON ACTAS</th>
+                                    <th>CANTIDAD DISPONIBLE</th>
 
 
-
-                        <asp:BoundField DataField="UM_A" HeaderText="UNIDAD MEDIDA" ReadOnly="True" SortExpression="UMP" />
-                        
-                        <asp:BoundField DataField="RENDIMIENTO_A" HeaderText="RENDIMIENTO" ReadOnly="True" SortExpression="SOL" DataFormatString="{0:N}" />
-                        
-                        <asp:BoundField DataField="CANT_SOL_A" HeaderText="CANTIDAD SOLICITADA"  SortExpression="SOL" ReadOnly="True" DataFormatString="{0:N}" />
-                        
-                        <asp:BoundField DataField="CANT_PRESUP_A" HeaderText="CANTIDAD PRESUPUESTADA" ReadOnly="True" SortExpression="SOL" DataFormatString="{0:N}" />
-
-                        <asp:BoundField DataField="CANT_ACTAS_A" HeaderText="CANTIDAD ACTAS" ReadOnly="True" SortExpression="SOL" DataFormatString="{0:N}" />
-
-                        
-                         <asp:BoundField DataField="CANT_PRESUP_ACTAS_A" HeaderText="CANTIDAD PRESUPUESTADA + ACTAS" ReadOnly="True" SortExpression="SOL" DataFormatString="{0:N}" />
-                        
-                        
-                        <asp:BoundField DataField="CANT_DEV_A" HeaderText="CANTIDAD DEVUELTA" ReadOnly="True" SortExpression="SOL" DataFormatString="{0:N}" />
-
-                        <asp:BoundField DataField="CANT_SOL_APROB_A" HeaderText="CANTIDAD EJECUTADA" ReadOnly="True" SortExpression="SOL" DataFormatString="{0:N}" />
-
-                        <asp:BoundField DataField="CANT_APROB_ACTAS_A" HeaderText="CANTIDAD EJECUTADA EN ACTAS" ReadOnly="True" SortExpression="SOL" DataFormatString="{0:N}" />
-
-                        <asp:BoundField DataField="CANT_DISP_A" HeaderText="CANTIDAD DISPONIBLE" ReadOnly="True" SortExpression="SOL" DataFormatString="{0:N}" ItemStyle-HorizontalAlign="Left" />
-                        
-                       </Columns>
-                </asp:GridView>
-                </div>
-                
-                    <asp:SqlDataSource ID="Actividades" runat="server" ProviderName="System.Data.SqlClient" >
-                         <SelectParameters>
-                            <asp:ControlParameter ControlID="cmbActividad" DefaultValue="ninguno" Name="CODIGO_ACTIVIDAD" PropertyName="selectedValue" Type="String" />
-                        </SelectParameters>
-                    </asp:SqlDataSource>
-                </div>
-            </div>
-            
-        </div>
-        <div class="col-sm-12">            
-            <h4><span class="label alert-info" id="Span1" runat="server"><strong><asp:Label ID="lblActividadDetalle" runat="server" Text=""></asp:Label></strong></span></h4>
-            
-            <div style="display:none;"><asp:Label ID="lblActividad" runat="server" Text="" ></asp:Label></div>
-            
-            <div class="table-responsive" >
-                <div class="testgrid1">
-                     
-                <div id="contDtgDetalleAct" style="" runat="server">
-                <asp:GridView ID="dtgDetalleAct" runat="server" 
-                        AutoGenerateColumns="False" DataKeyNames="MATERIAL" 
-                        DataSourceID="detalleActividad" CssClass="testgrid1" selectedindex="1"
-                        EnableModelValidation="True" Width="100%" Visible="true">
-                    <Columns>
-                        <asp:CommandField ButtonType="Link" SelectText ="Detalle" ShowSelectButton="True" ControlStyle-CssClass="buttonControl"  >
-                            <ControlStyle CssClass="label label-warning" />
-                           
-                        </asp:CommandField>
-                        
-                        <asp:BoundField DataField="NOM_MATERIAL" HeaderText="MATERIAL" ReadOnly="True" SortExpression="ART" />
-
-                        <asp:BoundField DataField="UM_P" HeaderText="UNIDAD MEDIDA" ReadOnly="True" SortExpression="UMP" />
-
-                        <asp:BoundField DataField="CODIGO_SOLICITUD" HeaderText="CODIGO SOLICITUD" ReadOnly="True" SortExpression="UMP" />
-                        
-                        <asp:BoundField DataField="CANT_SOL_APROB_P" HeaderText="CANTIDAD EJECUTADA" ReadOnly="True" SortExpression="SOL" DataFormatString="{0:N}" />
-
-                        <asp:BoundField DataField="CANT_APROB_ACTAS_P" HeaderText="CANTIDAD EJECUTADA EN ACTAS" ReadOnly="True" SortExpression="SOL" DataFormatString="{0:N}" />
-
-                        <asp:BoundField DataField="COD_APROB_ACTAS" HeaderText="CODIGO ACTA ASIGNADA" ReadOnly="True" SortExpression="SOL" DataFormatString="{0:N}" />
-
-                        <asp:BoundField DataField="CANT_SOL_PEND_P" HeaderText="CANTIDAD CURSADAS" ReadOnly="True" SortExpression="SOL" DataFormatString="{0:N}" />
-
-                        <asp:BoundField DataField="CANT_SOL_RECH_P" HeaderText="CANTIDAD RECHAZADAS" ReadOnly="True" SortExpression="SOL" DataFormatString="{0:N}" />
-
-                        <asp:BoundField DataField="CANT_DISP_P" HeaderText="CANTIDAD DISPONIBLE" ReadOnly="True" SortExpression="SOL" DataFormatString="{0:N}" />
-
-                        <asp:BoundField DataField="FECHA_APROBACION" HeaderText="FECHA APROBACION INGENIERIA" ReadOnly="True" SortExpression="SOL" />
-
-
-                        <asp:BoundField DataField="UM_A" HeaderText="UNIDAD MEDIDA" ReadOnly="True" SortExpression="UMP" />
-
-                        <asp:BoundField DataField="CODIGO_SOLICITUD" HeaderText="CODIGO SOLICITUD" ReadOnly="True" SortExpression="UMP" />
-                        
-                        <asp:BoundField DataField="CANT_SOL_APROB_A" HeaderText="CANTIDAD EJECUTADA" ReadOnly="True" SortExpression="SOL" DataFormatString="{0:N}" />
-
-                        <asp:BoundField DataField="CANT_APROB_ACTAS_A" HeaderText="CANTIDAD EJECUTADA EN ACTAS" ReadOnly="True" SortExpression="SOL" DataFormatString="{0:N}" />
-
-                        <asp:BoundField DataField="CANT_SOL_PEND_A" HeaderText="CANTIDAD CURSADAS" ReadOnly="True" SortExpression="SOL" DataFormatString="{0:N}" />
-
-                        <asp:BoundField DataField="CANT_SOL_RECH_A" HeaderText="CANTIDAD RECHAZADAS" ReadOnly="True" SortExpression="SOL" DataFormatString="{0:N}" />
-
-                        <asp:BoundField DataField="CANT_DISP_A" HeaderText="CANTIDAD DISPONIBLE" ReadOnly="True" SortExpression="SOL" DataFormatString="{0:N}" />
-
-                        <asp:BoundField DataField="FECHA_APROBACION" HeaderText="FECHA APROBACION INGENIERIA" ReadOnly="True" SortExpression="SOL" />
-                                                
-                       </Columns>
-                </asp:GridView>
-
-                                        <asp:Panel ID="Panel1" style="display:none;" runat="server">
-
-                        <table style="width: 100%">
-                            <tr>
-                                <td style="background-color: white; border: 1px solid black" align="center">
-                                    <asp:Label ID="lblTitulo" runat="server" Text="texto de prueba" Style="font-weight: bold;
-                                        color: black;"></asp:Label>
-                                </td>
-                            </tr>
+                                   
+                                </tr>
+                            </thead>
                         </table>
-                        <br />
-                 <div id="Div3"  runat="server">
-                <asp:GridView ID="dtgDetalleAct2" runat="server" 
-                        AutoGenerateColumns="False" DataKeyNames="NOM_MATERIAL" 
-                        DataSourceID="detalleActividad" CssClass="testgrid1" selectedindex="1"
-                        EnableModelValidation="True" Width="100%" Visible="true">
-                    <Columns>
-                       
-                        
-                        <asp:BoundField DataField="NOM_MATERIAL" HeaderText="MATERIAL" ReadOnly="True" SortExpression="ART" />
-
-                        <asp:BoundField DataField="UM_P" HeaderText="UNIDAD MEDIDA" ReadOnly="True" SortExpression="UMP" />
-
-                        <asp:BoundField DataField="CODIGO_SOLICITUD" HeaderText="CODIGO SOLICITUD" ReadOnly="True" SortExpression="UMP" />
-                        
-                        <asp:BoundField DataField="CANT_SOL_APROB_P" HeaderText="CANTIDAD EJECUTADA" ReadOnly="True" SortExpression="SOL" DataFormatString="{0:N}" />
-
-                        <asp:BoundField DataField="CANT_APROB_ACTAS_P" HeaderText="CANTIDAD EJECUTADA EN ACTAS" ReadOnly="True" SortExpression="SOL" DataFormatString="{0:N}" />
-
-                        <asp:BoundField DataField="CANT_SOL_PEND_P" HeaderText="CANTIDAD SOLICITADA" ReadOnly="True" SortExpression="SOL" DataFormatString="{0:N}" />
-
-                        <asp:BoundField DataField="CANT_SOL_RECH_P" HeaderText="CANTIDAD RECHAZADA" ReadOnly="True" SortExpression="SOL" DataFormatString="{0:N}" />
-
-                        <asp:BoundField DataField="CANT_DISP_P" HeaderText="CANTIDAD DISPONIBLE" ReadOnly="True" SortExpression="SOL" DataFormatString="{0:N}" />
-
-                        <asp:BoundField DataField="FECHA_APROBACION" HeaderText="FECHA APROBACIÓN INGENIERIA" ReadOnly="True" SortExpression="SOL" />
-                        
-                                                                      
-                       </Columns>
-                </asp:GridView>
-                </div>
-                        </asp:Panel>         
-                    <asp:SqlDataSource ID="detalleActividad" runat="server" ProviderName="System.Data.SqlClient" >
-                         <SelectParameters>
-                            <asp:ControlParameter ControlID="lblActividad" DefaultValue="ninguno" Name="DETALLE_ACTIVIDAD" PropertyName="text" Type="String" />
-                        </SelectParameters>
-                    </asp:SqlDataSource>
-                </div>
-            </div>
-           
-        </div>    
-        <div class="col-sm-12">            
-            <h4><span class="label alert-info" id="Span2" runat="server"><strong><asp:Label ID="lblSolicitudDesc" runat="server" Text=""></asp:Label></strong></span></h4>
-            
-            <div style="display:none;"><asp:Label ID="lblCodSolicitud" runat="server" Text=""></asp:Label></div>
-            
-            <div class="table-responsive" >
-                <div class="testgrid1">
-                     
-                <div id="contDtgSolicitud" style="" runat="server">
-                <asp:GridView ID="dtgSolicitud" runat="server" 
-                        AutoGenerateColumns="False" DataKeyNames="MATERIAL" 
-                        DataSourceID="detalleSolicitudes" CssClass="testgrid1" selectedindex="1"
-                        EnableModelValidation="True" Width="100%" Visible="true">
-                    <Columns>
-                        
-                        
-                        <asp:BoundField DataField="NUMERO" HeaderText="NO." ReadOnly="True" Visible="True" SortExpression="ID" />
-
-                        <asp:BoundField DataField="NOM_ACTIVIDAD" HeaderText="ACTIVIDAD" ReadOnly="True" SortExpression="ACT" />
-
-                        <asp:BoundField DataField="NOM_MATERIAL" HeaderText="MATERIAL" ReadOnly="True" SortExpression="ART" />
-
-                        <asp:BoundField DataField="NOM_ARTICULO" HeaderText="ARTÍCULO" ReadOnly="True" SortExpression="ART" />
-
-
-                        <asp:BoundField DataField="UM_P" HeaderText="UNIDAD MEDIDA" ReadOnly="True" SortExpression="UMP" />
-
-                        <asp:BoundField DataField="CANT_SOL_P" HeaderText="CANTIDAD SOLICITADA"  SortExpression="SOL" ReadOnly="True" DataFormatString="{0:N}" />
-
-                        <asp:BoundField DataField="CANT_PRESUP_P" HeaderText="CANTIDAD PRESUPUESTADA" ReadOnly="True" SortExpression="SOL" DataFormatString="{0:N}" />
-
-                        <asp:BoundField DataField="CANT_ACTAS_P" HeaderText="CANTIDAD ACTAS" ReadOnly="True" SortExpression="SOL" DataFormatString="{0:N}" />
-
-                        <asp:BoundField DataField="CANT_SOL_APROB_P" HeaderText="CANTIDAD EJECUTADA" ReadOnly="True" SortExpression="SOL" DataFormatString="{0:N}" />
-
-                        <asp:BoundField DataField="CANT_APROB_ACTAS_P" HeaderText="CANTIDAD EJECUTADA EN ACTAS" ReadOnly="True" SortExpression="SOL" DataFormatString="{0:N}" />
-
-                        <asp:BoundField DataField="CANT_DISP2_P" HeaderText="CANTIDAD DISPONIBLE" ReadOnly="True" SortExpression="SOL" DataFormatString="{0:N}" />
-
-                        <asp:BoundField DataField="CANT_SOL_PEND_P" HeaderText="ANTERIORES SIN APROBAR" ReadOnly="True" SortExpression="SOL" DataFormatString="{0:N}" />
-
-                         <asp:BoundField DataField="PRESUPUESTADO_ACT" HeaderText="ACT PRESUP" ReadOnly="True" SortExpression="ART" />
-
-                         <asp:BoundField DataField="PRESUPUESTADO" HeaderText="MAT PRESUP" ReadOnly="True" SortExpression="ART" />
-
-                        <asp:BoundField DataField="ESTADO_LIN" HeaderText="ESTADO LINEA" ReadOnly="True" SortExpression="ART"  Visible="true" />
-
-
-                        <asp:BoundField DataField="UM_A" HeaderText="UNIDAD MEDIDA" ReadOnly="True" SortExpression="UMP" />
-
-                        <asp:BoundField DataField="CANT_SOL_A" HeaderText="CANTIDAD SOLICITADA"  SortExpression="SOL" ReadOnly="True" DataFormatString="{0:N}" />
-
-                        <asp:BoundField DataField="CANT_PRESUP_A" HeaderText="CANTIDAD PRESUPUESTADA" ReadOnly="True" SortExpression="SOL" DataFormatString="{0:N}" />
-
-                        <asp:BoundField DataField="CANT_ACTAS_A" HeaderText="CANTIDAD ACTAS" ReadOnly="True" SortExpression="SOL" DataFormatString="{0:N}" />
-
-                        <asp:BoundField DataField="CANT_SOL_APROB_A" HeaderText="CANTIDAD EJECUTADA" ReadOnly="True" SortExpression="SOL" DataFormatString="{0:N}" />
-
-                        <asp:BoundField DataField="CANT_APROB_ACTAS_A" HeaderText="CANTIDAD EJECUTADA EN ACTAS" ReadOnly="True" SortExpression="SOL" DataFormatString="{0:N}" />
-
-                        <asp:BoundField DataField="CANT_DISP2_A" HeaderText="CANTIDAD DISPONIBLE" ReadOnly="True" SortExpression="SOL" DataFormatString="{0:N}" />
-
-                        <asp:BoundField DataField="CANT_SOL_PEND_A" HeaderText="ANTERIORES SIN APROBAR" ReadOnly="True" SortExpression="SOL" DataFormatString="{0:N}" />
-
-                         <asp:BoundField DataField="PRESUPUESTADO_ACT" HeaderText="ACT PRESUP" ReadOnly="True" SortExpression="ART" />
-
-                         <asp:BoundField DataField="PRESUPUESTADO" HeaderText="MAT PRESUP" ReadOnly="True" SortExpression="ART" />
-
-                        <asp:BoundField DataField="ESTADO_LIN" HeaderText="ESTADO LINEA" ReadOnly="True" SortExpression="ART"  Visible="true" />
-
-                       </Columns>
-                </asp:GridView>
-                </div>
-                
-                    <asp:SqlDataSource ID="detalleSolicitudes" runat="server" ProviderName="System.Data.SqlClient" >
-                         <SelectParameters>
-                            <asp:ControlParameter ControlID="lblCodSolicitud" DefaultValue="ninguno" Name="CODIGO_SOLICITUD" PropertyName="text" Type="String" />
-                        </SelectParameters>
-                    </asp:SqlDataSource>
+                    </div>
                 </div>
             </div>
             
         </div>
         <div class="col-sm-12">
-            <h4><span class="label alert-info" id="Span3" runat="server"><strong><asp:Label ID="lblSolicitudDesc2" runat="server" Text=""></asp:Label></strong></span></h4>
+           
+            
+           
+            <div class="table-responsive" >
+                <div class="testgrid4">                     
+                    <div id="dtgDetallesS" style="">
+                         <h4><span class="label alert-info" id="lblDetalleS" runat="server"><asp:Label ID="lblDetalle" runat="server" Text=""></asp:Label></span></h4>
+                        <table id="dtgDetalles" class="testgrid4" cellspacing="0" width="100%">
+                            <thead>
+                                <tr>
+                                    <th>ACCIONES</th>
+                                    <th>MATERIAL</th>
+                                    <th>UNIDAD MEDIDA</th>
+                                    <th>CODIGO SOLICITUD</th>
+                                    <th>CANTIDAD EJECUTADA</th>
+                                    <th>CANTIDAD EJECUTADA EN ACTAS</th>
+                                    <th>CODIGO ACTA ASIGNADA</th>
+                                    <th>CANTIDAD SOLICITADA</th>
+                                    <th>CANTIDAD RECHAZADA</th>
+                                    <th>CANTIDAD DISPONIBLE</th>
+                                    <th>FECHA APROBACIÓN INGENIERÍA</th>
+                                    
+                                </tr>
+                            </thead>
+                        </table>
+                    
+                        
+                    </div>
+                </div>
+            </div>           
+        </div>
+
+       
+        <div class="col-sm-12">
+           <h4><span class="label alert-info" id="lblSolicitudesS" runat="server"><asp:Label ID="lblSolicitudes" runat="server" Text=""></asp:Label></span></h4>
             
             <div class="table-responsive" >
-                <div class="testgrid1">
-                     
-                <div id="contDtgActas" style="" runat="server">
-                <asp:GridView ID="dtgActas" runat="server" 
-                        AutoGenerateColumns="False" DataKeyNames="NOM_MATERIAL" 
-                        DataSourceID="detallesActa" CssClass="testgrid1" selectedindex="1"
-                        EnableModelValidation="True" Width="100%" Visible="true">
-                    <Columns>
-                        
-                        
-                        <asp:BoundField DataField="COD_ACTA" HeaderText="CORRELATIVO" ReadOnly="True" Visible="False" SortExpression="ID" />
+                <div class="testgrid4">                     
+                    <div id="Div4" style="" runat="server">
+                        <table id="dtgSolicitudes" class="testgrid4" cellspacing="0" width="100%">
+                            <thead>
+                                <tr>
+                                    <th>NO.</th>
+                                    <th>ACTIVIDAD</th>
+                                    <th>MATERIAL</th>
+                                    <th>ARTÍCULO</th>
+                                    <th>UNIDAD MEDIDA</th>
+                                    <th>CANTIDAD SOLICITADA</th>
+                                    <th>CANTIDAD PRESUPUESTADA</th>
+                                    <th>CANTIDAD ACTAS</th>
+                                    <th>CANTIDAD EJECUTADA</th>
+                                    <th>CANTIDAD EJECUTADA ACTAS</th>
+                                    <th>CANTIDAD DISPONIBLE</th>
+                                    <th>ANTERIORES SIN APROBAR</th>
+                                    <th>ESTADO LINEA</th>                                 
 
-                        <asp:BoundField DataField="ACTA_ING" HeaderText="COD ACTA" ReadOnly="True" SortExpression="ART" />
-
-                        <asp:BoundField DataField="NOM_ACTIVIDAD" HeaderText="ACTIVIDAD" ReadOnly="True" SortExpression="UMP" />
-
-                        <asp:BoundField DataField="NOM_MATERIAL" HeaderText="MATERIAL" ReadOnly="True" SortExpression="UMP" />
-
-                        <asp:BoundField DataField="CANT_P" HeaderText="CANTIDAD ACTA"  SortExpression="SOL" DataFormatString="{0:N}" />
-
-                        <asp:BoundField DataField="FECHA" HeaderText="FECHA" ReadOnly="True" SortExpression="UMP" />
-
-
-                        <asp:BoundField DataField="CANT_A" HeaderText="CANTIDAD ACTA"  SortExpression="SOL" DataFormatString="{0:N}" />
-
-                        <asp:BoundField DataField="FECHA" HeaderText="FECHA" ReadOnly="True" SortExpression="UMP" />
-
-                       </Columns>
-                </asp:GridView>
+                                   
+                                    
+                                </tr>
+                            </thead>
+                        </table>
+                    </div>
                 </div>
-                <div id="contDtgActas2" style=" " runat="server">
-               
-                    <asp:SqlDataSource ID="detallesActa" runat="server" ProviderName="System.Data.SqlClient" >
-                         <SelectParameters>
-                            <asp:ControlParameter ControlID="lblCodSolicitud" DefaultValue="ninguno" Name="CODIGO_SOLICITUD" PropertyName="text" Type="String" />
-                        </SelectParameters>
-                    </asp:SqlDataSource>
+            </div>   
+        </div>
+
+        <div class="col-sm-12">
+           <h4><span class="label alert-info" id="Span1" runat="server"><asp:Label ID="lblActas" runat="server" Text=""></asp:Label></span></h4>
+           
+            <div class="table-responsive" >
+                <div class="testgrid4">                     
+                    <div id="Div5" style="" runat="server">
+                        <table id="dtgActas" class="testgrid4" cellspacing="0" width="100%">
+                            <thead>
+                                <tr>
+                                    <th>CORRELATIVO</th>
+                                    <th>CODIGO ACTA</th>
+                                    <th>ACTIVIDAD</th>
+                                    <th>MATERIAL</th>
+                                    <th>CANTIDAD ACTA</th>
+                                    <th>FECHA</th>
+                                   
+                                    
+                                </tr>
+                            </thead>
+                        </table>
+                    </div>
                 </div>
-            </div>
-            
+            </div>   
         </div>
     </div>
-    </div>
-    
+           
+      
+  
 
 <!------------------------------ Inicio pie de página------------------------------>
             <div id="footer">
@@ -757,46 +435,701 @@
 
          </ContentTemplate>
     </asp:UpdatePanel>
-
-               <!-- INICIO MODAL OBSERVACIONES-->
-    <div class="modal fade" id="modalObservaciones" role="dialog">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header text-center">
-                   <h2>Ingrese la información para continuar: <span class="extra-title muted"></span></h2>
-                </div>
-                <div class="modal-body form-horizontal">
-                    <div class="control-group">
-                        
-                        
-                        
-                        
-                    </div>
-                    
-                    
-                    
-                    
-                   
-                </div>
-                <div class="modal-footer">
-                    <div class="btn-group btn-group-justified" role="group" aria-label="...">
-                        <div class="btn-group" role="group">                            
-                            <input id="btnGenerarAceptar" type="button" value="Aceptar" runat="server" data-dismiss="modal" class="btn btn-vitalicia btn-xs" />
-                        </div>
-  
-                        <div class="btn-group" role="group">
-                            <input id="btnGenerarCancelar" type="button" value="Cancelar" runat="server" data-dismiss="modal" class="btn btn-default btn-md" />
-                        </div>
-                    </div>
-
-                </div>
-            </div>
-        </div>
-    </div>
-    <!-- FIN MODAL OBSERVACIONES -->
         </form>
     </div>
 
+     <script type="text/javascript">
+         function pageLoad(sender, args) {
 
+             var currentTr = null;
+             var currentTr1 = null;
+             $(".mySelect").select2();
+       
+
+            $('input[name="txtFecha"]').daterangepicker(
+      {
+          locale: {
+              format: 'DD-MM-YYYY'
+          },
+          showDropdowns: true,
+          singleDatePicker: true
+
+      }
+
+      );
+            var table;
+            var table1;
+
+            $(document).ready(function () {
+                $(document).ajaxStart(function () {
+                    document.getElementById("carga").style = "";
+                });
+                $(document).ajaxStop(function () {
+                    document.getElementById("carga").style = "display:none;";
+                });
+
+
+                llenarComboProyectos();
+                table=$('#dtgMateriales').DataTable({
+
+                    "lengthMenu": [[5, 10, 15, -1], [5, 10, 15, "Todos"]],
+                    "responsive": true,
+                   // "stateSave": true,
+                    "paging": true,
+                    "ordering": true,
+                    "info": true,
+                    "searching": true,
+                    "columnDefs": [
+                        {
+                             "className": 'text-left',
+                             "visible": false,
+                             "targets": [1]
+                         }, {
+                             "className": 'text-left',
+                             "visible": true,
+                             "targets": [2]
+                         }, {
+                             "className": 'text-right',
+                             "visible": true,
+                             "targets": [3]
+                         }, {
+                             "className": 'text-right',
+                             "visible": true,
+                             "targets": [4]
+                         }, {
+                             "className": 'text-right',
+                             "visible": true,
+                             "targets": [5]
+                         }, {
+                             "className": 'text-right',
+                             "visible": true,
+                             "targets": [6]
+                         }, {
+                             "className": 'text-right',
+                             "visible": true,
+                             "targets": [7]
+                         }, {
+                             "className": 'text-right',
+                             "visible": true,
+                             "targets": [8]
+                         }, {
+                             "className": 'text-right',
+                             "visible": true,
+                             "targets": [9]
+                         }, {
+                             "className": 'text-right',
+                             "visible": true,
+                             "targets": [10]
+                         }, {
+                             "className": 'text-right',
+                             "visible": true,
+                             "targets": [11]
+                         }, {
+                             "className": 'text-right',
+                             "visible": true,
+                             "targets": [12]
+                         }, {
+                             "targets": [0],
+                             "data": null,
+                             "defaultContent": "<span class='label label-warning edit'  data-toggle='modal'><i class='fa fa-edit'>Detalle</i></span>"
+                         }
+                    ],
+                    "language": {
+                        "emptyTable": "Sin información disponible",
+                        "info": "Mostrando _START_ a _END_ de _TOTAL_ registros",
+                        "infoEmpty": "Mostrando 0 to 0 de 0 registros",
+                        "infoFiltered": "(filtered from _MAX_ total entries)",
+                        "lengthMenu": "Mostrar _MENU_ registros",
+                        "loadingRecords": "Cargando...",
+                        "processing": "Procesando...",
+                        "search": "Buscar:",
+                        "zeroRecords": "No se encontraron registros",
+                        "paginate": {
+                            "first": "Primera",
+                            "last": "Última",
+                            "next": "Siguiente",
+                            "previous": "Anterior"
+                        },
+                    }
+                });
+           
+                table1=$('#dtgDetalles').DataTable({
+
+                    "lengthMenu": [[5, 10, 15, -1], [5, 10, 15, "Todos"]],
+                    "responsive": true,
+                    //"stateSave": true,
+                    "paging": true,
+                    "ordering": true,
+                    "info": true,
+                    "searching": true,
+                    dom: 'Bfrtip',
+                    buttons: [
+                        {
+                            text: 'Exportar a Excel',
+                            extend: 'excelHtml5',
+                            title: 'Detalle de Materiales',
+                        }
+                    ],
+                    "columnDefs": [
+                        {
+                            "className": 'text-left',
+                            "visible": true,
+                            "targets": [1]
+                        }, {
+                            "className": 'text-left',
+                            "visible": true,
+                            "targets": [2]
+                        }, {
+                            "className": 'text-left',
+                            "visible": true,
+                            "targets": [3]
+                        }, {
+                            "className": 'text-right',
+                            "visible": true,
+                            "targets": [4]
+                        }, {
+                            "className": 'text-right',
+                            "visible": true,
+                            "targets": [5]
+                        }, {
+                            "className": 'text-right',
+                            "visible": true,
+                            "targets": [6]
+                        }, {
+                            "className": 'text-right',
+                            "visible": true,
+                            "targets": [7]
+                        }, {
+                            "className": 'text-right',
+                            "visible": true,
+                            "targets": [8]
+                        }, {
+                            "className": 'text-right',
+                            "visible": true,
+                            "targets": [9]
+                        }, {
+                            "className": 'text-right',
+                            "visible": true,
+                            "targets": [10]
+                        }, {
+                            "targets": [0],
+                            "data": null,
+                            "defaultContent": "<span class='label label-warning edit'  data-toggle='modal'>Detalles<i class='fa fa-edit'></i></span>"
+                        }
+                    ],
+                    "language": {
+                        "emptyTable": "Sin información disponible",
+                        "info": "Mostrando _START_ a _END_ de _TOTAL_ registros",
+                        "infoEmpty": "Mostrando 0 to 0 de 0 registros",
+                        "infoFiltered": "(filtered from _MAX_ total entries)",
+                        "lengthMenu": "Mostrar _MENU_ registros",
+                        "loadingRecords": "Cargando...",
+                        "processing": "Procesando...",
+                        "search": "Buscar:",
+                        "zeroRecords": "No se encontraron registros",
+                        "paginate": {
+                            "first": "Primera",
+                            "last": "Última",
+                            "next": "Siguiente",
+                            "previous": "Anterior"
+                        },
+                    }
+                });
+
+               
+
+                
+            
+                $('#dtgSolicitudes').DataTable({
+
+                    "lengthMenu": [[5, 10, 15, -1], [5, 10, 15, "Todos"]],
+                    "responsive": true,
+                    //"stateSave": true,
+                    "paging": true,
+                    "ordering": true,
+                    "info": true,
+                    "searching": true,
+                    "columnDefs": [
+                        {
+                            "className": 'text-left',
+                            "visible": true,
+                            "targets": [0]
+                        }, {
+                            "className": 'text-left',
+                            "visible": true,
+                            "targets": [1]
+                        }, {
+                            "className": 'text-left',
+                            "visible": true,
+                            "targets": [2]
+                        }, {
+                            "className": 'text-left',
+                            "visible": true,
+                            "targets": [3]
+                        }, {
+                            "className": 'text-left',
+                            "visible": true,
+                            "targets": [4]
+                        }, {
+                            "className": 'text-right',
+                            "visible": true,
+                            "targets": [5]
+                        }, {
+                            "className": 'text-right',
+                            "visible": true,
+                            "targets": [6]
+                        }, {
+                            "className": 'text-right',
+                            "visible": true,
+                            "targets": [7]
+                        }, {
+                            "className": 'text-right',
+                            "visible": true,
+                            "targets": [8]
+                        }, {
+                            "className": 'text-right',
+                            "visible": true,
+                            "targets": [9]
+                        }, {
+                            "className": 'text-right',
+                            "visible": true,
+                            "targets": [10]
+                        }, {
+                            "className": 'text-right',
+                            "visible": true,
+                            "targets": [11]
+                        }, {
+                            "className": 'text-right',
+                            "visible": true,
+                            "targets": [12]
+                        }
+                    ],
+                    "language": {
+                        "emptyTable": "Sin información disponible",
+                        "info": "Mostrando _START_ a _END_ de _TOTAL_ registros",
+                        "infoEmpty": "Mostrando 0 to 0 de 0 registros",
+                        "infoFiltered": "(filtered from _MAX_ total entries)",
+                        "lengthMenu": "Mostrar _MENU_ registros",
+                        "loadingRecords": "Cargando...",
+                        "processing": "Procesando...",
+                        "search": "Buscar:",
+                        "zeroRecords": "No se encontraron registros",
+                        "paginate": {
+                            "first": "Primera",
+                            "last": "Última",
+                            "next": "Siguiente",
+                            "previous": "Anterior"
+                        },
+                    }
+                });
+
+
+
+                $('#dtgActas').DataTable({
+
+                    "lengthMenu": [[5, 10, 15, -1], [5, 10, 15, "Todos"]],
+                    "responsive": true,
+                    //"stateSave": true,
+                    "paging": true,
+                    "ordering": true,
+                    "info": true,
+                    "searching": true,
+                    "columnDefs": [
+                        {
+                            "className": 'text-left',
+                            "visible": true,
+                            "targets": [0]
+                        }, {
+                            "className": 'text-left',
+                            "visible": true,
+                            "targets": [1]
+                        }, {
+                            "className": 'text-left',
+                            "visible": true,
+                            "targets": [2]
+                        }, {
+                            "className": 'text-left',
+                            "visible": true,
+                            "targets": [3]
+                        }, {
+                            "className": 'text-right',
+                            "visible": true,
+                            "targets": [4]
+                        }, {
+                            "className": 'text-left',
+                            "visible": true,
+                            "targets": [5]
+                        }
+                    ],
+                    "language": {
+                        "emptyTable": "Sin información disponible",
+                        "info": "Mostrando _START_ a _END_ de _TOTAL_ registros",
+                        "infoEmpty": "Mostrando 0 to 0 de 0 registros",
+                        "infoFiltered": "(filtered from _MAX_ total entries)",
+                        "lengthMenu": "Mostrar _MENU_ registros",
+                        "loadingRecords": "Cargando...",
+                        "processing": "Procesando...",
+                        "search": "Buscar:",
+                        "zeroRecords": "No se encontraron registros",
+                        "paginate": {
+                            "first": "Primera",
+                            "last": "Última",
+                            "next": "Siguiente",
+                            "previous": "Anterior"
+                        },
+                    }
+                });
+           
+                
+               
+            });
+
+
+
+
+
+             //funcion para llenar el combo box de proyectos
+            function llenarComboProyectos() {
+               
+                $.ajax({
+                    type: "POST",
+                    url: "precioUnitario.aspx/llenarComboProyectos",
+                    data: "{}",
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    success: function (response) {
+                        var count = 0;
+                        $.each(response.d, function () {
+                           
+                            if (count == 0) {
+                                $('#cmbProyecto').append($("<option selected></option>").val(this['Value']).html(this['Text']));
+                            } else {
+                                $('#cmbProyecto').append($("<option></option>").val(this['Value']).html(this['Text']));
+                            }
+                            count++;
+                        });
+                        
+                        llenarComboActividades();
+                    }
+
+                });
+                
+            }
+
+
+             //funcion para llenar el combo box de actividades
+            function llenarComboActividades() {
+                var proyecto = $('#<%= cmbProyecto.ClientID %>').val();
+                $("#cmbActividad").empty().append('');
+                $.ajax({
+                    type: "POST",
+                    url: "precioUnitario.aspx/llenarComboActividades",
+                    data: '{proyecto: "' + proyecto + '"}',
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    success: function (response) {
+                        var count = 0;
+                        $.each(response.d, function () {
+
+                            if (count == 0) {
+                                $('#cmbActividad').append($("<option selected></option>").val(this['Value']).html(this['Text']));
+                            } else {
+                                $('#cmbActividad').append($("<option></option>").val(this['Value']).html(this['Text']));
+                            }
+                            count++;
+                        });
+
+                        llenarTablaMateriales();
+                        mostrarCantidad();
+                        mostrarUM();
+                    }
+
+                });
+
+            }
+
+
+            $('#cmbProyecto').on('change', function () {
+                llenarComboActividades()
+                llenarTablaMateriales();
+                llenarTablaDetalles("NA",'NA');                
+                llenarTablaSolicitudes("NA");
+                llenarTablaActas("NA");
+
+                //alert($('#cmbProyecto option:selected').text());
+            });
+
+            $('#cmbActividad').on('change', function () {
+                mostrarCantidad();
+                mostrarUM();
+                llenarTablaMateriales();
+                llenarTablaDetalles("NA",'NA');
+                llenarTablaSolicitudes("NA");
+                llenarTablaActas("NA");
+
+                //alert($('#cmbProyecto option:selected').text());
+            });
+
+             function llenarTablaMateriales() {
+                 var actividad = $('#<%= cmbActividad.ClientID %>').val();
+                 
+                
+                 var t1 = $('#dtgMateriales').DataTable();
+                 t1.clear().draw();
+                $.ajax({
+                    type: "POST",
+                    url: "precioUnitario.aspx/obtenerTablaMateriales",
+                    data: '{actividad: "' + actividad + '"}',
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    success: function (response) {
+                       
+                        $.each(response.d, function () {
+                          
+                            
+                            t1.row.add([
+                                "",
+                            this['c1'],
+                            this['c2'],
+                            this['c3'],
+                            this['c4'],
+                            this['c5'],
+                            this['c6'],
+                            this['c7'],
+                            this['c8'],
+                            this['c9'],
+                            this['c10'],
+                            this['c11'],
+                            this['c12']
+                            ]).draw(false);
+                                
+                        });
+                        
+                        
+                    }
+                });
+             }
+
+
+             //función para el botón de edición de comprobante
+            $('#dtgMateriales tbody').on('click', 'span.edit', function () {
+                currentTr = this;
+                var data = table.row($(this).parents('tr')).data();
+                
+                llenarTablaDetalles(data[1],data[2]);
+                llenarTablaSolicitudes("NA");
+                llenarTablaActas("NA");
+            });
+
+
+
+             function llenarTablaDetalles(material,nomMaterial) {
+                 var proyecto = $('#<%= cmbProyecto.ClientID %>').val();
+                 document.getElementById('<%= lblDetalle.ClientID %>').innerHTML = "Detalles del material: " + nomMaterial;
+                 
+                 var a = 0;
+                 var b = 0;
+                 var c = 0;
+                 var d = 0;
+                 var e = 0;
+                 var t2 = $('#dtgDetalles').DataTable();
+                 //var t2aux = $('#dtgDetalles2').DataTable();
+                 var obj = {};
+                 obj.proyecto = proyecto;
+                 obj.material = material;
+                 t2.clear().draw();
+                // t2aux.clear().draw();
+                $.ajax({
+                    type: "POST",
+                    url: "precioUnitario.aspx/obtenerTablaDetalles",
+                    data: JSON.stringify(obj),
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    success: function (response) {
+                       
+                        $.each(response.d, function () {
+                            a = parseFloat(this['c4']);
+                            b = parseFloat(this['c5']);
+                            c = parseFloat(this['c7']);
+                            d = parseFloat(this['c8']);
+                            e = a + b + c + d;
+                           
+                            if (e > 0) {
+                                t2.row.add([
+                               "",
+                               this['c1'],
+                               this['c2'],
+                               this['c3'],
+                               this['c4'],
+                               this['c5'],
+                               this['c6'],
+                               this['c7'],
+                               this['c8'],
+                               this['c9'],
+                               this['c10']
+                                ]).draw(false);
+
+                             //   t2aux.row.add([
+                             //this['c1'],
+                             //this['c2'],
+                             //this['c3'],
+                             //this['c4'],
+                             //this['c5'],
+                             //this['c6'],
+                             //this['c7'],
+                             //this['c8'],
+                             //this['c9'],
+                             //this['c10']
+                             //   ]).draw(false);
+
+                            } 
+                                
+                        });
+                        
+                        
+                    }
+                });
+             }
+
+             //función para el botón de edición de detalles
+             $('#dtgDetalles tbody').on('click', 'span.edit', function () {
+                 currentTr1 = this;
+                 var data = table1.row($(this).parents('tr')).data();
+                 llenarTablaSolicitudes(data[3]);
+                 llenarTablaActas(data[3]);
+                 
+               
+             });
+
+
+
+         
+
+              //llenar tabla de Solicitudes
+             function llenarTablaSolicitudes(codigoSol) {
+                 
+                 document.getElementById('<%= lblSolicitudes.ClientID %>').innerHTML = "Detalles de la Solicitud: " + codigoSol;
+                 var t4 = $('#dtgSolicitudes').DataTable();
+                 t4.clear().draw();
+                $.ajax({
+                    type: "POST",
+                    url: "precioUnitario.aspx/obtenerTablaSolicitudes",
+                    data: '{codigoSolicitud: "' + codigoSol + '"}',
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    success: function (response) {
+                       
+                        $.each(response.d, function () {
+                            
+                            
+                                t4.row.add([
+                                this['c1'],
+                                this['c2'],
+                                this['c3'],
+                                this['c4'],
+                                this['c5'],
+                                this['c6'],
+                                this['c7'],
+                                this['c8'],
+                                this['c9'],
+                                this['c10'],
+                                this['c11'],
+                                this['c12'],
+                                this['c13']
+                                 ]).draw(false);
+
+                           
+                                
+                        });
+                        
+                        
+                    }
+                });
+             }
+
+
+              //llenar tabla de Actas
+             function llenarTablaActas(codigoSol) {
+                 
+                 document.getElementById('<%= lblActas.ClientID %>').innerHTML = "Detalles de Actas de la Solicitud: " + codigoSol;
+                 var t5 = $('#dtgActas').DataTable();
+                 t5.clear().draw();
+                $.ajax({
+                    type: "POST",
+                    url: "precioUnitario.aspx/obtenerTablaActas",
+                    data: '{codigoSolicitud: "' + codigoSol + '"}',
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    success: function (response) {
+                       
+                        $.each(response.d, function () {
+                            
+                            
+                                t5.row.add([
+                                this['c1'],
+                                this['c2'],
+                                this['c3'],
+                                this['c4'],
+                                this['c5'],
+                                this['c6'],
+                                this['c7'],
+                                this['c8'],
+                                 ]).draw(false);
+
+                           
+                                
+                        });
+                        
+                        
+                    }
+                });
+             }
+
+            //FUNCION QUE MUESTRA LA UNIDAD DE MEDIDA
+            function mostrarUM() {
+                var actividad = $('#<%= cmbActividad.ClientID %>').val();
+                                 
+                $.ajax({
+                    
+                    type: "POST",
+                    url: "precioUnitario.aspx/verUnidadMedida",
+                    data: '{actividad: "' + actividad + '"}',
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    success: function (response) {
+                        var texto = response.d;
+                        document.getElementById('<%= lblUm.ClientID %>').innerHTML = texto;
+                 
+                    },
+                    failure: function (response) {
+                        alert(response.d);
+                    }
+                });
+            }
+            //FUNCION QUE MUESTRA LA CANTIDAD
+            function mostrarCantidad() {
+                var actividad = $('#<%= cmbActividad.ClientID %>').val();
+                                 
+                $.ajax({
+                    
+                    type: "POST",
+                    url: "precioUnitario.aspx/verCantidad",
+                    data: '{actividad: "' + actividad + '"}',
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    success: function (response) {
+                        var texto = response.d;
+                        document.getElementById('<%= lblCantidad.ClientID %>').innerHTML = texto;
+                 
+                    },
+                    failure: function (response) {
+                        alert(response.d);
+                    }
+                });
+            }
+             
+        }
+    </script>
 </body>
 </html>
+

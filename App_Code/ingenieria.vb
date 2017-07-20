@@ -38,17 +38,36 @@ Public Class ingenieria
         Wsheet.Cells(filadatos, 0).Style.Font.Bold = True
         Wsheet.Cells(filadatos, 0).Style.Font.Size = 14
         Wsheet.Cells(filadatos + 1, 0).Value = "ACTIVIDAD"
+        Wsheet.Cells(filadatos + 1, 0).Style.VerticalAlignment = TypeOfVAlignment.Center
+        Wsheet.Cells(filadatos + 1, 0).Style.HorizontalAlignment = TypeOfHAlignment.Center
         Wsheet.Cells(filadatos + 1, 0).Style.Font.Bold = True
         Wsheet.Cells(filadatos + 1, 1).Value = "DESCRIPCIÓN"
+        Wsheet.Cells(filadatos + 1, 1).Style.VerticalAlignment = TypeOfVAlignment.Center
+        Wsheet.Cells(filadatos + 1, 1).Style.HorizontalAlignment = TypeOfHAlignment.Center
         Wsheet.Cells(filadatos + 1, 1).Style.Font.Bold = True
         Wsheet.Cells(filadatos + 1, 2).Value = "UNIDAD"
+        Wsheet.Cells(filadatos + 1, 2).Style.VerticalAlignment = TypeOfVAlignment.Center
+        Wsheet.Cells(filadatos + 1, 2).Style.HorizontalAlignment = TypeOfHAlignment.Center
         Wsheet.Cells(filadatos + 1, 2).Style.Font.Bold = True
         Wsheet.Cells(filadatos + 1, 3).Value = "CANTIDAD"
+        Wsheet.Cells(filadatos + 1, 3).Style.VerticalAlignment = TypeOfVAlignment.Center
+        Wsheet.Cells(filadatos + 1, 3).Style.HorizontalAlignment = TypeOfHAlignment.Center
         Wsheet.Cells(filadatos + 1, 3).Style.Font.Bold = True
         filadatos = filadatos + 2
 
         For i As Integer = 0 To tabla.Rows.Count - 1
             If (HttpContext.Current.Server.HtmlDecode(tabla.Rows(i).Cells(5).Text)) = "NO" Then
+                Wsheet.Cells(i - k + filadatos, 0).Style.WrapText = True
+                Wsheet.Cells(i - k + filadatos, 1).Style.WrapText = True
+                Wsheet.Cells(i - k + filadatos, 2).Style.WrapText = True
+                Wsheet.Cells(i - k + filadatos, 3).Style.WrapText = True
+
+                If tabla.Rows(i).Cells(1).Text.Length > 40 Then
+                    Wsheet.Rows(i - k + filadatos).Height = 40
+                Else
+                    Wsheet.Rows(i - k + filadatos).Height = 16
+                End If
+
 
                 Wsheet.Cells(i - k + filadatos, 0).Value = HttpContext.Current.Server.HtmlDecode(tabla.Rows(i).Cells(1).Text)
                 Wsheet.Cells(i - k + filadatos, 1).Value = HttpContext.Current.Server.HtmlDecode(tabla.Rows(i).Cells(2).Text)
@@ -69,13 +88,22 @@ Public Class ingenieria
         Wsheet.Cells(filadatos, 0).Value = "MATERIALES PRESUPUESTADOS"
         Wsheet.Cells(filadatos, 0).Style.Font.Bold = True
         Wsheet.Cells(filadatos, 0).Style.Font.Size = 14
+
         Wsheet.Cells(filadatos + 1, 0).Value = "ACTIVIDAD"
+        Wsheet.Cells(filadatos + 1, 0).Style.VerticalAlignment = TypeOfVAlignment.Center
+        Wsheet.Cells(filadatos + 1, 0).Style.HorizontalAlignment = TypeOfHAlignment.Center
         Wsheet.Cells(filadatos + 1, 0).Style.Font.Bold = True
         Wsheet.Cells(filadatos + 1, 1).Value = "DESCRIPCIÓN"
+        Wsheet.Cells(filadatos + 1, 1).Style.VerticalAlignment = TypeOfVAlignment.Center
+        Wsheet.Cells(filadatos + 1, 1).Style.HorizontalAlignment = TypeOfHAlignment.Center
         Wsheet.Cells(filadatos + 1, 1).Style.Font.Bold = True
         Wsheet.Cells(filadatos + 1, 2).Value = "UNIDAD"
+        Wsheet.Cells(filadatos + 1, 2).Style.VerticalAlignment = TypeOfVAlignment.Center
+        Wsheet.Cells(filadatos + 1, 2).Style.HorizontalAlignment = TypeOfHAlignment.Center
         Wsheet.Cells(filadatos + 1, 2).Style.Font.Bold = True
         Wsheet.Cells(filadatos + 1, 3).Value = "CANTIDAD"
+        Wsheet.Cells(filadatos + 1, 3).Style.VerticalAlignment = TypeOfVAlignment.Center
+        Wsheet.Cells(filadatos + 1, 3).Style.HorizontalAlignment = TypeOfHAlignment.Center
         Wsheet.Cells(filadatos + 1, 3).Style.Font.Bold = True
         filadatos = filadatos + 2
 
@@ -83,6 +111,17 @@ Public Class ingenieria
 
         For i As Integer = 0 To tabla.Rows.Count - 1
             If (HttpContext.Current.Server.HtmlDecode(tabla.Rows(i).Cells(5).Text)) = "SI" Then
+
+                Wsheet.Cells(i - k + filadatos, 0).Style.WrapText = True
+                Wsheet.Cells(i - k + filadatos, 1).Style.WrapText = True
+                Wsheet.Cells(i - k + filadatos, 2).Style.WrapText = True
+                Wsheet.Cells(i - k + filadatos, 3).Style.WrapText = True
+
+                If tabla.Rows(i).Cells(1).Text.Length > 40 Then
+                    Wsheet.Rows(i - k + filadatos).Height = 40
+                Else
+                    Wsheet.Rows(i - k + filadatos).Height = 16
+                End If
 
                 Wsheet.Cells(i - k + filadatos, 0).Value = HttpContext.Current.Server.HtmlDecode(tabla.Rows(i).Cells(1).Text)
                 Wsheet.Cells(i - k + filadatos, 1).Value = HttpContext.Current.Server.HtmlDecode(tabla.Rows(i).Cells(2).Text)
@@ -116,6 +155,8 @@ Public Class ingenieria
         Wsheet.Cells("C" & (filadatos - 2).ToString & ":C" & (filadatos + 1).ToString).IsMerged = True
         Wsheet.Cells(filadatos - 1, 2).Style.WrapText = True
         Wsheet.Cells(filadatos - 1, 2).Style.Font.Bold = True
+        Wsheet.Cells(filadatos - 1, 2).Style.VerticalAlignment = TypeOfVAlignment.Center
+        Wsheet.Cells(filadatos - 1, 2).Style.HorizontalAlignment = TypeOfHAlignment.Center
         Wsheet.Cells(filadatos - 1, 2).Value = "CANTIDAD PRESUPUESTO APROBADO"
 
 
@@ -123,21 +164,40 @@ Public Class ingenieria
         Wsheet.Cells("D" & (filadatos - 2).ToString & ":D" & (filadatos + 1).ToString).IsMerged = True
         Wsheet.Cells(filadatos - 1, 3).Style.WrapText = True
         Wsheet.Cells(filadatos - 1, 3).Style.Font.Bold = True
+        Wsheet.Cells(filadatos - 1, 3).Style.VerticalAlignment = TypeOfVAlignment.Center
+        Wsheet.Cells(filadatos - 1, 3).Style.HorizontalAlignment = TypeOfHAlignment.Center
         Wsheet.Cells(filadatos - 1, 3).Value = "CANTIDAD EJECUTADA"
 
 
         Wsheet.Cells("E" & (filadatos - 2).ToString & ":E" & (filadatos + 1).ToString).IsMerged = True
         Wsheet.Cells(filadatos - 1, 4).Style.WrapText = True
         Wsheet.Cells(filadatos - 1, 4).Style.Font.Bold = True
+        Wsheet.Cells(filadatos - 1, 4).Style.VerticalAlignment = TypeOfVAlignment.Center
+        Wsheet.Cells(filadatos - 1, 4).Style.HorizontalAlignment = TypeOfHAlignment.Center
         Wsheet.Cells(filadatos - 1, 4).Value = "CANTIDAD NO EJECUTADA"
 
         Wsheet.Cells("F" & (filadatos - 2).ToString & ":F" & (filadatos + 1).ToString).IsMerged = True
         Wsheet.Cells(filadatos - 1, 5).Style.WrapText = True
         Wsheet.Cells(filadatos - 1, 5).Style.Font.Bold = True
+        Wsheet.Cells(filadatos - 1, 5).Style.VerticalAlignment = TypeOfVAlignment.Center
+        Wsheet.Cells(filadatos - 1, 5).Style.HorizontalAlignment = TypeOfHAlignment.Center
         Wsheet.Cells(filadatos - 1, 5).Value = "CANTIDAD EJECUTADA C/ACTA"
         filadatos += 1
         Wsheet.Cells("A" & (filadatos - 3).ToString & ":F" & (filadatos).ToString).SetBordersStyles(TypeOfMultipleBorders.All, TypeOfBorderLine.Thin, ColorPalette.Black)
+        Dim aux As Integer = 10
         For i As Integer = 0 To tabla2.Rows.Count - 1
+            Wsheet.Cells(i - k + filadatos, 0).Style.WrapText = True
+            Wsheet.Cells(i - k + filadatos, 1).Style.WrapText = True
+            Wsheet.Cells(i - k + filadatos, 2).Style.WrapText = True
+            Wsheet.Cells(i - k + filadatos, 3).Style.WrapText = True
+            Wsheet.Cells(i - k + filadatos, 4).Style.WrapText = True
+            Wsheet.Cells(i - k + filadatos, 5).Style.WrapText = True
+
+            If tabla2.Rows(i).Cells(1).Text.Length > 40 Then
+                Wsheet.Rows(i - k + filadatos).Height = 40
+            Else
+                Wsheet.Rows(i - k + filadatos).Height = 16
+            End If
 
 
             Wsheet.Cells(i + filadatos, 0).Value = HttpContext.Current.Server.HtmlDecode(tabla2.Rows(i).Cells(0).Text)
@@ -152,7 +212,7 @@ Public Class ingenieria
         Next
 
         Wsheet.Cells("A" & (tabla2.Rows.Count + filadatos).ToString & ":F" & (tabla2.Rows.Count + filadatos).ToString).SetBordersStyles(TypeOfMultipleBorders.All, TypeOfBorderLine.Thin, ColorPalette.Black)
-
+        Wbook.ConvertingOptions.SavePictureMode = True
         Wbook.WriteXLS(rutaPlantilla & "WriteXLS.xls")
 
         HttpContext.Current.Response.AppendHeader("Content-Type", "application/vnd.ms-excel")

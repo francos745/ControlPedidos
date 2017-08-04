@@ -927,10 +927,14 @@
 
         factor = (lblFactor);
         cantidad = (txtCantidad);
-        cantEqNueva = cantidad * factor;
+        cantEqNueva = Math.round(cantidad * factor * 100) / 100;
         cantEq = lblCantEq;
-        
-        if (cantEqNueva>cantEq){
+        cantEq = Math.round(cantEq * 100) / 100;
+        if (cantEqNueva > cantEq) {
+            console.log(cantEqNueva + " cantEqNueva");
+            console.log(cantEq + "cantEq");
+            console.log(cantidad + " cantidad");
+            console.log(factor + " factor");
             document.getElementById("lblErrorArticuloS").style = "";
             document.getElementById("lblErrorArticuloS").className = "alert alert-danger";
             document.getElementById('<%= lblErrorArticulo.ClientID %>').innerHTML = "No se puede ingresar una cantidad mayor a " + Math.round(cantEq * 100) / 100 + " " + um + "";

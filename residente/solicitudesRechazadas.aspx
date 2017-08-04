@@ -66,7 +66,7 @@
             $(document).ready(function () {
                 $('#dtgDetalle').dataTable({
 
-                    "lengthMenu": [[5, 10, 15, -1], [5, 10, 15, "Todos"]],
+                    "lengthMenu": [[-1,5, 10, 15], ["Todos",5, 10, 15]],
                     "responsive": true,
                     "stateSave": true,
                     "paging": true,

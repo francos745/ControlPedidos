@@ -491,7 +491,7 @@
                 llenarComboProyectos();
                 table=$('#dtgMateriales').DataTable({
 
-                    "lengthMenu": [[5, 10, 15, -1], [5, 10, 15, "Todos"]],
+                    "lengthMenu": [[-1,5, 10, 15], ["Todos",5, 10, 15]],
                     "responsive": true,
                     "stateSave": true,
                     "paging": true,
@@ -566,10 +566,10 @@
            
                 table1=$('#dtgDetalles').DataTable({
 
-                    "lengthMenu": [[5, 10, 15, -1], [5, 10, 15, "Todos"]],
+                    "lengthMenu": [[-1, 5, 10, 15], ["Todos", 5, 10, 15]],
                     "responsive": true,
                     //"stateSave": true,
-                    "paging": true,
+                    "paging": false,
                     "ordering": true,
                     "info": true,
                     "searching": true,
@@ -647,10 +647,10 @@
 
                 $('#dtgDevoluciones').DataTable({
 
-                    "lengthMenu": [[5, 10, 15, -1], [5, 10, 15, "Todos"]],
+                    "lengthMenu": [[-1,5, 10, 15], ["Todos",5, 10, 15]],
                     "responsive": true,
                     //"stateSave": true,
-                    "paging": true,
+                    "paging": false,
                     "ordering": true,
                     "info": true,
                     "searching": true,
@@ -713,7 +713,7 @@
             
                 $('#dtgSolicitudes').DataTable({
 
-                    "lengthMenu": [[5, 10, 15, -1], [5, 10, 15, "Todos"]],
+                    "lengthMenu": [[-1,5, 10, 15], ["Todos",5, 10, 15]],
                     "responsive": true,
                     //"stateSave": true,
                     "paging": true,
@@ -798,7 +798,7 @@
 
                 $('#dtgActas').DataTable({
 
-                    "lengthMenu": [[5, 10, 15, -1], [5, 10, 15, "Todos"]],
+                    "lengthMenu": [[-1,5, 10, 15], ["Todos",5, 10, 15]],
                     "responsive": true,
                     //"stateSave": true,
                     "paging": true,

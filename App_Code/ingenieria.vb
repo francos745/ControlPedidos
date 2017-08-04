@@ -13,6 +13,13 @@ Public Class ingenieria
         Dim Wbook As New ExcelWorkbook()
         Dim plantilla, ext, filadatos, columnadatos, rutaPlantilla, Archivo As String
         Dim k As Integer = 0
+        Dim ancho0 As Integer = 0
+        Dim ancho1 As Integer = 0
+        Dim aux1 As Integer = 0
+        Dim aux2 As Integer = 0
+
+        Dim texto1 As String = ""
+        Dim texto2 As String = ""
         plantilla = "Comunicacion"
         ext = ".xls"
         filadatos = "3"
@@ -61,25 +68,111 @@ Public Class ingenieria
                 Wsheet.Cells(i - k + filadatos, 1).Style.WrapText = True
                 Wsheet.Cells(i - k + filadatos, 2).Style.WrapText = True
                 Wsheet.Cells(i - k + filadatos, 3).Style.WrapText = True
+                'If tabla.Rows(i).Cells(1).Text.Length > 40 Then
+                '    Wsheet.Rows(i - k + filadatos).Height = 40
+                'Else
+                '    Wsheet.Rows(i - k + filadatos).Height = 16
+                'End If
+                aux1 = 0
+                aux2 = 0
 
-                If tabla.Rows(i).Cells(1).Text.Length > 40 Then
-                    Wsheet.Rows(i - k + filadatos).Height = 40
-                Else
-                    Wsheet.Rows(i - k + filadatos).Height = 16
+                texto1 = HttpContext.Current.Server.HtmlDecode(tabla.Rows(i).Cells(1).Text)
+                texto2 = HttpContext.Current.Server.HtmlDecode(tabla.Rows(i).Cells(2).Text)
+                For Each val As Char In texto1.ToCharArray()
+
+                    Select Case val
+                        Case " "
+                            aux1 += 4
+                        Case "I", "i", "j", "l"
+                            aux1 += 5
+                        Case "J", "f", "r", "t", "|", "-"
+                            aux1 += 6
+                        Case "s", "z", ")", "(", "°", "_"
+                            aux1 += 7
+                        Case "F", "L", "S", "Z", "c", "g", "k", "v", "x", "y"
+                            aux1 += 8
+                        Case "E", "K", "P", "T", "X", "Y", "a", "b", "d", "e", "h", "n", "p", "q", "u", "1", "2", "3", "4", "5", "6", "7", "8", "9", "0"
+                            aux1 += 9
+                        Case "A", "B", "C", "R", "V", "o"
+                            aux1 += 10
+                        Case "D", "G", "H"
+                            aux1 += 11
+                        Case "N", "O", "Q", "U"
+                            aux1 += 12
+                        Case "w"
+                            aux1 += 13
+                        Case "m"
+                            aux1 += 14
+                        Case "M"
+                            aux1 += 15
+                        Case "W"
+                            aux1 += 16
+                        Case Else
+                            aux1 += 5
+                    End Select
+                Next
+
+                For Each val As Char In texto2.ToCharArray()
+
+                    Select Case val
+                        Case " "
+                            aux2 += 4
+                        Case "I", "i", "j", "l"
+                            aux2 += 5
+                        Case "J", "f", "r", "t", "|", "-"
+                            aux2 += 6
+                        Case "s", "z", ")", "(", "°", "_"
+                            aux2 += 7
+                        Case "F", "L", "S", "Z", "c", "g", "k", "v", "x", "y"
+                            aux2 += 8
+                        Case "E", "K", "P", "T", "X", "Y", "a", "b", "d", "e", "h", "n", "p", "q", "u", "1", "2", "3", "4", "5", "6", "7", "8", "9", "0"
+                            aux2 += 9
+                        Case "A", "B", "C", "R", "V", "o"
+                            aux2 += 10
+                        Case "D", "G", "H"
+                            aux2 += 11
+                        Case "N", "O", "Q", "U"
+                            aux2 += 12
+                        Case "w"
+                            aux2 += 13
+                        Case "m"
+                            aux2 += 14
+                        Case "M"
+                            aux2 += 15
+                        Case "W"
+                            aux2 += 16
+                        Case Else
+                            aux2 += 5
+                    End Select
+
+                Next
+
+
+
+                If aux1 > ancho0 Then
+                    ancho0 = aux1
+                End If
+
+                If aux2 > ancho1 Then
+                    ancho1 = aux2
                 End If
 
 
-                Wsheet.Cells(i - k + filadatos, 0).Value = HttpContext.Current.Server.HtmlDecode(tabla.Rows(i).Cells(1).Text)
-                Wsheet.Cells(i - k + filadatos, 1).Value = HttpContext.Current.Server.HtmlDecode(tabla.Rows(i).Cells(2).Text)
-                Wsheet.Cells(i - k + filadatos, 2).Value = HttpContext.Current.Server.HtmlDecode(tabla.Rows(i).Cells(3).Text)
-                Wsheet.Cells(i - k + filadatos, 3).Value = CDbl(HttpContext.Current.Server.HtmlDecode(tabla.Rows(i).Cells(4).Text))
 
-                Wsheet.Cells("A" & (i - k + filadatos).ToString & ":D" & (i - k + filadatos).ToString).SetBordersStyles(TypeOfMultipleBorders.All, TypeOfBorderLine.Thin, ColorPalette.Black)
-            Else
-                k += 1
+                Wsheet.Cells(i - k + filadatos, 0).Value = HttpContext.Current.Server.HtmlDecode(tabla.Rows(i).Cells(1).Text) 'ancho0 & " ancho0" ' 
+                Wsheet.Cells(i - k + filadatos, 1).Value = HttpContext.Current.Server.HtmlDecode(tabla.Rows(i).Cells(2).Text) 'ancho1 & " ancho1" '
+                Wsheet.Cells(i - k + filadatos, 2).Style.VerticalAlignment = TypeOfVAlignment.Center
+                    Wsheet.Cells(i - k + filadatos, 2).Style.HorizontalAlignment = TypeOfHAlignment.Center
+                    Wsheet.Cells(i - k + filadatos, 2).Value = HttpContext.Current.Server.HtmlDecode(tabla.Rows(i).Cells(3).Text)
+                    Wsheet.Cells(i - k + filadatos, 3).Value = CDbl(HttpContext.Current.Server.HtmlDecode(tabla.Rows(i).Cells(4).Text))
+
+                    Wsheet.Cells("A" & (i - k + filadatos).ToString & ":D" & (i - k + filadatos).ToString).SetBordersStyles(TypeOfMultipleBorders.All, TypeOfBorderLine.Thin, ColorPalette.Black)
+                Else
+                    k += 1
             End If
         Next
         Wsheet.Cells("A" & (filadatos - k + tabla.Rows.Count).ToString & ":D" & (filadatos - k + tabla.Rows.Count).ToString).SetBordersStyles(TypeOfMultipleBorders.All, TypeOfBorderLine.Thin, ColorPalette.Black)
+
 
         filadatos = filadatos + tabla.Rows.Count + 2 - k
 
@@ -116,15 +209,99 @@ Public Class ingenieria
                 Wsheet.Cells(i - k + filadatos, 1).Style.WrapText = True
                 Wsheet.Cells(i - k + filadatos, 2).Style.WrapText = True
                 Wsheet.Cells(i - k + filadatos, 3).Style.WrapText = True
+                'If tabla.Rows(i).Cells(1).Text.Length > 40 Then
+                '    Wsheet.Rows(i - k + filadatos).Height = 40
+                'Else
+                '    Wsheet.Rows(i - k + filadatos).Height = 16
+                'End If
+                aux1 = 0
+                aux2 = 0
 
-                If tabla.Rows(i).Cells(1).Text.Length > 40 Then
-                    Wsheet.Rows(i - k + filadatos).Height = 40
-                Else
-                    Wsheet.Rows(i - k + filadatos).Height = 16
+                texto1 = HttpContext.Current.Server.HtmlDecode(tabla.Rows(i).Cells(1).Text)
+                texto2 = HttpContext.Current.Server.HtmlDecode(tabla.Rows(i).Cells(2).Text)
+                For Each val As Char In texto1.ToCharArray()
+                    Select Case val
+                        Case " "
+                            aux1 += 4
+                        Case "I", "i", "j", "l"
+                            aux1 += 5
+                        Case "J", "f", "r", "t", "|", "-"
+                            aux1 += 6
+                        Case "s", "z", ")", "(", "°", "_"
+                            aux1 += 7
+                        Case "F", "L", "S", "Z", "c", "g", "k", "v", "x", "y"
+                            aux1 += 8
+                        Case "E", "K", "P", "T", "X", "Y", "a", "b", "d", "e", "h", "n", "p", "q", "u", "1", "2", "3", "4", "5", "6", "7", "8", "9", "0"
+                            aux1 += 9
+                        Case "A", "B", "C", "R", "V", "o"
+                            aux1 += 10
+                        Case "D", "G", "H"
+                            aux1 += 11
+                        Case "N", "O", "Q", "U"
+                            aux1 += 12
+                        Case "w"
+                            aux1 += 13
+                        Case "m"
+                            aux1 += 14
+                        Case "M"
+                            aux1 += 15
+                        Case "W"
+                            aux1 += 16
+                        Case Else
+                            aux1 += 5
+                    End Select
+                Next
+
+                For Each val As Char In texto2.ToCharArray()
+
+                    Select Case val
+                        Case " "
+                            aux2 += 4
+                        Case "I", "i", "j", "l"
+                            aux2 += 5
+                        Case "J", "f", "r", "t", "|", "-"
+                            aux2 += 6
+                        Case "s", "z", ")", "(", "°", "_"
+                            aux2 += 7
+                        Case "F", "L", "S", "Z", "c", "g", "k", "v", "x", "y"
+                            aux2 += 8
+                        Case "E", "K", "P", "T", "X", "Y", "a", "b", "d", "e", "h", "n", "p", "q", "u", "1", "2", "3", "4", "5", "6", "7", "8", "9", "0"
+                            aux2 += 9
+                        Case "A", "B", "C", "R", "V", "o"
+                            aux2 += 10
+                        Case "D", "G", "H"
+                            aux2 += 11
+                        Case "N", "O", "Q", "U"
+                            aux2 += 12
+                        Case "w"
+                            aux2 += 13
+                        Case "m"
+                            aux2 += 14
+                        Case "M"
+                            aux2 += 15
+                        Case "W"
+                            aux2 += 16
+                        Case Else
+                            aux2 += 5
+                    End Select
+
+                Next
+
+
+
+
+
+                If aux1 > ancho0 Then
+                    ancho0 = aux1
                 End If
 
-                Wsheet.Cells(i - k + filadatos, 0).Value = HttpContext.Current.Server.HtmlDecode(tabla.Rows(i).Cells(1).Text)
-                Wsheet.Cells(i - k + filadatos, 1).Value = HttpContext.Current.Server.HtmlDecode(tabla.Rows(i).Cells(2).Text)
+                If aux2 > ancho1 Then
+                    ancho1 = aux2
+                End If
+                Wsheet.Cells(i - k + filadatos, 0).Value = HttpContext.Current.Server.HtmlDecode(tabla.Rows(i).Cells(1).Text) 'ancho0 & " ancho0" 
+                Wsheet.Cells(i - k + filadatos, 1).Value = HttpContext.Current.Server.HtmlDecode(tabla.Rows(i).Cells(2).Text) 'ancho1 & " ancho1" '
+                Wsheet.Cells(i - k + filadatos, 2).Style.VerticalAlignment = TypeOfVAlignment.Center
+                Wsheet.Cells(i - k + filadatos, 2).Style.HorizontalAlignment = TypeOfHAlignment.Center
                 Wsheet.Cells(i - k + filadatos, 2).Value = HttpContext.Current.Server.HtmlDecode(tabla.Rows(i).Cells(3).Text)
                 Wsheet.Cells(i - k + filadatos, 3).Value = CDbl(HttpContext.Current.Server.HtmlDecode(tabla.Rows(i).Cells(4).Text))
 
@@ -138,35 +315,27 @@ Public Class ingenieria
         filadatos = filadatos + tabla.Rows.Count + 4
 
 
-        Wsheet.Cells(filadatos - 4, 0).Value = "PRESUPUESTO"
-        Wsheet.Cells(filadatos - 4, 0).Style.Font.Bold = True
-        Wsheet.Cells(filadatos - 4, 0).Style.Font.Size = 14
+        Wsheet.Cells(filadatos - 4, 1).Value = "PRESUPUESTO"
+        Wsheet.Cells(filadatos - 4, 1).Style.Font.Bold = True
+        Wsheet.Cells(filadatos - 4, 1).Style.Font.Size = 14
 
-        Wsheet.Cells("A" & (filadatos - 2).ToString & ":A" & (filadatos + 1).ToString).IsMerged = True
-        Wsheet.Cells(filadatos - 1, 2).Style.WrapText = True
-        Wsheet.Cells(filadatos - 1, 2).Value = ""
-        Wsheet.Cells(filadatos - 1, 2).Style.Font.Bold = True
-
-        Wsheet.Cells("B" & (filadatos - 2).ToString & ":B" & (filadatos + 1).ToString).IsMerged = True
-        Wsheet.Cells(filadatos - 1, 2).Style.WrapText = True
-        Wsheet.Cells(filadatos - 1, 2).Value = ""
-        Wsheet.Cells(filadatos - 1, 2).Style.Font.Bold = True
-
-        Wsheet.Cells("C" & (filadatos - 2).ToString & ":C" & (filadatos + 1).ToString).IsMerged = True
-        Wsheet.Cells(filadatos - 1, 2).Style.WrapText = True
-        Wsheet.Cells(filadatos - 1, 2).Style.Font.Bold = True
-        Wsheet.Cells(filadatos - 1, 2).Style.VerticalAlignment = TypeOfVAlignment.Center
-        Wsheet.Cells(filadatos - 1, 2).Style.HorizontalAlignment = TypeOfHAlignment.Center
-        Wsheet.Cells(filadatos - 1, 2).Value = "CANTIDAD PRESUPUESTO APROBADO"
+        Wsheet.Cells("B" & (filadatos - 2).ToString & ":C" & (filadatos + 1).ToString).IsMerged = True
+        Wsheet.Cells(filadatos - 1, 3).Style.WrapText = True
+        Wsheet.Cells(filadatos - 1, 3).Value = ""
+        Wsheet.Cells(filadatos - 1, 3).Style.Font.Bold = True
 
 
+        Wsheet.Cells(filadatos - 1, 3).Style.WrapText = True
+        Wsheet.Cells(filadatos - 1, 3).Value = ""
+        Wsheet.Cells(filadatos - 1, 3).Style.Font.Bold = True
 
         Wsheet.Cells("D" & (filadatos - 2).ToString & ":D" & (filadatos + 1).ToString).IsMerged = True
         Wsheet.Cells(filadatos - 1, 3).Style.WrapText = True
         Wsheet.Cells(filadatos - 1, 3).Style.Font.Bold = True
         Wsheet.Cells(filadatos - 1, 3).Style.VerticalAlignment = TypeOfVAlignment.Center
         Wsheet.Cells(filadatos - 1, 3).Style.HorizontalAlignment = TypeOfHAlignment.Center
-        Wsheet.Cells(filadatos - 1, 3).Value = "CANTIDAD EJECUTADA"
+        Wsheet.Cells(filadatos - 1, 3).Value = "CANTIDAD PRESUPUESTO APROBADO"
+
 
 
         Wsheet.Cells("E" & (filadatos - 2).ToString & ":E" & (filadatos + 1).ToString).IsMerged = True
@@ -174,46 +343,134 @@ Public Class ingenieria
         Wsheet.Cells(filadatos - 1, 4).Style.Font.Bold = True
         Wsheet.Cells(filadatos - 1, 4).Style.VerticalAlignment = TypeOfVAlignment.Center
         Wsheet.Cells(filadatos - 1, 4).Style.HorizontalAlignment = TypeOfHAlignment.Center
-        Wsheet.Cells(filadatos - 1, 4).Value = "CANTIDAD NO EJECUTADA"
+        Wsheet.Cells(filadatos - 1, 4).Value = "CANTIDAD EJECUTADA"
+
 
         Wsheet.Cells("F" & (filadatos - 2).ToString & ":F" & (filadatos + 1).ToString).IsMerged = True
         Wsheet.Cells(filadatos - 1, 5).Style.WrapText = True
         Wsheet.Cells(filadatos - 1, 5).Style.Font.Bold = True
         Wsheet.Cells(filadatos - 1, 5).Style.VerticalAlignment = TypeOfVAlignment.Center
         Wsheet.Cells(filadatos - 1, 5).Style.HorizontalAlignment = TypeOfHAlignment.Center
-        Wsheet.Cells(filadatos - 1, 5).Value = "CANTIDAD EJECUTADA C/ACTA"
+        Wsheet.Cells(filadatos - 1, 5).Value = "CANTIDAD NO EJECUTADA"
+
+        Wsheet.Cells("G" & (filadatos - 2).ToString & ":G" & (filadatos + 1).ToString).IsMerged = True
+        Wsheet.Cells(filadatos - 1, 6).Style.WrapText = True
+        Wsheet.Cells(filadatos - 1, 6).Style.Font.Bold = True
+        Wsheet.Cells(filadatos - 1, 6).Style.VerticalAlignment = TypeOfVAlignment.Center
+        Wsheet.Cells(filadatos - 1, 6).Style.HorizontalAlignment = TypeOfHAlignment.Center
+        Wsheet.Cells(filadatos - 1, 6).Value = "CANTIDAD EJECUTADA C/ACTA"
         filadatos += 1
-        Wsheet.Cells("A" & (filadatos - 3).ToString & ":F" & (filadatos).ToString).SetBordersStyles(TypeOfMultipleBorders.All, TypeOfBorderLine.Thin, ColorPalette.Black)
+        Wsheet.Cells("D" & (filadatos - 3).ToString & ":G" & (filadatos).ToString).SetBordersStyles(TypeOfMultipleBorders.All, TypeOfBorderLine.Thin, ColorPalette.Black)
         Dim aux As Integer = 10
         For i As Integer = 0 To tabla2.Rows.Count - 1
-            Wsheet.Cells(i - k + filadatos, 0).Style.WrapText = True
             Wsheet.Cells(i - k + filadatos, 1).Style.WrapText = True
             Wsheet.Cells(i - k + filadatos, 2).Style.WrapText = True
             Wsheet.Cells(i - k + filadatos, 3).Style.WrapText = True
             Wsheet.Cells(i - k + filadatos, 4).Style.WrapText = True
             Wsheet.Cells(i - k + filadatos, 5).Style.WrapText = True
+            Wsheet.Cells(i - k + filadatos, 6).Style.WrapText = True
+            'If tabla.Rows(i).Cells(1).Text.Length > 40 Then
+            '    Wsheet.Rows(i - k + filadatos).Height = 40
+            'Else
+            '    Wsheet.Rows(i - k + filadatos).Height = 16
+            'End If
 
-            If tabla2.Rows(i).Cells(1).Text.Length > 40 Then
-                Wsheet.Rows(i - k + filadatos).Height = 40
-            Else
-                Wsheet.Rows(i - k + filadatos).Height = 16
+            aux2 = 0
+
+            texto2 = HttpContext.Current.Server.HtmlDecode(tabla.Rows(i).Cells(2).Text)
+
+
+
+
+            For Each val As Char In texto2.ToCharArray()
+
+                Select Case val
+                    Case " "
+                        aux2 += 4
+                    Case "I", "i", "j", "l"
+                        aux2 += 5
+                    Case "J", "f", "r", "t", "|", "-"
+                        aux2 += 6
+                    Case "s", "z", ")", "(", "°", "_"
+                        aux2 += 7
+                    Case "F", "L", "S", "Z", "c", "g", "k", "v", "x", "y"
+                        aux2 += 8
+                    Case "E", "K", "P", "T", "X", "Y", "a", "b", "d", "e", "h", "n", "p", "q", "u", "1", "2", "3", "4", "5", "6", "7", "8", "9", "0"
+                        aux2 += 9
+                    Case "A", "B", "C", "R", "V", "o"
+                        aux2 += 10
+                    Case "D", "G", "H"
+                        aux2 += 11
+                    Case "N", "O", "Q", "U"
+                        aux2 += 12
+                    Case "w"
+                        aux2 += 13
+                    Case "m"
+                        aux2 += 14
+                    Case "M"
+                        aux2 += 15
+                    Case "W"
+                        aux2 += 16
+                    Case Else
+                        aux2 += 5
+                End Select
+
+            Next
+
+
+
+
+
+            If aux1 > ancho0 Then
+                ancho0 = aux1
+            End If
+
+            If aux2 > ancho1 Then
+                ancho1 = aux2
             End If
 
 
-            Wsheet.Cells(i + filadatos, 0).Value = HttpContext.Current.Server.HtmlDecode(tabla2.Rows(i).Cells(0).Text)
-            Wsheet.Cells(i + filadatos, 1).Value = HttpContext.Current.Server.HtmlDecode(tabla2.Rows(i).Cells(1).Text)
-            Wsheet.Cells(i + filadatos, 2).Value = CDbl(HttpContext.Current.Server.HtmlDecode(tabla2.Rows(i).Cells(2).Text))
-            Wsheet.Cells(i + filadatos, 3).Value = CDbl(HttpContext.Current.Server.HtmlDecode(tabla2.Rows(i).Cells(3).Text))
-            Wsheet.Cells(i + filadatos, 4).Value = CDbl(HttpContext.Current.Server.HtmlDecode(tabla2.Rows(i).Cells(5).Text))
-            Wsheet.Cells(i + filadatos, 5).Value = CDbl(HttpContext.Current.Server.HtmlDecode(tabla2.Rows(i).Cells(4).Text))
 
-            Wsheet.Cells("A" & (i + filadatos).ToString & ":F" & (i + filadatos).ToString).SetBordersStyles(TypeOfMultipleBorders.All, TypeOfBorderLine.Thin, ColorPalette.Black)
+
+            Wsheet.Cells(i + filadatos, 1).Value = HttpContext.Current.Server.HtmlDecode(tabla2.Rows(i).Cells(0).Text) '
+            Wsheet.Cells(i + filadatos, 2).Style.VerticalAlignment = TypeOfVAlignment.Center
+            Wsheet.Cells(i + filadatos, 2).Style.HorizontalAlignment = TypeOfHAlignment.Center
+            Wsheet.Cells(i + filadatos, 2).Value = HttpContext.Current.Server.HtmlDecode(tabla2.Rows(i).Cells(1).Text) 'ancho1 & " ancho1" '
+            Wsheet.Cells(i + filadatos, 3).Value = CDbl(HttpContext.Current.Server.HtmlDecode(tabla2.Rows(i).Cells(2).Text))
+            Wsheet.Cells(i + filadatos, 4).Value = CDbl(HttpContext.Current.Server.HtmlDecode(tabla2.Rows(i).Cells(3).Text))
+            Wsheet.Cells(i + filadatos, 5).Value = CDbl(HttpContext.Current.Server.HtmlDecode(tabla2.Rows(i).Cells(5).Text))
+            Wsheet.Cells(i + filadatos, 6).Value = CDbl(HttpContext.Current.Server.HtmlDecode(tabla2.Rows(i).Cells(4).Text))
+            If i <> 0 Then
+                Wsheet.Cells("B" & (i + filadatos).ToString & ":G" & (i + filadatos).ToString).SetBordersStyles(TypeOfMultipleBorders.All, TypeOfBorderLine.Thin, ColorPalette.Black)
+
+            End If
 
         Next
+        If ancho0 > 500 Then
+            ancho0 -= 75
+        Else
+            If ancho0 > 300 Then
+                ancho0 -= 50
+            Else
+                ancho0 -= 25
+            End If
+        End If
 
-        Wsheet.Cells("A" & (tabla2.Rows.Count + filadatos).ToString & ":F" & (tabla2.Rows.Count + filadatos).ToString).SetBordersStyles(TypeOfMultipleBorders.All, TypeOfBorderLine.Thin, ColorPalette.Black)
+        If ancho1 > 500 Then
+            ancho1 -= 75
+        Else
+            If ancho1 > 300 Then
+                ancho1 -= 50
+            Else
+                ancho1 -= 25
+            End If
+        End If
+        Wsheet.Columns(0).Width = ancho0
+        Wsheet.Columns(1).Width = ancho1
+
+        Wsheet.Cells("B" & (tabla2.Rows.Count + filadatos).ToString & ":G" & (tabla2.Rows.Count + filadatos).ToString).SetBordersStyles(TypeOfMultipleBorders.All, TypeOfBorderLine.Thin, ColorPalette.Black)
         Wbook.ConvertingOptions.SavePictureMode = True
-        Wbook.WriteXLS(rutaPlantilla & "WriteXLS.xls")
+        Wbook.WriteXLS(rutaPlantilla & "WriteXLS2s.xls")
 
         HttpContext.Current.Response.AppendHeader("Content-Type", "application/vnd.ms-excel")
         HttpContext.Current.Response.AppendHeader("Content-Disposition", [String].Format("attachment; filename={0}", ArchivoFecha))

@@ -540,12 +540,12 @@ Partial Class logistica_pendientes
 
             Dim cantOriginal As Double
             Dim factor As Double
-            Dim res As Integer
+            Dim res As Double
 
             Try
                 cantOriginal = CDbl(lblCantOriginal.Text)
                 factor = CDbl(lblFactor.Text)
-                res = Math.Truncate(cantOriginal / factor)
+                res = Math.Round((cantOriginal / factor) * 1000) / 1000
                 'btnAceptarEdit.Attributes("class") = "btn btn-vitalicia btn-md disabled"
                 lblErrorArticuloS.Attributes("style") = ""
                 lblErrorArticuloS.Attributes("class") = "alert alert-success"
@@ -638,12 +638,12 @@ Partial Class logistica_pendientes
     Protected Sub cmbArticulo_SelectedIndexChanged(sender As Object, e As EventArgs) Handles cmbArticulo.SelectedIndexChanged
         Dim cantOriginal As Double
         Dim factor As Double
-        Dim res As Integer
+        Dim res As double
         llenarUM()
         Try
             cantOriginal = CDbl(lblCantOriginal.Text)
             factor = CDbl(lblFactor.Text)
-            res = Math.Truncate(cantOriginal / factor)
+            res = Math.Round((cantOriginal / factor) * 1000) / 1000
             'btnAceptarEdit.Attributes("class") = "btn btn-vitalicia btn-md disabled"
             lblErrorArticuloS.Attributes("style") = ""
             lblErrorArticuloS.Attributes("class") = "alert alert-success"

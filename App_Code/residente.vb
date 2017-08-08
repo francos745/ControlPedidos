@@ -150,7 +150,7 @@ Public Class residente
 
         plantilla = "Plantilla"
         ext = ".xls"
-        filadatos = "14"
+        filadatos = "13"
         columnadatos = "1"
         rutaPlantilla = "C:\Plantillas Control de Pedidos\"
         Wbook = ExcelWorkbook.ReadXLS(rutaPlantilla & plantilla & ext)
@@ -237,9 +237,20 @@ Public Class residente
         Wsheet.Cells(5, 3).Value = fecha
         Wsheet.Cells(5, 3).Style.StringFormat = "DD-MM-YYYY"
         Wsheet.Cells(6, 3).Value = codProyecto
-
-        Wsheet.Cells(10, 0).Value = observaciones
+        Dim A As String = ""
+        A = "A" & (tabla.Rows.Count + filadatos + 3).ToString & ":O" & (tabla.Rows.Count + filadatos + 3).ToString
+        Wsheet.Cells(A).IsMerged = True
         Wsheet.Cells(tabla.Rows.Count + filadatos, 0).Value = "***"
+        Wsheet.Cells(tabla.Rows.Count + filadatos + 1, 0).Value = "OBSERVACIONES"
+        Wsheet.Cells(tabla.Rows.Count + filadatos + 2, 0).Value = observaciones
+
+        Wsheet.Rows(tabla.Rows.Count + filadatos + 2).Height = 180
+        Wsheet.Rows(tabla.Rows.Count + filadatos + 1).Height = 22
+        Wsheet.Rows(tabla.Rows.Count + filadatos).Height = 22
+
+        Wsheet.Cells(tabla.Rows.Count + filadatos + 2, 0).Style.WrapText = True
+        Wsheet.Cells(tabla.Rows.Count + filadatos + 2, 0).Style.VerticalAlignment = TypeOfVAlignment.Top
+
 
         Wbook.WriteXLS(rutaPlantilla & "WriteXLS.xls")
 

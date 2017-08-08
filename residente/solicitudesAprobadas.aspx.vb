@@ -112,7 +112,7 @@ Partial Class solicitudesAprobadas
     Protected Sub Page_Load(sender As Object, e As EventArgs) Handles Me.Load
         validarInicioSesion()
         lblUsuario.Text = Session("proyecto")
-        Response.AddHeader("Refresh", Convert.ToString((Session.Timeout * 60) - 5) + ";Ingreso.aspx")
+        Response.AddHeader("Refresh", Convert.ToString((Session.Timeout * 60) - 5) + ";resIngreso.aspx")
         If Not Page.IsPostBack Then
 
 

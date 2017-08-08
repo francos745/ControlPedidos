@@ -100,7 +100,7 @@ Partial Class solicitudesRechazadas
         lblUsuario.Text = Session("proyecto")
         lblProyecto.Text = Session("proyecto")
 
-        Response.AddHeader("Refresh", Convert.ToString((Session.Timeout * 60) - 5) + ";Ingreso.aspx")
+        Response.AddHeader("Refresh", Convert.ToString((Session.Timeout * 60) - 5) + ";resIngreso.aspx")
         If Not Page.IsPostBack Then
             txtFecha.Text = DateTime.Now.AddDays(3).ToString("dd/MM/yyyy")
 

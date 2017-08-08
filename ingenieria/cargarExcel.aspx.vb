@@ -166,7 +166,7 @@ Partial Class cargarExcel
                 hoja = "Hoja1"
                 LeerArchivoExcel(dtgObsRes, carpeta_final, rango, hoja) ' Invocamos a la funcion LeerArchivoExcel, la cual devolverá un Dataset y sera el origen de los datos para el GridView
 
-                rango = "A13:P500"
+                rango = "A12:P500"
                 hoja = "Hoja1"
                 LeerArchivoExcel(dtgExcel, carpeta_final, rango, hoja) ' Invocamos a la funcion LeerArchivoExcel, la cual devolverá un Dataset y sera el origen de los datos para el GridView
 
@@ -302,7 +302,7 @@ Partial Class cargarExcel
         hoja = "Hoja1"
         LeerArchivoExcel(dtgObsRes, carpeta_final, rango, hoja) ' Invocamos a la funcion LeerArchivoExcel, la cual devolverá un Dataset y sera el origen de los datos para el GridView
 
-        rango = "A13:P500"
+        rango = "A12:P500"
         hoja = "Hoja1"
         LeerArchivoExcel(dtgExcel, carpeta_final, rango, hoja) ' Invocamos a la funcion LeerArchivoExcel, la cual devolverá un Dataset y sera el origen de los datos para el GridView
 

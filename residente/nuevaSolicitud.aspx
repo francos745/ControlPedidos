@@ -70,7 +70,7 @@
             $(document).ready(function () {
                 $('#dtgDetalle').dataTable({
 
-                    "lengthMenu": [[10, 15, 20, -1], [10, 15, 20, "Todos"]],
+                    "lengthMenu": [[-1, 5, 10, 15], ["Todos", 5, 10, 15]],
                     "responsive": true,
                     "stateSave": true,
                     "paging": true,

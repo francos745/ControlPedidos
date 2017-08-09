@@ -572,6 +572,8 @@
                         <asp:BoundField DataField="CANT_PRESUP_ACTAS_P" HeaderText="CANT PRESUP + ACTAS" ReadOnly="True" SortExpression="SOL" DataFormatString="{0:N}" />
 
                         <asp:BoundField DataField="CANT_DISP3_P" HeaderText="CANT DISP" ReadOnly="True" SortExpression="SOL" DataFormatString="{0:N}" ItemStyle-HorizontalAlign="Left" />
+                        
+                        <asp:BoundField DataField="NUMERO" HeaderText="NO." ReadOnly="True" Visible="True" SortExpression="ID" />
 
 
                     </Columns>

@@ -589,6 +589,7 @@ Partial Class nuevaSolicitud
         e.Row.Cells(20).Visible = False
         e.Row.Cells(32).Visible = False
         e.Row.Cells(33).Visible = False
+        e.Row.Cells(34).Visible = False
 
 
         If lblUMActual.Text = "Presupuesto" Then

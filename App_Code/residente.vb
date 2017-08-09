@@ -150,7 +150,7 @@ Public Class residente
 
         plantilla = "Plantilla"
         ext = ".xls"
-        filadatos = "13"
+        filadatos = "14"
         columnadatos = "1"
         rutaPlantilla = "C:\Plantillas Control de Pedidos\"
         Wbook = ExcelWorkbook.ReadXLS(rutaPlantilla & plantilla & ext)
@@ -177,7 +177,7 @@ Public Class residente
             Wsheet.Cells(i + filadatos, 0).Value = (i + 1)
 
             Wsheet.Cells(i + filadatos, 1).Value = HttpContext.Current.Server.HtmlDecode(tabla.Rows(i).Cells(18).Text)
-            Wsheet.Cells(i + filadatos, 2).Value = HttpContext.Current.Server.HtmlDecode(tabla.Rows(i).Cells(3).Text)
+            Wsheet.Cells(i + filadatos, 2).Value = HttpContext.Current.Server.HtmlDecode(tabla.Rows(i).Cells(34).Text) & "--" & HttpContext.Current.Server.HtmlDecode(tabla.Rows(i).Cells(3).Text)
 
             Wsheet.Cells(i + filadatos, 3).Value = HttpContext.Current.Server.HtmlDecode(tabla.Rows(i).Cells(19).Text)
             Wsheet.Cells(i + filadatos, 4).Value = HttpContext.Current.Server.HtmlDecode(tabla.Rows(i).Cells(4).Text)
@@ -237,20 +237,9 @@ Public Class residente
         Wsheet.Cells(5, 3).Value = fecha
         Wsheet.Cells(5, 3).Style.StringFormat = "DD-MM-YYYY"
         Wsheet.Cells(6, 3).Value = codProyecto
-        Dim A As String = ""
-        A = "A" & (tabla.Rows.Count + filadatos + 3).ToString & ":O" & (tabla.Rows.Count + filadatos + 3).ToString
-        Wsheet.Cells(A).IsMerged = True
+
+        Wsheet.Cells(10, 0).Value = observaciones
         Wsheet.Cells(tabla.Rows.Count + filadatos, 0).Value = "***"
-        Wsheet.Cells(tabla.Rows.Count + filadatos + 1, 0).Value = "OBSERVACIONES"
-        Wsheet.Cells(tabla.Rows.Count + filadatos + 2, 0).Value = observaciones
-
-        Wsheet.Rows(tabla.Rows.Count + filadatos + 2).Height = 180
-        Wsheet.Rows(tabla.Rows.Count + filadatos + 1).Height = 22
-        Wsheet.Rows(tabla.Rows.Count + filadatos).Height = 22
-
-        Wsheet.Cells(tabla.Rows.Count + filadatos + 2, 0).Style.WrapText = True
-        Wsheet.Cells(tabla.Rows.Count + filadatos + 2, 0).Style.VerticalAlignment = TypeOfVAlignment.Top
-
 
         Wbook.WriteXLS(rutaPlantilla & "WriteXLS.xls")
 

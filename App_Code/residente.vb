@@ -149,11 +149,11 @@ Public Class residente
         Dim plantilla, ext, filadatos, columnadatos, rutaPlantilla, Archivo As String
 
         plantilla = "Plantilla"
-        ext = ".xls"
-        filadatos = "14"
+        ext = ".xlsx"
+        filadatos = "13"
         columnadatos = "1"
         rutaPlantilla = "C:\Plantillas Control de Pedidos\"
-        Wbook = ExcelWorkbook.ReadXLS(rutaPlantilla & plantilla & ext)
+        Wbook = ExcelWorkbook.ReadXLSX(rutaPlantilla & plantilla & ext)
         Dim Wsheet As ExcelWorksheet = Wbook.Worksheets(0)
 
         filadatos = filadatos - 1
@@ -163,10 +163,133 @@ Public Class residente
 
 
         Archivo = "Solicitud " & codProyecto
-        Extension = ".xls"
+        Extension = ".xlsx"
         ArchivoFecha = Archivo & "_" & Now.ToString("yyyyMMddhhmmss")
         ArchivoFecha += Extension
         Archivo += Extension
+
+
+        'ponemos formato al encabezado
+
+        Wsheet.Cells(0, 0).Style.WrapText = True
+        Wsheet.Cells(0, 0).Style.VerticalAlignment = TypeOfVAlignment.Center
+        Wsheet.Cells(0, 0).Style.HorizontalAlignment = TypeOfHAlignment.Center
+        Wsheet.Cells(0, 0).Style.Font = New ExcelCellFont("Arial Narrow", 13, ColorPalette.KnownColor_WindowText)
+        Wsheet.Cells(0, 0).Style.Font.Bold = True
+
+        Wsheet.Cells(10, 0).Style.WrapText = True
+        Wsheet.Cells(10, 0).Style.VerticalAlignment = TypeOfVAlignment.Center
+        Wsheet.Cells(10, 0).Style.HorizontalAlignment = TypeOfHAlignment.Center
+        Wsheet.Cells(10, 0).Style.Font = New ExcelCellFont("Arial Narrow", 6, ColorPalette.KnownColor_WindowText)
+        Wsheet.Cells(10, 0).Style.Font.Bold = True
+
+        Wsheet.Cells(10, 1).Style.WrapText = True
+        Wsheet.Cells(10, 1).Style.VerticalAlignment = TypeOfVAlignment.Center
+        Wsheet.Cells(10, 1).Style.HorizontalAlignment = TypeOfHAlignment.Center
+        Wsheet.Cells(10, 1).Style.Font = New ExcelCellFont("Arial Narrow", 6, ColorPalette.KnownColor_WindowText)
+        Wsheet.Cells(10, 1).Style.Font.Bold = True
+
+        Wsheet.Cells(10, 3).Style.WrapText = True
+        Wsheet.Cells(10, 3).Style.VerticalAlignment = TypeOfVAlignment.Center
+        Wsheet.Cells(10, 3).Style.HorizontalAlignment = TypeOfHAlignment.Center
+        Wsheet.Cells(10, 3).Style.Font = New ExcelCellFont("Arial Narrow", 6, ColorPalette.KnownColor_WindowText)
+        Wsheet.Cells(10, 3).Style.Font.Bold = True
+
+        Wsheet.Cells(10, 5).Style.WrapText = True
+        Wsheet.Cells(10, 5).Style.VerticalAlignment = TypeOfVAlignment.Center
+        Wsheet.Cells(10, 5).Style.HorizontalAlignment = TypeOfHAlignment.Center
+        Wsheet.Cells(10, 5).Style.Font = New ExcelCellFont("Arial Narrow", 6, ColorPalette.KnownColor_WindowText)
+        Wsheet.Cells(10, 5).Style.Font.Bold = True
+
+        Wsheet.Cells(10, 7).Style.WrapText = True
+        Wsheet.Cells(10, 7).Style.VerticalAlignment = TypeOfVAlignment.Center
+        Wsheet.Cells(10, 7).Style.HorizontalAlignment = TypeOfHAlignment.Center
+        Wsheet.Cells(10, 7).Style.Font = New ExcelCellFont("Arial Narrow", 6, ColorPalette.KnownColor_WindowText)
+        Wsheet.Cells(10, 7).Style.Font.Bold = True
+
+        Wsheet.Cells(10, 8).Style.WrapText = True
+        Wsheet.Cells(10, 8).Style.VerticalAlignment = TypeOfVAlignment.Center
+        Wsheet.Cells(10, 8).Style.HorizontalAlignment = TypeOfHAlignment.Center
+        Wsheet.Cells(10, 8).Style.Font = New ExcelCellFont("Arial Narrow", 6, ColorPalette.KnownColor_WindowText)
+        Wsheet.Cells(10, 8).Style.Font.Bold = True
+
+        Wsheet.Cells(11, 1).Style.WrapText = True
+        Wsheet.Cells(11, 1).Style.VerticalAlignment = TypeOfVAlignment.Center
+        Wsheet.Cells(11, 1).Style.HorizontalAlignment = TypeOfHAlignment.Center
+        Wsheet.Cells(11, 1).Style.Font = New ExcelCellFont("Arial Narrow", 6, ColorPalette.KnownColor_WindowText)
+        Wsheet.Cells(11, 1).Style.Font.Bold = True
+
+        Wsheet.Cells(11, 2).Style.WrapText = True
+        Wsheet.Cells(11, 2).Style.VerticalAlignment = TypeOfVAlignment.Center
+        Wsheet.Cells(11, 2).Style.HorizontalAlignment = TypeOfHAlignment.Center
+        Wsheet.Cells(11, 2).Style.Font = New ExcelCellFont("Arial Narrow", 6, ColorPalette.KnownColor_WindowText)
+        Wsheet.Cells(11, 2).Style.Font.Bold = True
+
+        Wsheet.Cells(11, 3).Style.WrapText = True
+        Wsheet.Cells(11, 3).Style.VerticalAlignment = TypeOfVAlignment.Center
+        Wsheet.Cells(11, 3).Style.HorizontalAlignment = TypeOfHAlignment.Center
+        Wsheet.Cells(11, 3).Style.Font = New ExcelCellFont("Arial Narrow", 6, ColorPalette.KnownColor_WindowText)
+        Wsheet.Cells(11, 3).Style.Font.Bold = True
+
+        Wsheet.Cells(11, 4).Style.WrapText = True
+        Wsheet.Cells(11, 4).Style.VerticalAlignment = TypeOfVAlignment.Center
+        Wsheet.Cells(11, 4).Style.HorizontalAlignment = TypeOfHAlignment.Center
+        Wsheet.Cells(11, 4).Style.Font = New ExcelCellFont("Arial Narrow", 6, ColorPalette.KnownColor_WindowText)
+        Wsheet.Cells(11, 4).Style.Font.Bold = True
+
+        Wsheet.Cells(11, 5).Style.WrapText = True
+        Wsheet.Cells(11, 5).Style.VerticalAlignment = TypeOfVAlignment.Center
+        Wsheet.Cells(11, 5).Style.HorizontalAlignment = TypeOfHAlignment.Center
+        Wsheet.Cells(11, 5).Style.Font = New ExcelCellFont("Arial Narrow", 6, ColorPalette.KnownColor_WindowText)
+        Wsheet.Cells(11, 5).Style.Font.Bold = True
+
+        Wsheet.Cells(11, 6).Style.WrapText = True
+        Wsheet.Cells(11, 6).Style.VerticalAlignment = TypeOfVAlignment.Center
+        Wsheet.Cells(11, 6).Style.HorizontalAlignment = TypeOfHAlignment.Center
+        Wsheet.Cells(11, 6).Style.Font = New ExcelCellFont("Arial Narrow", 6, ColorPalette.KnownColor_WindowText)
+        Wsheet.Cells(11, 6).Style.Font.Bold = True
+
+        Wsheet.Cells(11, 8).Style.WrapText = True
+        Wsheet.Cells(11, 8).Style.VerticalAlignment = TypeOfVAlignment.Center
+        Wsheet.Cells(11, 8).Style.HorizontalAlignment = TypeOfHAlignment.Center
+        Wsheet.Cells(11, 8).Style.Font = New ExcelCellFont("Arial Narrow", 6, ColorPalette.KnownColor_WindowText)
+        Wsheet.Cells(11, 8).Style.Font.Bold = True
+
+        Wsheet.Cells(11, 9).Style.WrapText = True
+        Wsheet.Cells(11, 9).Style.VerticalAlignment = TypeOfVAlignment.Center
+        Wsheet.Cells(11, 9).Style.HorizontalAlignment = TypeOfHAlignment.Center
+        Wsheet.Cells(11, 9).Style.Font = New ExcelCellFont("Arial Narrow", 6, ColorPalette.KnownColor_WindowText)
+        Wsheet.Cells(11, 9).Style.Font.Bold = True
+
+        Wsheet.Cells(11, 10).Style.WrapText = True
+        Wsheet.Cells(11, 10).Style.VerticalAlignment = TypeOfVAlignment.Center
+        Wsheet.Cells(11, 10).Style.HorizontalAlignment = TypeOfHAlignment.Center
+        Wsheet.Cells(11, 10).Style.Font = New ExcelCellFont("Arial Narrow", 6, ColorPalette.KnownColor_WindowText)
+        Wsheet.Cells(11, 10).Style.Font.Bold = True
+
+        Wsheet.Cells(11, 11).Style.WrapText = True
+        Wsheet.Cells(11, 11).Style.VerticalAlignment = TypeOfVAlignment.Center
+        Wsheet.Cells(11, 11).Style.HorizontalAlignment = TypeOfHAlignment.Center
+        Wsheet.Cells(11, 11).Style.Font = New ExcelCellFont("Arial Narrow", 6, ColorPalette.KnownColor_WindowText)
+        Wsheet.Cells(11, 11).Style.Font.Bold = True
+
+        Wsheet.Cells(11, 12).Style.WrapText = True
+        Wsheet.Cells(11, 12).Style.VerticalAlignment = TypeOfVAlignment.Center
+        Wsheet.Cells(11, 12).Style.HorizontalAlignment = TypeOfHAlignment.Center
+        Wsheet.Cells(11, 12).Style.Font = New ExcelCellFont("Arial Narrow", 6, ColorPalette.KnownColor_WindowText)
+        Wsheet.Cells(11, 12).Style.Font.Bold = True
+
+        Wsheet.Cells(11, 13).Style.WrapText = True
+        Wsheet.Cells(11, 13).Style.VerticalAlignment = TypeOfVAlignment.Center
+        Wsheet.Cells(11, 13).Style.HorizontalAlignment = TypeOfHAlignment.Center
+        Wsheet.Cells(11, 13).Style.Font = New ExcelCellFont("Arial Narrow", 6, ColorPalette.KnownColor_WindowText)
+        Wsheet.Cells(11, 13).Style.Font.Bold = True
+
+        Wsheet.Cells(11, 14).Style.WrapText = True
+        Wsheet.Cells(11, 14).Style.VerticalAlignment = TypeOfVAlignment.Center
+        Wsheet.Cells(11, 14).Style.HorizontalAlignment = TypeOfHAlignment.Center
+        Wsheet.Cells(11, 14).Style.Font = New ExcelCellFont("Arial Narrow", 6, ColorPalette.KnownColor_WindowText)
+        Wsheet.Cells(11, 14).Style.Font.Bold = True
 
 
 
@@ -174,23 +297,69 @@ Public Class residente
         For i As Integer = 0 To tabla.Rows.Count - 1
             Dim j As Integer = 0
             j += 1
+            Wsheet.Cells(i + filadatos, 0).Style.WrapText = True
+            Wsheet.Cells(i + filadatos, 0).Style.VerticalAlignment = TypeOfVAlignment.Center
+            Wsheet.Cells(i + filadatos, 0).Style.Font = New ExcelCellFont("Arial Narrow", 7, ColorPalette.KnownColor_WindowText)
             Wsheet.Cells(i + filadatos, 0).Value = (i + 1)
-
+            Wsheet.Cells(i + filadatos, 1).Style.WrapText = True
+            Wsheet.Cells(i + filadatos, 1).Style.VerticalAlignment = TypeOfVAlignment.Center
+            Wsheet.Cells(i + filadatos, 1).Style.Font = New ExcelCellFont("Arial Narrow", 7, ColorPalette.KnownColor_WindowText)
             Wsheet.Cells(i + filadatos, 1).Value = HttpContext.Current.Server.HtmlDecode(tabla.Rows(i).Cells(18).Text)
-            Wsheet.Cells(i + filadatos, 2).Value = HttpContext.Current.Server.HtmlDecode(tabla.Rows(i).Cells(34).Text) & "--" & HttpContext.Current.Server.HtmlDecode(tabla.Rows(i).Cells(3).Text)
-
+            Wsheet.Cells(i + filadatos, 2).Style.WrapText = True
+            Wsheet.Cells(i + filadatos, 2).Style.VerticalAlignment = TypeOfVAlignment.Center
+            Wsheet.Cells(i + filadatos, 2).Style.Font = New ExcelCellFont("Arial Narrow", 8, ColorPalette.KnownColor_WindowText)
+            Wsheet.Cells(i + filadatos, 2).Value = HttpContext.Current.Server.HtmlDecode(tabla.Rows(i).Cells(34).Text) + "---" + HttpContext.Current.Server.HtmlDecode(tabla.Rows(i).Cells(3).Text)
+            Wsheet.Cells(i + filadatos, 3).Style.WrapText = True
+            Wsheet.Cells(i + filadatos, 3).Style.VerticalAlignment = TypeOfVAlignment.Center
+            Wsheet.Cells(i + filadatos, 3).Style.Font = New ExcelCellFont("Arial Narrow", 7, ColorPalette.KnownColor_WindowText)
             Wsheet.Cells(i + filadatos, 3).Value = HttpContext.Current.Server.HtmlDecode(tabla.Rows(i).Cells(19).Text)
+            Wsheet.Cells(i + filadatos, 4).Style.WrapText = True
+            Wsheet.Cells(i + filadatos, 4).Style.VerticalAlignment = TypeOfVAlignment.Center
+            Wsheet.Cells(i + filadatos, 4).Style.Font = New ExcelCellFont("Arial Narrow", 8, ColorPalette.KnownColor_WindowText)
             Wsheet.Cells(i + filadatos, 4).Value = HttpContext.Current.Server.HtmlDecode(tabla.Rows(i).Cells(4).Text)
+            Wsheet.Cells(i + filadatos, 5).Style.WrapText = True
+            Wsheet.Cells(i + filadatos, 5).Style.VerticalAlignment = TypeOfVAlignment.Center
+            Wsheet.Cells(i + filadatos, 5).Style.Font = New ExcelCellFont("Arial Narrow", 7, ColorPalette.KnownColor_WindowText)
             Wsheet.Cells(i + filadatos, 5).Value = HttpContext.Current.Server.HtmlDecode(tabla.Rows(i).Cells(20).Text)
+            Wsheet.Cells(i + filadatos, 6).Style.WrapText = True
+            Wsheet.Cells(i + filadatos, 6).Style.VerticalAlignment = TypeOfVAlignment.Center
+            Wsheet.Cells(i + filadatos, 6).Style.Font = New ExcelCellFont("Arial Narrow", 8, ColorPalette.KnownColor_WindowText)
             Wsheet.Cells(i + filadatos, 6).Value = HttpContext.Current.Server.HtmlDecode(tabla.Rows(i).Cells(5).Text)
+            Wsheet.Cells(i + filadatos, 7).Style.WrapText = True
+            Wsheet.Cells(i + filadatos, 7).Style.VerticalAlignment = TypeOfVAlignment.Center
+            Wsheet.Cells(i + filadatos, 7).Style.Font = New ExcelCellFont("Arial Narrow", 8, ColorPalette.KnownColor_WindowText)
             Wsheet.Cells(i + filadatos, 7).Value = HttpContext.Current.Server.HtmlDecode(tabla.Rows(i).Cells(6).Text)
+            Wsheet.Cells(i + filadatos, 8).Style.WrapText = True
+            Wsheet.Cells(i + filadatos, 8).Style.VerticalAlignment = TypeOfVAlignment.Center
+            Wsheet.Cells(i + filadatos, 8).Style.Font = New ExcelCellFont("Arial Narrow", 8, ColorPalette.KnownColor_WindowText)
             Wsheet.Cells(i + filadatos, 8).Value = CDbl(HttpContext.Current.Server.HtmlDecode(tabla.Rows(i).Cells(8).Text))
+            Wsheet.Cells(i + filadatos, 9).Style.WrapText = True
+            Wsheet.Cells(i + filadatos, 9).Style.VerticalAlignment = TypeOfVAlignment.Center
+            Wsheet.Cells(i + filadatos, 9).Style.Font = New ExcelCellFont("Arial Narrow", 8, ColorPalette.KnownColor_WindowText)
             Wsheet.Cells(i + filadatos, 9).Value = CDbl(HttpContext.Current.Server.HtmlDecode(tabla.Rows(i).Cells(9).Text))
+            Wsheet.Cells(i + filadatos, 10).Style.WrapText = True
+            Wsheet.Cells(i + filadatos, 10).Style.VerticalAlignment = TypeOfVAlignment.Center
+            Wsheet.Cells(i + filadatos, 10).Style.Font = New ExcelCellFont("Arial Narrow", 8, ColorPalette.KnownColor_WindowText)
             Wsheet.Cells(i + filadatos, 10).Value = CDbl(HttpContext.Current.Server.HtmlDecode(tabla.Rows(i).Cells(32).Text))
+            Wsheet.Cells(i + filadatos, 11).Style.WrapText = True
+            Wsheet.Cells(i + filadatos, 11).Style.VerticalAlignment = TypeOfVAlignment.Center
+            Wsheet.Cells(i + filadatos, 11).Style.Font = New ExcelCellFont("Arial Narrow", 8, ColorPalette.KnownColor_WindowText)
             Wsheet.Cells(i + filadatos, 11).Value = CDbl(HttpContext.Current.Server.HtmlDecode(tabla.Rows(i).Cells(14).Text))
+            Wsheet.Cells(i + filadatos, 12).Style.WrapText = True
+            Wsheet.Cells(i + filadatos, 12).Style.VerticalAlignment = TypeOfVAlignment.Center
+            Wsheet.Cells(i + filadatos, 12).Style.Font = New ExcelCellFont("Arial Narrow", 8, ColorPalette.KnownColor_WindowText)
             Wsheet.Cells(i + filadatos, 12).Value = CDbl(HttpContext.Current.Server.HtmlDecode(tabla.Rows(i).Cells(11).Text))
+            Wsheet.Cells(i + filadatos, 13).Style.WrapText = True
+            Wsheet.Cells(i + filadatos, 13).Style.VerticalAlignment = TypeOfVAlignment.Center
+            Wsheet.Cells(i + filadatos, 13).Style.Font = New ExcelCellFont("Arial Narrow", 8, ColorPalette.KnownColor_WindowText)
             Wsheet.Cells(i + filadatos, 13).Value = CDbl(HttpContext.Current.Server.HtmlDecode(tabla.Rows(i).Cells(33).Text))
+            Wsheet.Cells(i + filadatos, 14).Style.WrapText = True
+            Wsheet.Cells(i + filadatos, 14).Style.VerticalAlignment = TypeOfVAlignment.Center
+            Wsheet.Cells(i + filadatos, 14).Style.Font = New ExcelCellFont("Arial Narrow", 8, ColorPalette.KnownColor_WindowText)
             Wsheet.Cells(i + filadatos, 14).Value = CDbl(HttpContext.Current.Server.HtmlDecode(tabla.Rows(i).Cells(7).Text))
+            Wsheet.Cells(i + filadatos, 15).Style.WrapText = True
+            Wsheet.Cells(i + filadatos, 15).Style.VerticalAlignment = TypeOfVAlignment.Center
+            Wsheet.Cells(i + filadatos, 15).Style.Font = New ExcelCellFont("Arial Narrow", 8, ColorPalette.KnownColor_WindowText)
             Wsheet.Cells(i + filadatos, 15).Value = HttpContext.Current.Server.HtmlDecode(tabla.Rows(i).Cells(21).Text)
             If HttpContext.Current.Server.HtmlDecode(tabla.Rows(i).Cells(16).Text) = "SI" Then
                 If HttpContext.Current.Server.HtmlDecode(tabla.Rows(i).Cells(15).Text) = "SI" Then
@@ -237,15 +406,35 @@ Public Class residente
         Wsheet.Cells(5, 3).Value = fecha
         Wsheet.Cells(5, 3).Style.StringFormat = "DD-MM-YYYY"
         Wsheet.Cells(6, 3).Value = codProyecto
-
-        Wsheet.Cells(10, 0).Value = observaciones
+        Dim A As String = ""
+        A = "A" & (tabla.Rows.Count + filadatos + 3).ToString & ":O" & (tabla.Rows.Count + filadatos + 3).ToString
+        Wsheet.Cells(A).IsMerged = True
+        Wsheet.Cells(tabla.Rows.Count + filadatos, 0).Style.WrapText = True
+        Wsheet.Cells(tabla.Rows.Count + filadatos, 0).Style.VerticalAlignment = TypeOfVAlignment.Center
+        Wsheet.Cells(tabla.Rows.Count + filadatos, 0).Style.Font = New ExcelCellFont("Arial Narrow", 7, ColorPalette.KnownColor_WindowText)
         Wsheet.Cells(tabla.Rows.Count + filadatos, 0).Value = "***"
 
-        Wbook.WriteXLS(rutaPlantilla & "WriteXLS.xls")
+
+        Wsheet.Cells(tabla.Rows.Count + filadatos + 1, 0).Style.VerticalAlignment = TypeOfVAlignment.Center
+        Wsheet.Cells(tabla.Rows.Count + filadatos + 1, 0).Style.Font = New ExcelCellFont("Arial Narrow", 7, ColorPalette.KnownColor_WindowText)
+        Wsheet.Cells(tabla.Rows.Count + filadatos + 1, 0).Value = "OBSERVACIONES"
+
+        Wsheet.Cells(tabla.Rows.Count + filadatos + 2, 0).Style.WrapText = True
+        Wsheet.Cells(tabla.Rows.Count + filadatos + 2, 0).Style.VerticalAlignment = TypeOfVAlignment.Top
+        Wsheet.Cells(tabla.Rows.Count + filadatos + 2, 0).Style.Font = New ExcelCellFont("Arial Narrow", 9, ColorPalette.KnownColor_WindowText)
+        Wsheet.Cells(tabla.Rows.Count + filadatos + 2, 0).Value = observaciones
+
+        Wsheet.Rows(tabla.Rows.Count + filadatos + 2).Height = 145
+
+
+
+
+
+        Wbook.WriteXLSX(rutaPlantilla & "WriteXLSX.xlsx")
 
         HttpContext.Current.Response.AppendHeader("Content-Type", "application/vnd.ms-excel")
         HttpContext.Current.Response.AppendHeader("Content-Disposition", [String].Format("attachment; filename={0}", ArchivoFecha))
-        HttpContext.Current.Response.BinaryWrite(Wbook.WriteXLS().ToArray())
+        HttpContext.Current.Response.BinaryWrite(Wbook.WriteXLSX().ToArray())
         HttpContext.Current.Response.Flush()
         HttpContext.Current.Response.End()
     End Sub

@@ -45,7 +45,7 @@ Partial Class cargarExcel
             conn = New OleDbConnection(
                                     "Provider=Microsoft.ACE.OLEDB.12.0;" &
                                     "data source=" & ExcelFile & "; " &
-                                    "Extended Properties='Excel 12.0 Xml;HDR=Yes'")
+                                    "Extended Properties='Excel 12.0;HDR=NO; IMEX=1'")
             Try
                 da = New OleDbDataAdapter("SELECT * FROM  [" & hoja & "$" & rango & "]", conn)
                 conn.Open()
@@ -85,7 +85,7 @@ Partial Class cargarExcel
             Dim extension As String = Path.GetExtension(fileUpload.PostedFile.FileName)
             Select Case extension.ToLower()
                     'validas
-                Case ".xls"
+                Case ".xlsx"
                     Exit Select
                 Case Else
 
@@ -150,7 +150,7 @@ Partial Class cargarExcel
                     Exit Sub
                 End If
                 fileUpload.PostedFile.SaveAs(carpeta_final)
-                Dim rango As String = "D2:D9"
+                Dim rango As String = "D3:D9"
                 Dim hoja As String = "Hoja1"
                 Dim obsDO, obsRes, obsSO, proyecto, solicitante As String
                 Dim fechaSol, fechaE, fechaDO, fechaSO As Date
@@ -158,15 +158,12 @@ Partial Class cargarExcel
                 Dim multi, div, div2 As Double
                 LeerArchivoExcel(dtgCabecera, carpeta_final, rango, hoja) ' Invocamos a la funcion LeerArchivoExcel, la cual devolverá un Dataset y sera el origen de los datos para el GridView
 
-                rango = "I2:I7"
+                rango = "I3:I7"
                 hoja = "Hoja1"
                 LeerArchivoExcel(dtgObsSup, carpeta_final, rango, hoja) ' Invocamos a la funcion LeerArchivoExcel, la cual devolverá un Dataset y sera el origen de los datos para el GridView
 
-                rango = "A10:A11"
-                hoja = "Hoja1"
-                LeerArchivoExcel(dtgObsRes, carpeta_final, rango, hoja) ' Invocamos a la funcion LeerArchivoExcel, la cual devolverá un Dataset y sera el origen de los datos para el GridView
 
-                rango = "A12:P500"
+                rango = "A13:P500"
                 hoja = "Hoja1"
                 LeerArchivoExcel(dtgExcel, carpeta_final, rango, hoja) ' Invocamos a la funcion LeerArchivoExcel, la cual devolverá un Dataset y sera el origen de los datos para el GridView
 
@@ -284,7 +281,7 @@ Partial Class cargarExcel
 
 
     Protected Sub btnSi_Click(sender As Object, e As EventArgs) Handles btnSi.Click
-        Dim rango As String = "D2:D9"
+        Dim rango As String = "D3:D9"
         Dim hoja As String = "Hoja1"
         Dim obsDO, obsRes, obsSO, proyecto, solicitante As String
         Dim fechaSol, fechaE, fechaDO, fechaSO As Date
@@ -294,15 +291,12 @@ Partial Class cargarExcel
         carpeta_final = lblCarpetaFinal.Text
         LeerArchivoExcel(dtgCabecera, carpeta_final, rango, hoja) ' Invocamos a la funcion LeerArchivoExcel, la cual devolverá un Dataset y sera el origen de los datos para el GridView
 
-        rango = "I2:I7"
+        rango = "I3:I7"
         hoja = "Hoja1"
         LeerArchivoExcel(dtgObsSup, carpeta_final, rango, hoja) ' Invocamos a la funcion LeerArchivoExcel, la cual devolverá un Dataset y sera el origen de los datos para el GridView
 
-        rango = "A10:A11"
-        hoja = "Hoja1"
-        LeerArchivoExcel(dtgObsRes, carpeta_final, rango, hoja) ' Invocamos a la funcion LeerArchivoExcel, la cual devolverá un Dataset y sera el origen de los datos para el GridView
 
-        rango = "A12:P500"
+        rango = "A13:P500"
         hoja = "Hoja1"
         LeerArchivoExcel(dtgExcel, carpeta_final, rango, hoja) ' Invocamos a la funcion LeerArchivoExcel, la cual devolverá un Dataset y sera el origen de los datos para el GridView
 
@@ -329,7 +323,7 @@ Partial Class cargarExcel
         Catch ex As Exception
             lblMensajeS.Attributes("Style") = ""
             lblMensajeS.Attributes("class") = "alert alert-danger"
-            lblMensaje.Text = "No se cargó el archivo. Los formatos en las fecha son incorrectos."
+            lblMensaje.Text = "No se cargó el archivo. Los formatos en las fecha son incorrectos. " + ex.Message
             Exit Sub
         End Try
 
@@ -343,8 +337,10 @@ Partial Class cargarExcel
         obsDO = HttpUtility.HtmlDecode(dtgObsSup.Rows(4).Cells(0).Text)
 
         Dim cantFilas As Integer = 0
-        While dtgExcel.Rows(cantFilas).Cells(0).Text <> "***"
+        Dim aux As String = ""
+        While dtgExcel.Rows(cantFilas).Cells(0).Text <> "&nbsp;" And dtgExcel.Rows(cantFilas).Cells(0).Text <> "***"
             cantFilas += 1
+            aux = dtgExcel.Rows(cantFilas).Cells(0).Text
             If cantFilas > 500 Then
                 lblMensajeS.Attributes("Style") = ""
                 lblMensajeS.Attributes("class") = "alert alert-danger"

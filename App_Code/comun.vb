@@ -120,6 +120,40 @@ Public Class comun
         Return factor
     End Function
 
+    Function validarNumero(ByVal numero As String) As Double
+        Dim cant As Double
+        'Cambiamos el punto decimal por coma para hacer las operaciones en el sistema
+        numero = RTrim(LTrim(numero))
+        numero = Replace(numero, ",", "")
+        numero = Replace(numero, ".", ",")
+        numero = Replace(numero, " ", "")
+        'convertimos la cantidad en tipo Double
+        Try
+            cant = CDbl(numero)
+        Catch ex As Exception
+            cant = -1
+        End Try
+        'verificamos que las cantidades coincidan, si no coinciden cambiamos el caracter decimal de coma por punto
+        If numero <> cant.ToString Then
+            numero = Replace(numero, ",", ".")
+
+            Try
+                cant = CDbl(numero)
+            Catch ex As Exception
+                cant = -1
+            End Try
+        End If
+        Return cant
+    End Function
+
+    Function quitarCeroFinal(ByVal numero As String) As String
+        numero = Trim(numero)
+        While Right(numero, 1) = "0"
+            numero = Left(numero, Len(numero) - 1)
+        End While
+        Return numero
+    End Function
+
     Sub abrirNuevaVentana(ByVal url As String)
         Dim sScript As String = "<script language =javascript> "
         sScript += "window.open('" & url & "',null,'toolbar=0,scrollbars=1,location=0,statusbar=0,menubar=0,resizable=1,width=500,height=300,left=100,top=100');"

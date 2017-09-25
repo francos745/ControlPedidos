@@ -458,6 +458,7 @@ Partial Class logistica_pendientes
             cmbBodegas.DataBind()
             'Add Default Item in the DropDownList
             cmbBodegas.Items.Insert(0, New ListItem("ND"))
+            cmbBodegas.Items.Insert(1, New ListItem("OMITIR"))
             ' Select the Country of Customer in DropDownList
             Dim country As String = CType(e.Row.FindControl("lblBodegas"), Label).Text
             cmbBodegas.Items.FindByValue(country).Selected = True
@@ -671,24 +672,7 @@ Partial Class logistica_pendientes
         Dim cantRest As Double = 0
         Dim id As String = lblId.Text
 
-        'Cambiamos el punto decimal por coma para hacer las operaciones en el sistema
-        txtCantidad.Text = Replace(txtCantidad.Text, ".", ",")
-        'convertimos la cantidad en tipo Double
-        Try
-            cant = CDbl(txtCantidad.Text)
-        Catch ex As Exception
-            cant = -1
-        End Try
-        'verificamos que las cantidades coincidan, si no coinciden cambiamos el caracter decimal de coma por punto
-        If txtCantidad.Text <> cant.ToString Then
-            txtCantidad.Text = Replace(txtCantidad.Text, ",", ".")
-
-            Try
-                cant = CDbl(txtCantidad.Text)
-            Catch ex As Exception
-                cant = -1
-            End Try
-        End If
+        cant = com.validarNumero(txtCantidad.Text)
 
         cantEq = cant * CDbl(lblFactor.Text)
         If cant <> (-1) Then
@@ -729,24 +713,7 @@ Partial Class logistica_pendientes
 
 
 
-        'Cambiamos el punto decimal por coma para hacer las operaciones en el sistema
-        txtCantidad2.Text = Replace(txtCantidad2.Text, ".", ",")
-        'convertimos la cantidad en tipo Double
-        Try
-            cant = CDbl(txtCantidad2.Text)
-        Catch ex As Exception
-            cant = -1
-        End Try
-        'verificamos que las cantidades coincidan, si no coinciden cambiamos el caracter decimal de coma por punto
-        If txtCantidad2.Text <> cant.ToString Then
-            txtCantidad2.Text = Replace(txtCantidad2.Text, ",", ".")
-
-            Try
-                cant = CDbl(txtCantidad2.Text)
-            Catch ex As Exception
-                cant = -1
-            End Try
-        End If
+        cant = com.validarNumero(txtCantidad.Text)
 
         cantEq = cant * CDbl(lblFactor2.Text)
         If cant <> (-1) Then
@@ -923,7 +890,7 @@ Partial Class logistica_pendientes
 
 
     Protected Sub btnSinc_Click(sender As Object, e As EventArgs) Handles btnSinc.Click
-        query = " EXEC PEDIDOS.SINCRONIZAR"
+        query = " EXEC SOL_PEDIDOS.PEDIDOS.SINCRONIZAR"
         Try
             fn.ejecutarComandoSQL2(query)
             mostrarMensaje("Sincronización realizada satisfactoriamente", "exito")

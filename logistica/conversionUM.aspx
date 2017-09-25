@@ -159,7 +159,7 @@
             }
 
             function actualizar() {
-                var factor = $("#txtFactor").val();
+                var factor = $("#txtFactor").val().trim();
                 var um = $("#cmbUM").val();
                 var proyecto = $("#txtProyecto").val();
                 var articulo = $("#txtArticulo").val();
@@ -180,9 +180,10 @@
             }
 
             function refrescarValores(response) {
-                
+               
                 if (currentTr != null) {
-                    $(currentTr).find('td').eq(5).html(Math.round($("#txtFactor").val() * 100000000) / 100000000);
+                    console.log(response.d);
+                    $(currentTr).find('td').eq(5).html($("#txtFactor").val().replace(",", "."));
                     $(currentTr).find('td').eq(3).html($("#cmbUM").val());
                     alertify.success( $(currentTr).find('td').eq(2).text() + " actualizado(a) exitosamente");
                 }
@@ -392,7 +393,7 @@
                         
                         <asp:BoundField DataField="UM_A" HeaderText="UNIDAD DE ALMACEN" ReadOnly="True" SortExpression="UMP" />
 
-                        <asp:BoundField DataField="FACTOR" HeaderText="FACTOR DE CONVERSIÓN"  SortExpression="SOL" DataFormatString="{0:N8}" />
+                        <asp:BoundField DataField="FACTOR" HeaderText="FACTOR DE CONVERSIÓN"  SortExpression="SOL" DataFormatString="{0:N4}" />
 
                         <asp:BoundField DataField="OC" HeaderText="OC" ReadOnly="True" SortExpression="OC" />
                                                  

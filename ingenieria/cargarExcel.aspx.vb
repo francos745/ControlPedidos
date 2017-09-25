@@ -229,6 +229,7 @@ Partial Class cargarExcel
                 Dim cantSol(cantFilas) As String
                 Dim um(cantFilas) As String
                 Dim ume(cantFilas) As String
+                Dim com As New comun
 
                 For j As Int16 = 0 To cantFilas - 1
                     codAct(j) = dtgExcel.Rows(j).Cells(1).Text
@@ -247,7 +248,7 @@ Partial Class cargarExcel
                     If cantSol(j) = "" Then
                         A = 0
                     Else
-                        A = CDbl(cantSol(j))
+                        A = com.validarNumero(cantSol(j))
                     End If
 
                     multi = multiplicador(proyecto, codArt(j))
@@ -369,7 +370,7 @@ Partial Class cargarExcel
         Dim codAct(cantFilas) As String
         Dim codMat(cantFilas) As String
         Dim codArt(cantFilas) As String
-
+        Dim com As New comun
 
         Dim cantSol(cantFilas) As String
         Dim um(cantFilas) As String
@@ -391,7 +392,7 @@ Partial Class cargarExcel
             If cantSol(j) = "" Then
                 A = 0
             Else
-                A = CDbl(cantSol(j))
+                A = com.validarNumero(cantSol(j))
             End If
 
             multi = multiplicador(proyecto, codArt(j))

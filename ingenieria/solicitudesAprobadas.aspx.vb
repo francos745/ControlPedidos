@@ -347,7 +347,7 @@ Partial Class ingenieria_solicitudesAprobadas
     End Sub
 
     Protected Sub btnSinc_Click(sender As Object, e As EventArgs) Handles btnSinc.Click
-        query = " EXEC PEDIDOS.SINCRONIZAR"
+        query = " EXEC SOL_PEDIDOS.PEDIDOS.SINCRONIZAR"
         Try
             fn.ejecutarComandoSQL2(query)
             mostrarMensaje("Sincronización realizada satisfactoriamente", "exito")

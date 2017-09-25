@@ -308,7 +308,7 @@ Public Class residente
             Wsheet.Cells(i + filadatos, 2).Style.WrapText = True
             Wsheet.Cells(i + filadatos, 2).Style.VerticalAlignment = TypeOfVAlignment.Center
             Wsheet.Cells(i + filadatos, 2).Style.Font = New ExcelCellFont("Arial Narrow", 8, ColorPalette.KnownColor_WindowText)
-            Wsheet.Cells(i + filadatos, 2).Value = HttpContext.Current.Server.HtmlDecode(tabla.Rows(i).Cells(34).Text) + "---" + HttpContext.Current.Server.HtmlDecode(tabla.Rows(i).Cells(3).Text)
+            Wsheet.Cells(i + filadatos, 2).Value = HttpContext.Current.Server.HtmlDecode(tabla.Rows(i).Cells(3).Text)
             Wsheet.Cells(i + filadatos, 3).Style.WrapText = True
             Wsheet.Cells(i + filadatos, 3).Style.VerticalAlignment = TypeOfVAlignment.Center
             Wsheet.Cells(i + filadatos, 3).Style.Font = New ExcelCellFont("Arial Narrow", 7, ColorPalette.KnownColor_WindowText)
@@ -364,33 +364,39 @@ Public Class residente
             If HttpContext.Current.Server.HtmlDecode(tabla.Rows(i).Cells(16).Text) = "SI" Then
                 If HttpContext.Current.Server.HtmlDecode(tabla.Rows(i).Cells(15).Text) = "SI" Then
                     If CDbl(HttpContext.Current.Server.HtmlDecode(tabla.Rows(i).Cells(13).Text)) < 0 Then
-                        Wsheet.Cells(i + filadatos, 13).Style.PatternForeColor = ColorPalette.Red
-                        Wsheet.Cells(i + filadatos, 6).Style.PatternForeColor = ColorPalette.Red
+                        Wsheet.Cells(i + filadatos, 13).Style.BackgroundColor = ColorPalette.Red
+                        Wsheet.Cells(i + filadatos, 6).Style.BackgroundColor = ColorPalette.Red
+
                     Else
-                        Wsheet.Cells(i + filadatos, 13).Style.PatternForeColor = ColorPalette.White
-                        Wsheet.Cells(i + filadatos, 6).Style.PatternForeColor = ColorPalette.White
+                        Wsheet.Cells(i + filadatos, 13).Style.BackgroundColor = ColorPalette.White
+                        Wsheet.Cells(i + filadatos, 6).Style.BackgroundColor = ColorPalette.White
                     End If
                 Else
                     If CDbl(HttpContext.Current.Server.HtmlDecode(tabla.Rows(i).Cells(9).Text)) > 0 Then
-                        Wsheet.Cells(i + filadatos, 13).Style.PatternForeColor = ColorPalette.LightGreen
-                        Wsheet.Cells(i + filadatos, 6).Style.PatternForeColor = ColorPalette.LightGreen
+                        Wsheet.Cells(i + filadatos, 13).Style.BackgroundColor = ColorPalette.LightGreen
+                        Wsheet.Cells(i + filadatos, 6).Style.BackgroundColor = ColorPalette.LightGreen
+
                     Else
-                        Wsheet.Cells(i + filadatos, 13).Style.PatternForeColor = ColorPalette.Orange
-                        Wsheet.Cells(i + filadatos, 6).Style.PatternForeColor = ColorPalette.Orange
+                        Wsheet.Cells(i + filadatos, 13).Style.BackgroundColor = ColorPalette.Orange
+                        Wsheet.Cells(i + filadatos, 6).Style.BackgroundColor = ColorPalette.Orange
+
                     End If
                 End If
             Else
                 If HttpContext.Current.Server.HtmlDecode(tabla.Rows(i).Cells(15).Text) = "SI" Then
                     If CDbl(HttpContext.Current.Server.HtmlDecode(tabla.Rows(i).Cells(9).Text)) > 0 Then
-                        Wsheet.Cells(i + filadatos, 13).Style.PatternForeColor = ColorPalette.LightGreen
-                        Wsheet.Cells(i + filadatos, 6).Style.PatternForeColor = ColorPalette.LightGreen
+                        Wsheet.Cells(i + filadatos, 13).Style.BackgroundColor = ColorPalette.LightGreen
+                        Wsheet.Cells(i + filadatos, 6).Style.BackgroundColor = ColorPalette.LightGreen
+
                     Else
-                        Wsheet.Cells(i + filadatos, 13).Style.PatternForeColor = ColorPalette.Orange
-                        Wsheet.Cells(i + filadatos, 6).Style.PatternForeColor = ColorPalette.Orange
+                        Wsheet.Cells(i + filadatos, 13).Style.BackgroundColor = ColorPalette.Orange
+                        Wsheet.Cells(i + filadatos, 6).Style.BackgroundColor = ColorPalette.Orange
+
                     End If
                 Else
-                    Wsheet.Cells(i + filadatos, 13).Style.PatternForeColor = ColorPalette.Yellow
-                    Wsheet.Cells(i + filadatos, 6).Style.PatternForeColor = ColorPalette.Yellow
+                    Wsheet.Cells(i + filadatos, 13).Style.BackgroundColor = ColorPalette.Yellow
+                    Wsheet.Cells(i + filadatos, 6).Style.BackgroundColor = ColorPalette.Yellow
+
                 End If
 
             End If

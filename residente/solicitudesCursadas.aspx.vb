@@ -280,11 +280,7 @@ Partial Class solicitudesCursadas
         End If
 
 
-        Try
-            cantidad = CDbl(txtCantidad.Text)
-        Catch ex As Exception
-            cantidad = -1
-        End Try
+        cantidad = com.validarNumero(txtCantidad.Text)
         txtCantidad.Text = ""
         'System.Threading.Thread.Sleep(500)
         If actividad = "" Then

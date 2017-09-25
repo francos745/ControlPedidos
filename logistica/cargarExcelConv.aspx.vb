@@ -11,7 +11,7 @@ Partial Class logistica_cargarExcelConv
     Dim query As String
     Dim fn As New Funciones
     Dim codigoSolicitud As String
-
+    Dim com As New comun
 
 
     Sub LeerArchivoExcel(ByVal tabla As GridView, ByVal path As String, ByVal rango As String, ByVal hoja As String)
@@ -143,7 +143,7 @@ Partial Class logistica_cargarExcelConv
 
 
                     query = " UPDATE SOL_PEDIDOS.PEDIDOS.CONVERSION"
-                    query += " SET FACTOR='" & factor(j) & "',"
+                    query += " SET FACTOR='" & com.validarNumero(factor(j)) & "',"
                     query += " UM_P='" & umP(j) & "', UpdatedBy='" & lblUsuario.Text & "', RecordDate=GETDATE()"
 
                     query += " WHERE PROYECTO='" & proyecto(j) & "'"

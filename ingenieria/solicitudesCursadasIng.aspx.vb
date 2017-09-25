@@ -296,7 +296,7 @@ Partial Class ingenieria_solicitudesCursadasIng
                 'cantidad disponible - (cantidad en actas - cantidad ejecutada en actas) + cantidad acta asignada 
                 If c < 0 Then
                     actas += 1
-                    MsgBox(c.ToString)
+                    ' MsgBox(c.ToString)
                 End If
 
             End If
@@ -605,7 +605,7 @@ Partial Class ingenieria_solicitudesCursadasIng
 
 
     Protected Sub btnSinc_Click(sender As Object, e As EventArgs) Handles btnSinc.Click
-        query = " EXEC PEDIDOS.SINCRONIZAR"
+        query = " EXEC SOL_PEDIDOS.PEDIDOS.SINCRONIZAR"
         Try
             fn.ejecutarComandoSQL(query, lblMensaje, lblMensajeS)
             mostrarMensaje("Sincronización realizada satisfactoriamente", "exito")
@@ -1205,47 +1205,13 @@ Partial Class ingenieria_solicitudesCursadasIng
         Dim idActa As String = cmbActa.SelectedValue
 
         Dim cant As Double
-
-        'Cambiamos el punto decimal por coma para hacer las operaciones en el sistema
-        txtCantidad.Text = Replace(txtCantidad.Text, ".", ",")
-        'convertimos la cantidad en tipo Double
-        Try
-            cant = CDbl(txtCantidad.Text)
-        Catch ex As Exception
-            cant = -1
-        End Try
-        'verificamos que las cantidades coincidan, si no coinciden cambiamos el caracter decimal de coma por punto
-        If txtCantidad.Text <> cant.ToString Then
-            txtCantidad.Text = Replace(txtCantidad.Text, ",", ".")
-
-            Try
-                cant = CDbl(txtCantidad.Text)
-            Catch ex As Exception
-                cant = -1
-            End Try
-        End If
+        cant = 1
+        cant = com.validarNumero(txtCantidad.Text)
 
 
         Dim cantEq As Double = cant / CDbl(lblFactor.Text)
 
-        'Cambiamos el punto decimal por coma para hacer las operaciones en el sistema
-        txtCantActa.Text = Replace(txtCantActa.Text, ".", ",")
-        'convertimos la cantidad en tipo Double
-        Try
-            cantActa = CDbl(txtCantActa.Text)
-        Catch ex As Exception
-            cantActa = -1
-        End Try
-        'verificamos que las cantidades coincidan, si no coinciden cambiamos el caracter decimal de coma por punto
-        If txtCantActa.Text <> cantActa.ToString Then
-            txtCantActa.Text = Replace(txtCantActa.Text, ",", ".")
-
-            Try
-                cantActa = CDbl(txtCantActa.Text)
-            Catch ex As Exception
-                cantActa = -1
-            End Try
-        End If
+        cantActa = com.validarNumero(txtCantActa.Text)
 
 
         Dim cantActaEq As Double = cantActa / CDbl(lblFactor.Text)

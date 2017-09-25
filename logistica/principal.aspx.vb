@@ -64,7 +64,7 @@ Partial Class logistica_principal
         Try
             fn.ejecutarComandoSQL2(query)
         Catch ex As Exception
-            MsgBox("error " + ex.Message)
+            ' MsgBox("error " + ex.Message)
         End Try
 
     End Sub

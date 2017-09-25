@@ -8,7 +8,7 @@ Partial Class logistica_conversionUM
     Dim com As New comun
     Sub llenarTablaConversion()
 
-        query = " SELECT DISTINCT PROYECTO,ARTICULO,DESCRIPCION,UM_P,UM_A,FACTOR,"
+        query = " SELECT DISTINCT PROYECTO,ARTICULO,DESCRIPCION,UM_P,UM_A,FORMAT((FACTOR),'####,0.0000')FACTOR,"
         query += " (SELECT TOP 1 ORDEN_CAMBIO FROM SOL_PEDIDOS.PEDIDOS.CONVERSION B"
         query += " WHERE A.PROYECTO=B.PROYECTO"
         query += " AND A.ARTICULO=B.ARTICULO"
@@ -26,7 +26,7 @@ Partial Class logistica_conversionUM
     Protected Sub dtgDetalle_PreRender(sender As Object, e As EventArgs) Handles dtgDetalle.PreRender
 
 
-        query = " SELECT DISTINCT PROYECTO,ARTICULO,DESCRIPCION,UM_P,UM_A,FACTOR,"
+        query = " SELECT DISTINCT PROYECTO,ARTICULO,DESCRIPCION,UM_P,UM_A, FORMAT((FACTOR),'##,0.0000')FACTOR,"
         query += " (SELECT TOP 1 ORDEN_CAMBIO FROM SOL_PEDIDOS.PEDIDOS.CONVERSION B"
         query += " WHERE A.PROYECTO=B.PROYECTO"
         query += " AND A.ARTICULO=B.ARTICULO"
@@ -129,7 +129,7 @@ Partial Class logistica_conversionUM
     End Sub
 
     Protected Sub btnSinc_Click(sender As Object, e As EventArgs) Handles btnSinc.Click
-        query = " EXEC PEDIDOS.SINCRONIZAR"
+        query = " EXEC SOL_PEDIDOS.PEDIDOS.SINCRONIZAR"
         Try
             fn.ejecutarComandoSQL2(query)
             insertarRegistros() '--0014-0081-0003
@@ -163,18 +163,31 @@ Partial Class logistica_conversionUM
 
 
     <WebMethod()>
-    Public Shared Function actualizaFactores(factor As Double, um As String, proyecto As String, articulo As String, usuario As String, oc As String) As String
+    Public Shared Function actualizaFactores(factor As String, um As String, proyecto As String, articulo As String, usuario As String, oc As String) As String
         Dim query As String
         Dim fn As New Funciones
-        query = " UPDATE SOL_PEDIDOS.PEDIDOS.CONVERSION SET FACTOR='" & factor & "', UM_P='" & um & "', UpdatedBy='" & usuario & "', RecordDate=GETDATE()"
-        query += oc + " AND PROYECTO='" & proyecto & "' AND ARTICULO='" & articulo & "'"
-        Try
-            fn.ejecutarComandoSQL2(query)
-        Catch ex As Exception
-            Return query
-        End Try
+        Dim com As New comun
+        factor = Trim(factor)
+        factor = com.quitarCeroFinal(factor)
+        Dim res As String = com.validarNumero(factor).ToString
+        Dim err As Integer = 0
 
-        Return query
+        query = " UPDATE SOL_PEDIDOS.PEDIDOS.CONVERSION SET FACTOR='" & res & "', UM_P='" & um & "', UpdatedBy='" & usuario & "', RecordDate=GETDATE()"
+        query += oc + " AND PROYECTO='" & proyecto & "' AND ARTICULO='" & articulo & "'"
+        err = fn.ejecutarComandoSQL3(query)
+        If err = -1 Then
+            res = Replace(res, ",", ".")
+
+            query = " UPDATE SOL_PEDIDOS.PEDIDOS.CONVERSION SET FACTOR='" & res & "', UM_P='" & um & "', UpdatedBy='" & usuario & "', RecordDate=GETDATE()"
+            query += oc + " AND PROYECTO='" & proyecto & "' AND ARTICULO='" & articulo & "'"
+
+            err = fn.ejecutarComandoSQL3(query)
+
+        End If
+
+
+
+        Return res
     End Function
 
 End Class

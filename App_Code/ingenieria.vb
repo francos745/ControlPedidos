@@ -86,7 +86,7 @@ Public Class ingenieria
                         Case "I", "i", "j", "l"
                             aux1 += 5
                         Case "J", "f", "r", "t", "|", "-"
-                            aux1 += 6
+                            aux1 += 8
                         Case "s", "z", ")", "(", "°", "_"
                             aux1 += 7
                         Case "F", "L", "S", "Z", "c", "g", "k", "v", "x", "y"
@@ -108,7 +108,7 @@ Public Class ingenieria
                         Case "W"
                             aux1 += 16
                         Case Else
-                            aux1 += 5
+                            aux1 += 10
                     End Select
                 Next
 
@@ -120,7 +120,7 @@ Public Class ingenieria
                         Case "I", "i", "j", "l"
                             aux2 += 5
                         Case "J", "f", "r", "t", "|", "-"
-                            aux2 += 6
+                            aux2 += 8
                         Case "s", "z", ")", "(", "°", "_"
                             aux2 += 7
                         Case "F", "L", "S", "Z", "c", "g", "k", "v", "x", "y"
@@ -142,7 +142,7 @@ Public Class ingenieria
                         Case "W"
                             aux2 += 16
                         Case Else
-                            aux2 += 5
+                            aux2 += 10
                     End Select
 
                 Next

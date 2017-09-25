@@ -312,63 +312,89 @@ Public Class ingenieria
         Next
         Wsheet.Cells("A" & (filadatos - k + tabla.Rows.Count).ToString & ":D" & (filadatos - k + tabla.Rows.Count).ToString).SetBordersStyles(TypeOfMultipleBorders.All, TypeOfBorderLine.Thin, ColorPalette.Black)
 
-        filadatos = filadatos + tabla.Rows.Count + 4
+        If ancho0 > 500 Then
+            ancho0 -= 75
+        Else
+            If ancho0 > 300 Then
+                ancho0 -= 50
+            Else
+                ancho0 -= 25
+            End If
+        End If
 
-
-        Wsheet.Cells(filadatos - 4, 1).Value = "PRESUPUESTO"
-        Wsheet.Cells(filadatos - 4, 1).Style.Font.Bold = True
-        Wsheet.Cells(filadatos - 4, 1).Style.Font.Size = 14
-
-        Wsheet.Cells("B" & (filadatos - 2).ToString & ":C" & (filadatos + 1).ToString).IsMerged = True
-        Wsheet.Cells(filadatos - 1, 3).Style.WrapText = True
-        Wsheet.Cells(filadatos - 1, 3).Value = ""
-        Wsheet.Cells(filadatos - 1, 3).Style.Font.Bold = True
-
-
-        Wsheet.Cells(filadatos - 1, 3).Style.WrapText = True
-        Wsheet.Cells(filadatos - 1, 3).Value = ""
-        Wsheet.Cells(filadatos - 1, 3).Style.Font.Bold = True
-
-        Wsheet.Cells("D" & (filadatos - 2).ToString & ":D" & (filadatos + 1).ToString).IsMerged = True
-        Wsheet.Cells(filadatos - 1, 3).Style.WrapText = True
-        Wsheet.Cells(filadatos - 1, 3).Style.Font.Bold = True
-        Wsheet.Cells(filadatos - 1, 3).Style.VerticalAlignment = TypeOfVAlignment.Center
-        Wsheet.Cells(filadatos - 1, 3).Style.HorizontalAlignment = TypeOfHAlignment.Center
-        Wsheet.Cells(filadatos - 1, 3).Value = "CANTIDAD PRESUPUESTO APROBADO"
+        If ancho1 > 500 Then
+            ancho1 -= 75
+        Else
+            If ancho1 > 300 Then
+                ancho1 -= 50
+            Else
+                ancho1 -= 25
+            End If
+        End If
+        Wsheet.Columns(0).Width = ancho0
+        Wsheet.Columns(1).Width = ancho1
 
 
 
-        Wsheet.Cells("E" & (filadatos - 2).ToString & ":E" & (filadatos + 1).ToString).IsMerged = True
-        Wsheet.Cells(filadatos - 1, 4).Style.WrapText = True
-        Wsheet.Cells(filadatos - 1, 4).Style.Font.Bold = True
-        Wsheet.Cells(filadatos - 1, 4).Style.VerticalAlignment = TypeOfVAlignment.Center
-        Wsheet.Cells(filadatos - 1, 4).Style.HorizontalAlignment = TypeOfHAlignment.Center
-        Wsheet.Cells(filadatos - 1, 4).Value = "CANTIDAD EJECUTADA"
+        '---------------------------------- comienzo de la generación del PRESUPUESTO APROBADO --------------------------------------------------
+        'filadatos = filadatos + tabla.Rows.Count + 4
+        filadatos = filadatos + 2
 
 
-        Wsheet.Cells("F" & (filadatos - 2).ToString & ":F" & (filadatos + 1).ToString).IsMerged = True
-        Wsheet.Cells(filadatos - 1, 5).Style.WrapText = True
-        Wsheet.Cells(filadatos - 1, 5).Style.Font.Bold = True
-        Wsheet.Cells(filadatos - 1, 5).Style.VerticalAlignment = TypeOfVAlignment.Center
-        Wsheet.Cells(filadatos - 1, 5).Style.HorizontalAlignment = TypeOfHAlignment.Center
-        Wsheet.Cells(filadatos - 1, 5).Value = "CANTIDAD NO EJECUTADA"
+        Wsheet.Cells(filadatos - 4, 5).Value = "PRESUPUESTO"
+        Wsheet.Cells(filadatos - 4, 5).Style.Font.Bold = True
+        Wsheet.Cells(filadatos - 4, 5).Style.Font.Size = 14
 
-        Wsheet.Cells("G" & (filadatos - 2).ToString & ":G" & (filadatos + 1).ToString).IsMerged = True
-        Wsheet.Cells(filadatos - 1, 6).Style.WrapText = True
-        Wsheet.Cells(filadatos - 1, 6).Style.Font.Bold = True
-        Wsheet.Cells(filadatos - 1, 6).Style.VerticalAlignment = TypeOfVAlignment.Center
-        Wsheet.Cells(filadatos - 1, 6).Style.HorizontalAlignment = TypeOfHAlignment.Center
-        Wsheet.Cells(filadatos - 1, 6).Value = "CANTIDAD EJECUTADA C/ACTA"
+        Wsheet.Cells("F" & (filadatos - 2).ToString & ":G" & (filadatos + 1).ToString).IsMerged = True
+        Wsheet.Cells(filadatos - 1, 7).Style.WrapText = True
+        Wsheet.Cells(filadatos - 1, 7).Value = ""
+        Wsheet.Cells(filadatos - 1, 7).Style.Font.Bold = True
+
+
+        Wsheet.Cells(filadatos - 1, 7).Style.WrapText = True
+        Wsheet.Cells(filadatos - 1, 7).Value = ""
+        Wsheet.Cells(filadatos - 1, 7).Style.Font.Bold = True
+
+        Wsheet.Cells("H" & (filadatos - 2).ToString & ":H" & (filadatos + 1).ToString).IsMerged = True
+        Wsheet.Cells(filadatos - 1, 7).Style.WrapText = True
+        Wsheet.Cells(filadatos - 1, 7).Style.Font.Bold = True
+        Wsheet.Cells(filadatos - 1, 7).Style.VerticalAlignment = TypeOfVAlignment.Center
+        Wsheet.Cells(filadatos - 1, 7).Style.HorizontalAlignment = TypeOfHAlignment.Center
+        Wsheet.Cells(filadatos - 1, 7).Value = "CANTIDAD PRESUPUESTO APROBADO"
+
+
+
+        Wsheet.Cells("I" & (filadatos - 2).ToString & ":I" & (filadatos + 1).ToString).IsMerged = True
+        Wsheet.Cells(filadatos - 1, 8).Style.WrapText = True
+        Wsheet.Cells(filadatos - 1, 8).Style.Font.Bold = True
+        Wsheet.Cells(filadatos - 1, 8).Style.VerticalAlignment = TypeOfVAlignment.Center
+        Wsheet.Cells(filadatos - 1, 8).Style.HorizontalAlignment = TypeOfHAlignment.Center
+        Wsheet.Cells(filadatos - 1, 8).Value = "CANTIDAD EJECUTADA"
+
+
+        Wsheet.Cells("J" & (filadatos - 2).ToString & ":J" & (filadatos + 1).ToString).IsMerged = True
+        Wsheet.Cells(filadatos - 1, 9).Style.WrapText = True
+        Wsheet.Cells(filadatos - 1, 9).Style.Font.Bold = True
+        Wsheet.Cells(filadatos - 1, 9).Style.VerticalAlignment = TypeOfVAlignment.Center
+        Wsheet.Cells(filadatos - 1, 9).Style.HorizontalAlignment = TypeOfHAlignment.Center
+        Wsheet.Cells(filadatos - 1, 9).Value = "CANTIDAD NO EJECUTADA"
+
+        Wsheet.Cells("K" & (filadatos - 2).ToString & ":K" & (filadatos + 1).ToString).IsMerged = True
+        Wsheet.Cells(filadatos - 1, 10).Style.WrapText = True
+        Wsheet.Cells(filadatos - 1, 10).Style.Font.Bold = True
+        Wsheet.Cells(filadatos - 1, 10).Style.VerticalAlignment = TypeOfVAlignment.Center
+        Wsheet.Cells(filadatos - 1, 10).Style.HorizontalAlignment = TypeOfHAlignment.Center
+        Wsheet.Cells(filadatos - 1, 10).Value = "CANTIDAD EJECUTADA C/ACTA"
         filadatos += 1
-        Wsheet.Cells("D" & (filadatos - 3).ToString & ":G" & (filadatos).ToString).SetBordersStyles(TypeOfMultipleBorders.All, TypeOfBorderLine.Thin, ColorPalette.Black)
+        Wsheet.Cells("H" & (filadatos - 3).ToString & ":K" & (filadatos).ToString).SetBordersStyles(TypeOfMultipleBorders.All, TypeOfBorderLine.Thin, ColorPalette.Black)
         Dim aux As Integer = 10
         For i As Integer = 0 To tabla2.Rows.Count - 1
-            Wsheet.Cells(i - k + filadatos, 1).Style.WrapText = True
-            Wsheet.Cells(i - k + filadatos, 2).Style.WrapText = True
-            Wsheet.Cells(i - k + filadatos, 3).Style.WrapText = True
-            Wsheet.Cells(i - k + filadatos, 4).Style.WrapText = True
             Wsheet.Cells(i - k + filadatos, 5).Style.WrapText = True
             Wsheet.Cells(i - k + filadatos, 6).Style.WrapText = True
+            Wsheet.Cells(i - k + filadatos, 7).Style.WrapText = True
+            Wsheet.Cells(i - k + filadatos, 8).Style.WrapText = True
+            Wsheet.Cells(i - k + filadatos, 9).Style.WrapText = True
+            Wsheet.Cells(i - k + filadatos, 10).Style.WrapText = True
             'If tabla.Rows(i).Cells(1).Text.Length > 40 Then
             '    Wsheet.Rows(i - k + filadatos).Height = 40
             'Else
@@ -421,27 +447,18 @@ Public Class ingenieria
 
 
 
-            If aux1 > ancho0 Then
-                ancho0 = aux1
-            End If
-
-            If aux2 > ancho1 Then
-                ancho1 = aux2
-            End If
 
 
-
-
-            Wsheet.Cells(i + filadatos, 1).Value = HttpContext.Current.Server.HtmlDecode(tabla2.Rows(i).Cells(0).Text) '
-            Wsheet.Cells(i + filadatos, 2).Style.VerticalAlignment = TypeOfVAlignment.Center
-            Wsheet.Cells(i + filadatos, 2).Style.HorizontalAlignment = TypeOfHAlignment.Center
-            Wsheet.Cells(i + filadatos, 2).Value = HttpContext.Current.Server.HtmlDecode(tabla2.Rows(i).Cells(1).Text) 'ancho1 & " ancho1" '
-            Wsheet.Cells(i + filadatos, 3).Value = CDbl(HttpContext.Current.Server.HtmlDecode(tabla2.Rows(i).Cells(2).Text))
-            Wsheet.Cells(i + filadatos, 4).Value = CDbl(HttpContext.Current.Server.HtmlDecode(tabla2.Rows(i).Cells(3).Text))
-            Wsheet.Cells(i + filadatos, 5).Value = CDbl(HttpContext.Current.Server.HtmlDecode(tabla2.Rows(i).Cells(5).Text))
-            Wsheet.Cells(i + filadatos, 6).Value = CDbl(HttpContext.Current.Server.HtmlDecode(tabla2.Rows(i).Cells(4).Text))
+            Wsheet.Cells(i + filadatos, 5).Value = HttpContext.Current.Server.HtmlDecode(tabla2.Rows(i).Cells(0).Text) '
+            Wsheet.Cells(i + filadatos, 6).Style.VerticalAlignment = TypeOfVAlignment.Center
+            Wsheet.Cells(i + filadatos, 6).Style.HorizontalAlignment = TypeOfHAlignment.Center
+            Wsheet.Cells(i + filadatos, 6).Value = HttpContext.Current.Server.HtmlDecode(tabla2.Rows(i).Cells(1).Text) 'ancho1 & " ancho1" '
+            Wsheet.Cells(i + filadatos, 7).Value = CDbl(HttpContext.Current.Server.HtmlDecode(tabla2.Rows(i).Cells(2).Text))
+            Wsheet.Cells(i + filadatos, 8).Value = CDbl(HttpContext.Current.Server.HtmlDecode(tabla2.Rows(i).Cells(3).Text))
+            Wsheet.Cells(i + filadatos, 9).Value = CDbl(HttpContext.Current.Server.HtmlDecode(tabla2.Rows(i).Cells(5).Text))
+            Wsheet.Cells(i + filadatos, 10).Value = CDbl(HttpContext.Current.Server.HtmlDecode(tabla2.Rows(i).Cells(4).Text))
             If i <> 0 Then
-                Wsheet.Cells("B" & (i + filadatos).ToString & ":G" & (i + filadatos).ToString).SetBordersStyles(TypeOfMultipleBorders.All, TypeOfBorderLine.Thin, ColorPalette.Black)
+                Wsheet.Cells("F" & (i + filadatos).ToString & ":K" & (i + filadatos).ToString).SetBordersStyles(TypeOfMultipleBorders.All, TypeOfBorderLine.Thin, ColorPalette.Black)
 
             End If
 
@@ -465,10 +482,26 @@ Public Class ingenieria
                 ancho1 -= 25
             End If
         End If
-        Wsheet.Columns(0).Width = ancho0
-        Wsheet.Columns(1).Width = ancho1
+        ' Wsheet.Columns(0).Width = ancho0
+        Wsheet.Columns(5).Width = ancho1
 
-        Wsheet.Cells("B" & (tabla2.Rows.Count + filadatos).ToString & ":G" & (tabla2.Rows.Count + filadatos).ToString).SetBordersStyles(TypeOfMultipleBorders.All, TypeOfBorderLine.Thin, ColorPalette.Black)
+        ' le damos ancho fijo a las columnas del excel
+        Wsheet.Columns(2).Width = 62 ' +
+        Wsheet.Columns(3).Width = 75 '+
+        Wsheet.Columns(6).Width = 62 ' +
+        Wsheet.Columns(7).Width = 105 ' +
+        Wsheet.Columns(8).Width = 82
+        Wsheet.Columns(9).Width = 82
+        Wsheet.Columns(10).Width = 82
+
+
+
+
+
+
+
+
+        Wsheet.Cells("F" & (tabla2.Rows.Count + filadatos).ToString & ":K" & (tabla2.Rows.Count + filadatos).ToString).SetBordersStyles(TypeOfMultipleBorders.All, TypeOfBorderLine.Thin, ColorPalette.Black)
         Wbook.ConvertingOptions.SavePictureMode = True
         Wbook.WriteXLS(rutaPlantilla & "WriteXLS2s.xls")
 

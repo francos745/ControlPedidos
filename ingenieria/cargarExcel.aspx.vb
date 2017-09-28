@@ -205,7 +205,7 @@ Partial Class cargarExcel
                 obsDO = HttpUtility.HtmlDecode(dtgObsSup.Rows(4).Cells(0).Text)
 
                 Dim cantFilas As Integer = 0
-                While dtgExcel.Rows(cantFilas).Cells(0).Text <> "***"
+                While dtgExcel.Rows(cantFilas).Cells(0).Text <> "&nbsp;" And dtgExcel.Rows(cantFilas).Cells(0).Text <> "***"
                     cantFilas += 1
                     If cantFilas > 500 Then
                         lblMensajeS.Attributes("Style") = ""
@@ -338,10 +338,10 @@ Partial Class cargarExcel
         obsDO = HttpUtility.HtmlDecode(dtgObsSup.Rows(4).Cells(0).Text)
 
         Dim cantFilas As Integer = 0
-        Dim aux As String = ""
+
         While dtgExcel.Rows(cantFilas).Cells(0).Text <> "&nbsp;" And dtgExcel.Rows(cantFilas).Cells(0).Text <> "***"
             cantFilas += 1
-            aux = dtgExcel.Rows(cantFilas).Cells(0).Text
+
             If cantFilas > 500 Then
                 lblMensajeS.Attributes("Style") = ""
                 lblMensajeS.Attributes("class") = "alert alert-danger"

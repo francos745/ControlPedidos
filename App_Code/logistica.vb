@@ -16,6 +16,8 @@ Public Class logistica
         Dim fechaSolicitud As String
         Dim fechaRequerida As String
         Dim cabecera As String
+        Dim cantString As String
+        Dim cant As Double
 
         Dim cont As Integer
         Dim linea As String
@@ -72,7 +74,9 @@ Public Class logistica
 
                     For Each row As GridViewRow In tabla.Rows
                         If row.Cells(17).Text.ToString() = bodegaOrigen And row.Cells(14).Text.ToString() <> estado Then
-                            linea = consecutivo + "|" + bodegaOrigen + "|" & codigoVitalicia & "|PE" + correlativo + "|" + CStr(cont) + "||" + row.Cells(7).Text.ToString() + "|||||||0|0|0|" + row.Cells(10).Text.ToString() + "||" + accion + "|||||0|0||||||||||||||||||||||||||||||||||||||||||||||||||||"
+                            cant = CDbl(row.Cells(10).Text.ToString())
+                            cantString = cant.ToString.Replace(",", ".")
+                            linea = consecutivo + "|" + bodegaOrigen + "|" & codigoVitalicia & "|PE" + correlativo + "|" + CStr(cont) + "||" + row.Cells(7).Text.ToString() + "|||||||0|0|0|" + cantString + "||" + accion + "|||||0|0||||||||||||||||||||||||||||||||||||||||||||||||||||"
                             escritor.WriteLine(linea)
                             'ACTUALIZAMOS EL ESTADO DE LAS LINEAS
                             query = "UPDATE SOL_PEDIDOS.PEDIDOS.SOLICITUD_LOG_LINEA SET CONSEC_TXT='PE" + correlativo & "', ESTADO='G', LINEA='" & cont.ToString & "' , UpdatedBy='" & usuario & "', RecordDate=GETDATE() WHERE ID='" & row.Cells(2).Text.ToString() & "'"

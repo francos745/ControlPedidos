@@ -17,6 +17,7 @@ Public Class ingenieria
         Dim ancho1 As Integer = 0
         Dim aux1 As Integer = 0
         Dim aux2 As Integer = 0
+        Dim com As New comun
 
         Dim texto1 As String = ""
         Dim texto2 As String = ""
@@ -78,74 +79,8 @@ Public Class ingenieria
 
                 texto1 = HttpContext.Current.Server.HtmlDecode(tabla.Rows(i).Cells(1).Text)
                 texto2 = HttpContext.Current.Server.HtmlDecode(tabla.Rows(i).Cells(2).Text)
-                For Each val As Char In texto1.ToCharArray()
-
-                    Select Case val
-                        Case " "
-                            aux1 += 4
-                        Case "I", "i", "j", "l"
-                            aux1 += 5
-                        Case "J", "f", "r", "t", "|", "-"
-                            aux1 += 8
-                        Case "s", "z", ")", "(", "°", "_"
-                            aux1 += 7
-                        Case "F", "L", "S", "Z", "c", "g", "k", "v", "x", "y"
-                            aux1 += 8
-                        Case "E", "K", "P", "T", "X", "Y", "a", "b", "d", "e", "h", "n", "p", "q", "u", "1", "2", "3", "4", "5", "6", "7", "8", "9", "0"
-                            aux1 += 9
-                        Case "A", "B", "C", "R", "V", "o"
-                            aux1 += 10
-                        Case "D", "G", "H"
-                            aux1 += 11
-                        Case "N", "O", "Q", "U"
-                            aux1 += 12
-                        Case "w"
-                            aux1 += 13
-                        Case "m"
-                            aux1 += 14
-                        Case "M"
-                            aux1 += 15
-                        Case "W"
-                            aux1 += 16
-                        Case Else
-                            aux1 += 10
-                    End Select
-                Next
-
-                For Each val As Char In texto2.ToCharArray()
-
-                    Select Case val
-                        Case " "
-                            aux2 += 4
-                        Case "I", "i", "j", "l"
-                            aux2 += 5
-                        Case "J", "f", "r", "t", "|", "-"
-                            aux2 += 8
-                        Case "s", "z", ")", "(", "°", "_"
-                            aux2 += 7
-                        Case "F", "L", "S", "Z", "c", "g", "k", "v", "x", "y"
-                            aux2 += 8
-                        Case "E", "K", "P", "T", "X", "Y", "a", "b", "d", "e", "h", "n", "p", "q", "u", "1", "2", "3", "4", "5", "6", "7", "8", "9", "0"
-                            aux2 += 9
-                        Case "A", "B", "C", "R", "V", "o"
-                            aux2 += 10
-                        Case "D", "G", "H"
-                            aux2 += 11
-                        Case "N", "O", "Q", "U"
-                            aux2 += 12
-                        Case "w"
-                            aux2 += 13
-                        Case "m"
-                            aux2 += 14
-                        Case "M"
-                            aux2 += 15
-                        Case "W"
-                            aux2 += 16
-                        Case Else
-                            aux2 += 10
-                    End Select
-
-                Next
+                aux1 = com.contarPixeles(texto1)
+                aux2 = com.contarPixeles(texto2)
 
 
 
@@ -159,8 +94,8 @@ Public Class ingenieria
 
 
 
-                Wsheet.Cells(i - k + filadatos, 0).Value = HttpContext.Current.Server.HtmlDecode(tabla.Rows(i).Cells(1).Text) 'ancho0 & " ancho0" ' 
-                Wsheet.Cells(i - k + filadatos, 1).Value = HttpContext.Current.Server.HtmlDecode(tabla.Rows(i).Cells(2).Text) 'ancho1 & " ancho1" '
+                Wsheet.Cells(i - k + filadatos, 0).Value = texto1
+                Wsheet.Cells(i - k + filadatos, 1).Value = texto2
                 Wsheet.Cells(i - k + filadatos, 2).Style.VerticalAlignment = TypeOfVAlignment.Center
                     Wsheet.Cells(i - k + filadatos, 2).Style.HorizontalAlignment = TypeOfHAlignment.Center
                     Wsheet.Cells(i - k + filadatos, 2).Value = HttpContext.Current.Server.HtmlDecode(tabla.Rows(i).Cells(3).Text)
@@ -219,75 +154,8 @@ Public Class ingenieria
 
                 texto1 = HttpContext.Current.Server.HtmlDecode(tabla.Rows(i).Cells(1).Text)
                 texto2 = HttpContext.Current.Server.HtmlDecode(tabla.Rows(i).Cells(2).Text)
-                For Each val As Char In texto1.ToCharArray()
-                    Select Case val
-                        Case " "
-                            aux1 += 4
-                        Case "I", "i", "j", "l"
-                            aux1 += 5
-                        Case "J", "f", "r", "t", "|", "-"
-                            aux1 += 6
-                        Case "s", "z", ")", "(", "°", "_"
-                            aux1 += 7
-                        Case "F", "L", "S", "Z", "c", "g", "k", "v", "x", "y"
-                            aux1 += 8
-                        Case "E", "K", "P", "T", "X", "Y", "a", "b", "d", "e", "h", "n", "p", "q", "u", "1", "2", "3", "4", "5", "6", "7", "8", "9", "0"
-                            aux1 += 9
-                        Case "A", "B", "C", "R", "V", "o"
-                            aux1 += 10
-                        Case "D", "G", "H"
-                            aux1 += 11
-                        Case "N", "O", "Q", "U"
-                            aux1 += 12
-                        Case "w"
-                            aux1 += 13
-                        Case "m"
-                            aux1 += 14
-                        Case "M"
-                            aux1 += 15
-                        Case "W"
-                            aux1 += 16
-                        Case Else
-                            aux1 += 5
-                    End Select
-                Next
-
-                For Each val As Char In texto2.ToCharArray()
-
-                    Select Case val
-                        Case " "
-                            aux2 += 4
-                        Case "I", "i", "j", "l"
-                            aux2 += 5
-                        Case "J", "f", "r", "t", "|", "-"
-                            aux2 += 6
-                        Case "s", "z", ")", "(", "°", "_"
-                            aux2 += 7
-                        Case "F", "L", "S", "Z", "c", "g", "k", "v", "x", "y"
-                            aux2 += 8
-                        Case "E", "K", "P", "T", "X", "Y", "a", "b", "d", "e", "h", "n", "p", "q", "u", "1", "2", "3", "4", "5", "6", "7", "8", "9", "0"
-                            aux2 += 9
-                        Case "A", "B", "C", "R", "V", "o"
-                            aux2 += 10
-                        Case "D", "G", "H"
-                            aux2 += 11
-                        Case "N", "O", "Q", "U"
-                            aux2 += 12
-                        Case "w"
-                            aux2 += 13
-                        Case "m"
-                            aux2 += 14
-                        Case "M"
-                            aux2 += 15
-                        Case "W"
-                            aux2 += 16
-                        Case Else
-                            aux2 += 5
-                    End Select
-
-                Next
-
-
+                aux1 = com.contarPixeles(texto1)
+                aux2 = com.contarPixeles(texto2)
 
 
 
@@ -298,8 +166,8 @@ Public Class ingenieria
                 If aux2 > ancho1 Then
                     ancho1 = aux2
                 End If
-                Wsheet.Cells(i - k + filadatos, 0).Value = HttpContext.Current.Server.HtmlDecode(tabla.Rows(i).Cells(1).Text) 'ancho0 & " ancho0" 
-                Wsheet.Cells(i - k + filadatos, 1).Value = HttpContext.Current.Server.HtmlDecode(tabla.Rows(i).Cells(2).Text) 'ancho1 & " ancho1" '
+                Wsheet.Cells(i - k + filadatos, 0).Value = texto1 'ancho0 & " ancho0" 
+                Wsheet.Cells(i - k + filadatos, 1).Value = texto2 'ancho1 & " ancho1" '
                 Wsheet.Cells(i - k + filadatos, 2).Style.VerticalAlignment = TypeOfVAlignment.Center
                 Wsheet.Cells(i - k + filadatos, 2).Style.HorizontalAlignment = TypeOfHAlignment.Center
                 Wsheet.Cells(i - k + filadatos, 2).Value = HttpContext.Current.Server.HtmlDecode(tabla.Rows(i).Cells(3).Text)
@@ -312,25 +180,6 @@ Public Class ingenieria
         Next
         Wsheet.Cells("A" & (filadatos - k + tabla.Rows.Count).ToString & ":D" & (filadatos - k + tabla.Rows.Count).ToString).SetBordersStyles(TypeOfMultipleBorders.All, TypeOfBorderLine.Thin, ColorPalette.Black)
 
-        If ancho0 > 500 Then
-            ancho0 -= 75
-        Else
-            If ancho0 > 300 Then
-                ancho0 -= 50
-            Else
-                ancho0 -= 25
-            End If
-        End If
-
-        If ancho1 > 500 Then
-            ancho1 -= 75
-        Else
-            If ancho1 > 300 Then
-                ancho1 -= 50
-            Else
-                ancho1 -= 25
-            End If
-        End If
         Wsheet.Columns(0).Width = ancho0
         Wsheet.Columns(1).Width = ancho1
 
@@ -342,6 +191,8 @@ Public Class ingenieria
 
 
         Wsheet.Cells(filadatos - 4, 5).Value = "PRESUPUESTO"
+        Wsheet.Cells("F" & (filadatos - 4).ToString & ":G" & (filadatos - 4).ToString).IsMerged = True
+
         Wsheet.Cells(filadatos - 4, 5).Style.Font.Bold = True
         Wsheet.Cells(filadatos - 4, 5).Style.Font.Size = 14
 
@@ -387,7 +238,9 @@ Public Class ingenieria
         Wsheet.Cells(filadatos - 1, 10).Value = "CANTIDAD EJECUTADA C/ACTA"
         filadatos += 1
         Wsheet.Cells("H" & (filadatos - 3).ToString & ":K" & (filadatos).ToString).SetBordersStyles(TypeOfMultipleBorders.All, TypeOfBorderLine.Thin, ColorPalette.Black)
-        Dim aux As Integer = 10
+        aux2 = 0
+
+        ancho1 = 0
         For i As Integer = 0 To tabla2.Rows.Count - 1
             Wsheet.Cells(i - k + filadatos, 5).Style.WrapText = True
             Wsheet.Cells(i - k + filadatos, 6).Style.WrapText = True
@@ -401,55 +254,27 @@ Public Class ingenieria
             '    Wsheet.Rows(i - k + filadatos).Height = 16
             'End If
 
-            aux2 = 0
-
-            texto2 = HttpContext.Current.Server.HtmlDecode(tabla.Rows(i).Cells(2).Text)
 
 
+            texto2 = HttpContext.Current.Server.HtmlDecode(tabla2.Rows(i).Cells(0).Text)
 
 
-            For Each val As Char In texto2.ToCharArray()
+            aux2 = com.contarPixeles(texto2)
 
-                Select Case val
-                    Case " "
-                        aux2 += 4
-                    Case "I", "i", "j", "l"
-                        aux2 += 5
-                    Case "J", "f", "r", "t", "|", "-"
-                        aux2 += 6
-                    Case "s", "z", ")", "(", "°", "_"
-                        aux2 += 7
-                    Case "F", "L", "S", "Z", "c", "g", "k", "v", "x", "y"
-                        aux2 += 8
-                    Case "E", "K", "P", "T", "X", "Y", "a", "b", "d", "e", "h", "n", "p", "q", "u", "1", "2", "3", "4", "5", "6", "7", "8", "9", "0"
-                        aux2 += 9
-                    Case "A", "B", "C", "R", "V", "o"
-                        aux2 += 10
-                    Case "D", "G", "H"
-                        aux2 += 11
-                    Case "N", "O", "Q", "U"
-                        aux2 += 12
-                    Case "w"
-                        aux2 += 13
-                    Case "m"
-                        aux2 += 14
-                    Case "M"
-                        aux2 += 15
-                    Case "W"
-                        aux2 += 16
-                    Case Else
-                        aux2 += 5
-                End Select
 
-            Next
+
+
+
+            If aux2 > ancho1 Then
+                ancho1 = aux2
+            End If
 
 
 
 
 
 
-
-            Wsheet.Cells(i + filadatos, 5).Value = HttpContext.Current.Server.HtmlDecode(tabla2.Rows(i).Cells(0).Text) '
+            Wsheet.Cells(i + filadatos, 5).Value = texto2 '
             Wsheet.Cells(i + filadatos, 6).Style.VerticalAlignment = TypeOfVAlignment.Center
             Wsheet.Cells(i + filadatos, 6).Style.HorizontalAlignment = TypeOfHAlignment.Center
             Wsheet.Cells(i + filadatos, 6).Value = HttpContext.Current.Server.HtmlDecode(tabla2.Rows(i).Cells(1).Text) 'ancho1 & " ancho1" '
@@ -463,25 +288,7 @@ Public Class ingenieria
             End If
 
         Next
-        If ancho0 > 500 Then
-            ancho0 -= 75
-        Else
-            If ancho0 > 300 Then
-                ancho0 -= 50
-            Else
-                ancho0 -= 25
-            End If
-        End If
 
-        If ancho1 > 500 Then
-            ancho1 -= 75
-        Else
-            If ancho1 > 300 Then
-                ancho1 -= 50
-            Else
-                ancho1 -= 25
-            End If
-        End If
         ' Wsheet.Columns(0).Width = ancho0
         Wsheet.Columns(5).Width = ancho1
 
@@ -493,8 +300,6 @@ Public Class ingenieria
         Wsheet.Columns(8).Width = 82
         Wsheet.Columns(9).Width = 82
         Wsheet.Columns(10).Width = 82
-
-
 
 
 

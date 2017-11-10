@@ -237,7 +237,7 @@ Partial Class ingenieria_solicitudesCursadasIng
         query += " SELECT @valores= COALESCE(@valores + ', ', '') + DESCRIPCION "
         query += " FROM (SELECT DISTINCT ISNULL(DESCRIPCION,'ND')DESCRIPCION FROM SOL_PEDIDOS.PEDIDOS.CONVERSION A"
         query += " WHERE PROYECTO = '" & lblProyecto.Text & "'"
-        query += " AND ARTICULO IN (SELECT ARTICULO FROM SOL_PEDIDOS.PEDIDOS.SOLICITUD_ING_LINEA B WHERE CODIGO_SOLICITUD='" & cmbCodigoProyecto.SelectedValue & "')"
+        query += " AND ARTICULO IN (SELECT ARTICULO FROM SOL_PEDIDOS.PEDIDOS.SOLICITUD_ING_LINEA B WHERE CODIGO_SOLICITUD='" & cmbCodigoProyecto.SelectedValue & "' AND CODIGO_CONTROL<>'B')"
         query += " AND FACTOR IS NULL)VISTA"
         query += " select  @valores as valores"
 
@@ -261,13 +261,13 @@ Partial Class ingenieria_solicitudesCursadasIng
         Dim disponible As Integer = 0 'variable para contar los registros que tengan cantidad menor a 0
         Dim actas As Integer = 0 ' variable para determinar si hace falta asignar algun acta
         Dim filas As Integer = dtgDetalle.Rows.Count - 1
-        Dim cantDisp As Double
-        Dim cantActa As Double
-        Dim cantEjecActa As Double
-        Dim cantAsigActa As Double
-        Dim a As Double
-        Dim b As Double
-        Dim c As Double
+        Dim cantDisp As Decimal
+        Dim cantActa As Decimal
+        Dim cantEjecActa As Decimal
+        Dim cantAsigActa As Decimal
+        Dim a As Decimal
+        Dim b As Decimal
+        Dim c As Decimal
 
 
 
@@ -285,10 +285,10 @@ Partial Class ingenieria_solicitudesCursadasIng
 
                 End If
 
-                cantDisp = CDbl(dtgDetalle.Rows(i).Cells(14).Text)
-                cantActa = CDbl(dtgDetalle.Rows(i).Cells(10).Text)
-                cantEjecActa = CDbl(dtgDetalle.Rows(i).Cells(13).Text)
-                cantAsigActa = CDbl(dtgDetalle.Rows(i).Cells(22).Text)
+                cantDisp = CDec(dtgDetalle.Rows(i).Cells(14).Text)
+                cantActa = CDec(dtgDetalle.Rows(i).Cells(10).Text)
+                cantEjecActa = CDec(dtgDetalle.Rows(i).Cells(13).Text)
+                cantAsigActa = CDec(dtgDetalle.Rows(i).Cells(22).Text)
                 a = cantDisp - cantActa
                 b = cantEjecActa + cantAsigActa
                 c = a + b
@@ -337,21 +337,37 @@ Partial Class ingenieria_solicitudesCursadasIng
 
     Sub validarConcurrencia()
         Dim a As String
+        Dim difMinutos As Integer = 0
         query = "SELECT USUARIO FROM SOL_PEDIDOS.PEDIDOS.ACCESO WHERE CODIGO = '" & cmbCodigoProyecto.SelectedValue & "' AND USUARIO <> '" & lblUsuario.Text & "'"
         a = fn.DevolverDatoQuery(query)
         If a = "" Then
-            query = " UPDATE SOL_PEDIDOS.PEDIDOS.ACCESO SET CODIGO = '" & cmbCodigoProyecto.SelectedValue & "' WHERE USUARIO='" & lblUsuario.Text & "'"
+            query = " UPDATE SOL_PEDIDOS.PEDIDOS.ACCESO SET CODIGO = '" & cmbCodigoProyecto.SelectedValue & "', RecordDate=getdate() WHERE USUARIO='" & lblUsuario.Text & "'"
             fn.ejecutarComandoSQL2(query)
             btnAprobar.Attributes("class") = "btn btn-vitalicia btn-md enabled"
             btnRechazar.Attributes("class") = "btn btn-default btn-md enabled"
             mostrarMensaje3("", "exito")
         Else
-            liberarSolicitud()
-            btnAprobar.Attributes("class") = "btn btn-vitalicia btn-md disabled"
-            btnRechazar.Attributes("class") = "btn btn-default btn-md disabled"
-            mostrarMensaje3("La solicitud esta en uso por " & a & "", "error")
+            query = "SELECT DATEDIFF(minute, RecordDate, GETDATE()) FROM SOL_PEDIDOS.PEDIDOS.ACCESO WHERE CODIGO = '" & cmbCodigoProyecto.SelectedValue & "' AND USUARIO <> '" & lblUsuario.Text & "'"
+            difMinutos = CInt(fn.DevolverDatoQuery(query))
+            If difMinutos > com.obtenerTiempo() Then
+                query = " UPDATE SOL_PEDIDOS.PEDIDOS.ACCESO SET CODIGO = 'ND' WHERE CODIGO='" & cmbCodigoProyecto.SelectedValue & "'"
+                fn.ejecutarComandoSQL2(query)
+                query = " UPDATE SOL_PEDIDOS.PEDIDOS.ACCESO SET CODIGO = '" & cmbCodigoProyecto.SelectedValue & "', RecordDate=getdate()  WHERE USUARIO='" & lblUsuario.Text & "'"
+                fn.ejecutarComandoSQL2(query)
+                btnAprobar.Attributes("class") = "btn btn-vitalicia btn-md enabled"
+                btnRechazar.Attributes("class") = "btn btn-default btn-md enabled"
+                mostrarMensaje3("", "exito")
+            Else
+                liberarSolicitud()
+                btnAprobar.Attributes("class") = "btn btn-vitalicia btn-md disabled"
+                btnRechazar.Attributes("class") = "btn btn-default btn-md disabled"
+                mostrarMensaje3("La solicitud esta en uso por " & a & "", "error")
+            End If
         End If
     End Sub
+
+
+
 
 
 #Region "Combos"
@@ -451,7 +467,7 @@ Partial Class ingenieria_solicitudesCursadasIng
     Sub llenarDatosActa(ByVal ID As String)
 
         query = "SELECT CANT_ACTA_APS FROM SOL_PEDIDOS.PEDIDOS.SOLICITUD_ING_LINEA WHERE ID='" & ID & "'"
-        txtCantActa.Text = Math.Round(CDbl(fn.DevolverDatoQuery(query)) * 100) / 100
+        txtCantActa.Text = Math.Round(CDec(fn.DevolverDatoQuery(query)) * 100) / 100
 
         Try
             cmbActa.SelectedValue = fn.DevolverDatoQuery(" SELECT ID_ACTA FROM SOL_PEDIDOS.PEDIDOS.SOLICITUD_ING_LINEA WHERE ID='" & ID & "'")
@@ -517,26 +533,66 @@ Partial Class ingenieria_solicitudesCursadasIng
         detalleCuadroCom1.SelectCommand = query
         dtgCuadroCom1.DataSourceID = "detalleCuadroCom1"
 
-        'query = " SELECT DISTINCT NOM_MATERIAL,UM_P,CANT_PRESUP_ACUM_P,(CANT_SOL_APROB_ACUM_P)+SUM(CANT_SOL_P)-SUM(CANT_ACTA_LINEA_A) CANT_SOL_APROB_ACUM_P,SUM(CANT_APROB_ACTAS_P)+SUM(CANT_ACTA_LINEA_A)CANT_APROB_ACTAS_ACUM_P,(CANT_PRESUP_ACUM_P-((CANT_SOL_APROB_ACUM_P)+SUM(CANT_SOL_P)-SUM(CANT_ACTA_LINEA_A)))CANT_DISP_P"
-        'query += " FROM SOL_PEDIDOS.PEDIDOS.SOL_ING_DET"
-        'query += " WHERE COD_SOL=@CODIGO_PROYECTO"
-        'query += " AND COD_CONT_LINEA<>'B'"
-        'query += " AND ESTADO_LIN<>'R'"
-        'query += " AND PRESUPUESTADO='SI'"
-        'query += " GROUP BY NOM_MATERIAL,UM_P,CANT_PRESUP_ACUM_P,CANT_SOL_APROB_ACUM_P"
+
         query = " SELECT DISTINCT NOM_MATERIAL,"
         query += " UM_P,"
         query += " CANT_PRESUP_ACUM_P, "
-        query += " (CANT_SOL_APROB_ACUM_P-CANT_ACTAS_APROB_ACUM_P+SUM(CANT_SOL_P)-(CANT_ACTA_LINEA_P)) CANT_SOL_APROB_ACUM_P,"
-        query += " CANT_ACTAS_APROB_ACUM_P+(CANT_ACTA_LINEA_P)CANT_APROB_ACTAS_ACUM_P,"
-        query += " (CANT_PRESUP_ACUM_P-(CANT_SOL_APROB_ACUM_P-CANT_ACTAS_APROB_ACUM_P+SUM(CANT_SOL_P)-(CANT_ACTA_LINEA_P)))CANT_DISP_P"
+        query += " (CANT_SOL_APROB_ACUM_P-"
+        query += " CANT_ACTAS_APROB_ACUM_P+"
+        query += " ( SELECT SUM(B.CANT_SOL_P) "
+        query += " FROM SOL_PEDIDOS.PEDIDOS.SOL_ING_DET B"
+        query += " WHERE B.NOM_MATERIAL=A.NOM_MATERIAL"
+        query += " AND A.COD_SOL=B.COD_SOL"
+        query += " AND A.PRESUPUESTADO=B.PRESUPUESTADO"
+        query += " AND B.COD_CONT_LINEA<>'B'"
+        query += " AND A.ESTADO_LIN=B.ESTADO_LIN"
+        query += " )-"
+        query += " ( SELECT SUM(B.CANT_ACTA_LINEA_P) "
+        query += " FROM SOL_PEDIDOS.PEDIDOS.SOL_ING_DET B"
+        query += " WHERE B.NOM_MATERIAL=A.NOM_MATERIAL"
+        query += " AND A.COD_SOL=B.COD_SOL"
+        query += " AND A.PRESUPUESTADO=B.PRESUPUESTADO"
+        query += " AND B.COD_CONT_LINEA<>'B'"
+        query += " AND A.ESTADO_LIN=B.ESTADO_LIN"
+        query += " )"
+        query += " ) CANT_SOL_APROB_ACUM_P,"
+        query += " ((CANT_ACTAS_APROB_ACUM_P)+"
+        query += " ( SELECT SUM(B.CANT_ACTA_LINEA_P) "
+        query += " FROM SOL_PEDIDOS.PEDIDOS.SOL_ING_DET B"
+        query += " WHERE B.NOM_MATERIAL=A.NOM_MATERIAL"
+        query += " AND A.COD_SOL=B.COD_SOL"
+        query += " AND A.PRESUPUESTADO=B.PRESUPUESTADO"
+        query += " AND B.COD_CONT_LINEA<>'B'"
+        query += " AND A.ESTADO_LIN=B.ESTADO_LIN"
+        query += " ))CANT_APROB_ACTAS_ACUM_P,"
 
-        query += " FROM SOL_PEDIDOS.PEDIDOS.SOL_ING_DET"
+        query += " (CANT_PRESUP_ACUM_P-"
+        query += " (CANT_SOL_APROB_ACUM_P-CANT_ACTAS_APROB_ACUM_P+"
+        query += " (SELECT SUM(B.CANT_SOL_P) "
+        query += " FROM SOL_PEDIDOS.PEDIDOS.SOL_ING_DET B"
+        query += " WHERE B.NOM_MATERIAL=A.NOM_MATERIAL"
+        query += " AND A.COD_SOL=B.COD_SOL"
+        query += " AND A.PRESUPUESTADO=B.PRESUPUESTADO"
+        query += " AND B.COD_CONT_LINEA<>'B'"
+        query += " AND A.ESTADO_LIN=B.ESTADO_LIN"
+        query += " )-"
+        query += " ( SELECT SUM(B.CANT_ACTA_LINEA_P) "
+        query += " FROM SOL_PEDIDOS.PEDIDOS.SOL_ING_DET B"
+        query += " WHERE B.NOM_MATERIAL=A.NOM_MATERIAL"
+        query += " AND A.COD_SOL=B.COD_SOL"
+        query += " AND A.PRESUPUESTADO=B.PRESUPUESTADO"
+        query += " AND B.COD_CONT_LINEA<>'B'"
+        query += " AND A.ESTADO_LIN=B.ESTADO_LIN"
+        query += " )))CANT_DISP_P"
+
+        query += " FROM SOL_PEDIDOS.PEDIDOS.SOL_ING_DET A"
         query += " WHERE COD_SOL=@CODIGO_PROYECTO"
         query += " And COD_CONT_LINEA<>'B'"
         query += " AND ESTADO_LIN<>'R'"
         query += " AND PRESUPUESTADO='SI'"
-        query += " GROUP BY NOM_MATERIAL,UM_P,CANT_PRESUP_ACUM_P,CANT_SOL_APROB_ACUM_P,CANT_ACTAS_APROB_ACUM_P,CANT_ACTA_LINEA_P"
+        query += " GROUP BY NOM_MATERIAL,UM_P,CANT_PRESUP_ACUM_P,CANT_SOL_APROB_ACUM_P,CANT_ACTAS_APROB_ACUM_P,CANT_ACTA_LINEA_P,COD_SOL,PRESUPUESTADO,COD_CONT_LINEA,ESTADO_LIN"
+
+
         detalleCuadroCom2.ConnectionString = fn.ObtenerCadenaConexion("conn")
         detalleCuadroCom2.SelectCommand = query
         dtgCuadroCom2.DataSourceID = "detalleCuadroCom2"
@@ -605,13 +661,17 @@ Partial Class ingenieria_solicitudesCursadasIng
 
 
     Protected Sub btnSinc_Click(sender As Object, e As EventArgs) Handles btnSinc.Click
+        Dim validador As String = ""
+
         query = " EXEC SOL_PEDIDOS.PEDIDOS.SINCRONIZAR"
-        Try
-            fn.ejecutarComandoSQL(query, lblMensaje, lblMensajeS)
+        validador = fn.ejecutarComandoSQL4(query)
+
+        If validador = "ok" Then
             mostrarMensaje("Sincronización realizada satisfactoriamente", "exito")
-        Catch ex As Exception
-            mostrarMensaje("Hubo un problema en la sincronización. Inténtelo más tarde.", "error")
-        End Try
+        Else
+            mostrarMensaje("Hubo un problema en la sincronización. Inténtelo más tarde." + validador, "error")
+        End If
+
         llenarDatosCabecera()
     End Sub
 
@@ -990,7 +1050,7 @@ Partial Class ingenieria_solicitudesCursadasIng
         row = dtgDetalle.SelectedRow
 
         Dim fila As Integer = row.RowIndex.ToString
-        Dim cantA, cantP As Double
+        Dim cantA, cantP As Decimal
         Dim estado As String = dtgDetalle.Rows(fila).Cells(18).Text
 
 
@@ -1000,12 +1060,15 @@ Partial Class ingenieria_solicitudesCursadasIng
             lblMaterial.Text = dtgDetalle.Rows(fila).Cells(20).Text
             lblArticulo.Text = dtgDetalle.Rows(fila).Cells(23).Text '************************************************* codigo de articulo
             lblUMAux.Text = dtgDetalle.Rows(fila).Cells(7).Text
-            txtCantidad.Text = CDbl(dtgDetalle.Rows(fila).Cells(8).Text)
+            txtCantidad.Text = CDec(dtgDetalle.Rows(fila).Cells(8).Text)
             lblUMEq.Text = dtgDetalle.Rows(fila).Cells(24).Text '************************************************* unidad equivalente
-            cantP = CDbl(dtgDetalle.Rows(fila).Cells(25).Text)
-            cantA = CDbl(dtgDetalle.Rows(fila).Cells(26).Text) '************************************************* cantidad equivalente
-            lblFactor.Text = Math.Round(CDbl(((cantP / cantA))) * 100) / 100
-            lblCantEq.Text = Math.Round(CDbl(dtgDetalle.Rows(fila).Cells(25).Text) * 100) / 100
+            cantP = CDec(dtgDetalle.Rows(fila).Cells(8).Text)
+            cantA = CDec(dtgDetalle.Rows(fila).Cells(25).Text) '************************************************* cantidad equivalente
+            If cantA = 0 Then
+                cantA = 1
+            End If
+            lblFactor.Text = Math.Round(CDec(((cantP / cantA))) * 100) / 100
+            lblCantEq.Text = Math.Round(CDec(dtgDetalle.Rows(fila).Cells(25).Text) * 100) / 100
             lblId.Text = dtgDetalle.Rows(fila).Cells(3).Text
             llenarComboActividad()
             Try
@@ -1083,9 +1146,9 @@ Partial Class ingenieria_solicitudesCursadasIng
             'e.Row.Cells(7).Text)
         Else
             'e.Row.Cells(7).Text)
-            Dim cantidad As Double
+            Dim cantidad As Decimal
             Try
-                cantidad = CDbl(e.Row.Cells(8).Text)
+                cantidad = CDec(e.Row.Cells(8).Text)
             Catch ex As Exception
                 cantidad = 0
             End Try
@@ -1105,7 +1168,7 @@ Partial Class ingenieria_solicitudesCursadasIng
 
                 If presup = "SI" Then
                     If presupAct = "SI" Then
-                        If CDbl(desc) < 0 Then
+                        If CDec(desc) < 0 Then
                             'e.Row.Font.Strikeout = True
                             'e.Row.ForeColor = Drawing.Color.Red
                             'e.Row.Font.Bold = True
@@ -1114,7 +1177,7 @@ Partial Class ingenieria_solicitudesCursadasIng
                             e.Row.BackColor = Drawing.Color.White
                         End If
                     Else
-                        If CDbl(actas) > 0 Then
+                        If CDec(actas) > 0 Then
                             e.Row.BackColor = Drawing.Color.GreenYellow
                         Else
                             e.Row.BackColor = Drawing.Color.Orange
@@ -1122,7 +1185,7 @@ Partial Class ingenieria_solicitudesCursadasIng
                     End If
                 Else
                     If presupAct = "SI" Then
-                        If CDbl(actas) > 0 Then
+                        If CDec(actas) > 0 Then
                             e.Row.BackColor = Drawing.Color.GreenYellow
                         Else
                             e.Row.BackColor = Drawing.Color.Orange
@@ -1188,7 +1251,7 @@ Partial Class ingenieria_solicitudesCursadasIng
         End Try
 
         query = "SELECT CANTIDAD_APS FROM SOL_PEDIDOS.PEDIDOS.SOLICITUD_ING_LINEA WHERE ID='" & lblId.Text & "' AND ID_ACTA='" & cmbActa.SelectedValue & "'"
-        txtCantActa.Text = Math.Round(CDbl(fn.DevolverDatoQuery(query)) * 100) / 100
+        txtCantActa.Text = Math.Round(CDec(fn.DevolverDatoQuery(query)) * 100) / 100
         If txtCantActa.Text = "" Then
             txtCantActa.Text = "0"
         End If
@@ -1201,20 +1264,20 @@ Partial Class ingenieria_solicitudesCursadasIng
         Dim articulo As String = Server.HtmlDecode(cmbArticulo.SelectedValue)
         Dim um As String = lblUM.Text
         Dim ume As String = lblUMEq.Text
-        Dim cantActa As Double
+        Dim cantActa As Decimal
         Dim idActa As String = cmbActa.SelectedValue
 
-        Dim cant As Double
+        Dim cant As Decimal
         cant = 1
         cant = com.validarNumero(txtCantidad.Text)
 
 
-        Dim cantEq As Double = cant / CDbl(lblFactor.Text)
+        Dim cantEq As Decimal = cant / CDec(lblFactor.Text)
 
         cantActa = com.validarNumero(txtCantActa.Text)
 
 
-        Dim cantActaEq As Double = cantActa / CDbl(lblFactor.Text)
+        Dim cantActaEq As Decimal = cantActa / CDec(lblFactor.Text)
 
 
 

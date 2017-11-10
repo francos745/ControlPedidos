@@ -38,21 +38,36 @@ Partial Class logistica_revertir
 
     Sub validarConcurrencia()
         Dim a As String
+        Dim difMinutos As Integer = 0
         query = "SELECT USUARIO FROM SOL_PEDIDOS.PEDIDOS.ACCESO WHERE CODIGO = '" & cmbCodigoProyecto.SelectedValue & "' AND USUARIO <> '" & lblUsuario.Text & "'"
         a = fn.DevolverDatoQuery(query)
         If a = "" Then
-            query = " UPDATE SOL_PEDIDOS.PEDIDOS.ACCESO SET CODIGO = '" & cmbCodigoProyecto.SelectedValue & "' WHERE USUARIO='" & lblUsuario.Text & "'"
+            query = " UPDATE SOL_PEDIDOS.PEDIDOS.ACCESO SET CODIGO = '" & cmbCodigoProyecto.SelectedValue & "', RecordDate=getdate() WHERE USUARIO='" & lblUsuario.Text & "'"
             fn.ejecutarComandoSQL2(query)
             btnRevertir.Attributes("class") = "btn btn-vitalicia btn-md enabled"
 
             mostrarMensaje3("", "exito")
         Else
-            liberarSolicitud()
-            btnRevertir.Attributes("class") = "btn btn-vitalicia btn-md disabled"
+            query = "SELECT DATEDIFF(minute, RecordDate, GETDATE()) FROM SOL_PEDIDOS.PEDIDOS.ACCESO WHERE CODIGO = '" & cmbCodigoProyecto.SelectedValue & "' AND USUARIO <> '" & lblUsuario.Text & "'"
+            difMinutos = CInt(fn.DevolverDatoQuery(query))
+            If difMinutos > com.obtenerTiempo() Then
+                query = " UPDATE SOL_PEDIDOS.PEDIDOS.ACCESO SET CODIGO = 'ND' WHERE CODIGO='" & cmbCodigoProyecto.SelectedValue & "'"
+                fn.ejecutarComandoSQL2(query)
+                query = " UPDATE SOL_PEDIDOS.PEDIDOS.ACCESO SET CODIGO = '" & cmbCodigoProyecto.SelectedValue & "', RecordDate=getdate()  WHERE USUARIO='" & lblUsuario.Text & "'"
+                fn.ejecutarComandoSQL2(query)
+                btnRevertir.Attributes("class") = "btn btn-vitalicia btn-md enabled"
 
-            mostrarMensaje3("La solicitud esta en uso por " & a & "", "error")
+                mostrarMensaje3("", "exito")
+            Else
+                liberarSolicitud()
+                btnRevertir.Attributes("class") = "btn btn-vitalicia btn-md disabled"
+
+                mostrarMensaje3("La solicitud esta en uso por " & a & "", "error")
+            End If
         End If
     End Sub
+
+
 
     Sub mostrarMensaje3(ByVal mensaje As String, ByVal tipo As String)
         If mensaje = "" Then
@@ -370,7 +385,7 @@ Partial Class logistica_revertir
         If (e.Row.RowType = DataControlRowType.DataRow) Then
             'Find the DropDownList in the Row
             Dim cmbBodegas As DropDownList = CType(e.Row.FindControl("cmbBodegas"), DropDownList)
-            cmbBodegas.DataSource = GetData("SELECT DISTINCT BODEGA, NOMBRE FROM VITALERP.VITALICIA.BODEGA ORDER BY BODEGA")
+            cmbBodegas.DataSource = GetData("SELECT DISTINCT BODEGA, NOMBRE FROM SOL_PEDIDOS.VITALICIA.BODEGA ORDER BY BODEGA")
             cmbBodegas.DataTextField = "bodega"
             cmbBodegas.DataValueField = "Bodega"
             cmbBodegas.DataBind()

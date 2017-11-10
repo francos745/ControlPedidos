@@ -7,6 +7,7 @@ Partial Class ingenieria_solicitudesRechazadas
     Inherits System.Web.UI.Page
 
     Dim fn As New Funciones
+    Dim com As New comun
     Dim query As String
 
     Sub validarInicioSesion()
@@ -22,17 +23,29 @@ Partial Class ingenieria_solicitudesRechazadas
 
     Sub validarConcurrencia()
         Dim a As String
+        Dim difMinutos As Integer = 0
         query = "SELECT USUARIO FROM SOL_PEDIDOS.PEDIDOS.ACCESO WHERE CODIGO = '" & cmbCodigoProyecto.SelectedValue & "' AND USUARIO <> '" & lblUsuario.Text & "'"
         a = fn.DevolverDatoQuery(query)
         If a = "" Then
-            query = " UPDATE SOL_PEDIDOS.PEDIDOS.ACCESO SET CODIGO = '" & cmbCodigoProyecto.SelectedValue & "' WHERE USUARIO='" & lblUsuario.Text & "'"
+            query = " UPDATE SOL_PEDIDOS.PEDIDOS.ACCESO SET CODIGO = '" & cmbCodigoProyecto.SelectedValue & "', RecordDate=getdate() WHERE USUARIO='" & lblUsuario.Text & "'"
             fn.ejecutarComandoSQL2(query)
             btnMoverACursadas.Attributes("class") = "btn btn-vitalicia btn-md enabled"
             mostrarMensaje3("", "exito")
         Else
-            liberarSolicitud()
-            btnMoverACursadas.Attributes("class") = "btn btn-vitalicia btn-md disabled"
-            mostrarMensaje3("La solicitud esta en uso por " & a & "", "error")
+            query = "SELECT DATEDIFF(minute, RecordDate, GETDATE()) FROM SOL_PEDIDOS.PEDIDOS.ACCESO WHERE CODIGO = '" & cmbCodigoProyecto.SelectedValue & "' AND USUARIO <> '" & lblUsuario.Text & "'"
+            difMinutos = CInt(fn.DevolverDatoQuery(query))
+            If difMinutos > com.obtenerTiempo() Then
+                query = " UPDATE SOL_PEDIDOS.PEDIDOS.ACCESO SET CODIGO = 'ND' WHERE CODIGO='" & cmbCodigoProyecto.SelectedValue & "'"
+                fn.ejecutarComandoSQL2(query)
+                query = " UPDATE SOL_PEDIDOS.PEDIDOS.ACCESO SET CODIGO = '" & cmbCodigoProyecto.SelectedValue & "', RecordDate=getdate()  WHERE USUARIO='" & lblUsuario.Text & "'"
+                fn.ejecutarComandoSQL2(query)
+                btnMoverACursadas.Attributes("class") = "btn btn-vitalicia btn-md enabled"
+                mostrarMensaje3("", "exito")
+            Else
+                liberarSolicitud()
+                btnMoverACursadas.Attributes("class") = "btn btn-vitalicia btn-md disabled"
+                mostrarMensaje3("La solicitud esta en uso por " & a & "", "error")
+            End If
         End If
     End Sub
 

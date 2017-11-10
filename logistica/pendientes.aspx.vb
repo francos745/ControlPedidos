@@ -28,21 +28,37 @@ Partial Class logistica_pendientes
 
     Sub validarConcurrencia()
         Dim a As String
+        Dim difMinutos As Integer = 0
         query = "SELECT USUARIO FROM SOL_PEDIDOS.PEDIDOS.ACCESO WHERE CODIGO = '" & cmbCodigoProyecto.SelectedValue & "' AND USUARIO <> '" & lblUsuario.Text & "'"
         a = fn.DevolverDatoQuery(query)
         If a = "" Then
-            query = " UPDATE SOL_PEDIDOS.PEDIDOS.ACCESO SET CODIGO = '" & cmbCodigoProyecto.SelectedValue & "' WHERE USUARIO='" & lblUsuario.Text & "'"
+            query = " UPDATE SOL_PEDIDOS.PEDIDOS.ACCESO SET CODIGO = '" & cmbCodigoProyecto.SelectedValue & "', RecordDate=getdate() WHERE USUARIO='" & lblUsuario.Text & "'"
             fn.ejecutarComandoSQL2(query)
             btnAprobar.Attributes("class") = "btn btn-vitalicia btn-md enabled"
             btnRechazar.Attributes("class") = "btn btn-default btn-md enabled"
             mostrarMensaje3("", "exito")
         Else
-            liberarSolicitud()
-            btnAprobar.Attributes("class") = "btn btn-vitalicia btn-md disabled"
-            btnRechazar.Attributes("class") = "btn btn-default btn-md disabled"
-            mostrarMensaje3("La solicitud esta en uso por " & a & "", "error")
+            query = "SELECT DATEDIFF(minute, RecordDate, GETDATE()) FROM SOL_PEDIDOS.PEDIDOS.ACCESO WHERE CODIGO = '" & cmbCodigoProyecto.SelectedValue & "' AND USUARIO <> '" & lblUsuario.Text & "'"
+            difMinutos = CInt(fn.DevolverDatoQuery(query))
+            If difMinutos > com.obtenerTiempo() Then
+                query = " UPDATE SOL_PEDIDOS.PEDIDOS.ACCESO SET CODIGO = 'ND' WHERE CODIGO='" & cmbCodigoProyecto.SelectedValue & "'"
+                fn.ejecutarComandoSQL2(query)
+                query = " UPDATE SOL_PEDIDOS.PEDIDOS.ACCESO SET CODIGO = '" & cmbCodigoProyecto.SelectedValue & "', RecordDate=getdate()  WHERE USUARIO='" & lblUsuario.Text & "'"
+                fn.ejecutarComandoSQL2(query)
+                btnAprobar.Attributes("class") = "btn btn-vitalicia btn-md enabled"
+                btnRechazar.Attributes("class") = "btn btn-default btn-md enabled"
+                mostrarMensaje3("", "exito")
+            Else
+                liberarSolicitud()
+                btnAprobar.Attributes("class") = "btn btn-vitalicia btn-md disabled"
+                btnRechazar.Attributes("class") = "btn btn-default btn-md disabled"
+                mostrarMensaje3("La solicitud esta en uso por " & a & "", "error")
+            End If
         End If
     End Sub
+
+
+
 
     Sub mostrarMensaje3(ByVal mensaje As String, ByVal tipo As String)
         If mensaje = "" Then
@@ -309,12 +325,12 @@ Partial Class logistica_pendientes
         query = " SELECT 'ND' BODEGA, 'ND'LOCALIZACION"
         query += " UNION ALL"
         query += " SELECT BODEGA,"
-        query += " ISNULL((SELECT LOCALIZACION FROM VITALERP.VITALICIA.LOCALIZACION B"
+        query += " ISNULL((SELECT LOCALIZACION FROM SOL_PEDIDOS.VITALICIA.LOCALIZACION B"
         query += " WHERE B.LOCALIZACION=A.BODEGA"
         query += " AND A.BODEGA=B.BODEGA),ISNULL((SELECT TOP 1 LOCALIZACION "
-        query += " FROM VITALERP.VITALICIA.LOCALIZACION B "
+        query += " FROM SOL_PEDIDOS.VITALICIA.LOCALIZACION B "
         query += " WHERE A.BODEGA=B.BODEGA),'ND'))LOCALIZACION"
-        query += "  FROM VITALERP.VITALICIA.BODEGA A"
+        query += "  FROM SOL_PEDIDOS.VITALICIA.BODEGA A"
         query += " ORDER BY BODEGA"
 
 
@@ -458,7 +474,6 @@ Partial Class logistica_pendientes
             cmbBodegas.DataBind()
             'Add Default Item in the DropDownList
             cmbBodegas.Items.Insert(0, New ListItem("ND"))
-            cmbBodegas.Items.Insert(1, New ListItem("OMITIR"))
             ' Select the Country of Customer in DropDownList
             Dim country As String = CType(e.Row.FindControl("lblBodegas"), Label).Text
             cmbBodegas.Items.FindByValue(country).Selected = True
@@ -827,12 +842,12 @@ Partial Class logistica_pendientes
             'dtgdetalles-********ojo con cambios en la cantidad de columnas
             bodega = TryCast(row.Cells(13).FindControl("cmbBodegas"), DropDownList).SelectedItem.Value
             query = " SELECT "
-            query += " ISNULL((SELECT LOCALIZACION FROM VITALERP.VITALICIA.LOCALIZACION B"
+            query += " ISNULL((SELECT LOCALIZACION FROM SOL_PEDIDOS.VITALICIA.LOCALIZACION B"
             query += " WHERE B.LOCALIZACION=A.BODEGA"
             query += " AND A.BODEGA=B.BODEGA),(SELECT TOP 1 LOCALIZACION "
-            query += " FROM VITALERP.VITALICIA.LOCALIZACION B "
+            query += " FROM SOL_PEDIDOS.VITALICIA.LOCALIZACION B "
             query += " WHERE A.BODEGA=B.BODEGA))LOCALIZACION"
-            query += "  FROM VITALERP.VITALICIA.BODEGA A"
+            query += "  FROM SOL_PEDIDOS.VITALICIA.BODEGA A"
             query += " WHERE BODEGA='" & bodega & "'"
 
             localizacion = fn.DevolverDatoQuery(query)

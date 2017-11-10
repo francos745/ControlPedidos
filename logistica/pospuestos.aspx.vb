@@ -162,21 +162,37 @@ Partial Class logistica_pospuestos
 
     Sub validarConcurrencia()
         Dim a As String
+        Dim difMinutos As Integer = 0
         query = "SELECT USUARIO FROM SOL_PEDIDOS.PEDIDOS.ACCESO WHERE CODIGO = '" & cmbCodigoProyecto.SelectedValue & "' AND USUARIO <> '" & lblUsuario.Text & "'"
         a = fn.DevolverDatoQuery(query)
         If a = "" Then
-            query = " UPDATE SOL_PEDIDOS.PEDIDOS.ACCESO SET CODIGO = '" & cmbCodigoProyecto.SelectedValue & "' WHERE USUARIO='" & lblUsuario.Text & "'"
+            query = " UPDATE SOL_PEDIDOS.PEDIDOS.ACCESO SET CODIGO = '" & cmbCodigoProyecto.SelectedValue & "', RecordDate=getdate() WHERE USUARIO='" & lblUsuario.Text & "'"
             fn.ejecutarComandoSQL2(query)
             btnAprobar.Attributes("class") = "btn btn-vitalicia btn-md enabled"
             btnRechazar.Attributes("class") = "btn btn-default btn-md enabled"
             mostrarMensaje3("", "exito")
         Else
-            liberarSolicitud()
-            btnAprobar.Attributes("class") = "btn btn-vitalicia btn-md disabled"
-            btnRechazar.Attributes("class") = "btn btn-default btn-md disabled"
-            mostrarMensaje3("La solicitud esta en uso por " & a & "", "error")
+            query = "SELECT DATEDIFF(minute, RecordDate, GETDATE()) FROM SOL_PEDIDOS.PEDIDOS.ACCESO WHERE CODIGO = '" & cmbCodigoProyecto.SelectedValue & "' AND USUARIO <> '" & lblUsuario.Text & "'"
+            difMinutos = CInt(fn.DevolverDatoQuery(query))
+            If difMinutos > com.obtenerTiempo() Then
+                query = " UPDATE SOL_PEDIDOS.PEDIDOS.ACCESO SET CODIGO = 'ND' WHERE CODIGO='" & cmbCodigoProyecto.SelectedValue & "'"
+                fn.ejecutarComandoSQL2(query)
+                query = " UPDATE SOL_PEDIDOS.PEDIDOS.ACCESO SET CODIGO = '" & cmbCodigoProyecto.SelectedValue & "', RecordDate=getdate()  WHERE USUARIO='" & lblUsuario.Text & "'"
+                fn.ejecutarComandoSQL2(query)
+                btnAprobar.Attributes("class") = "btn btn-vitalicia btn-md enabled"
+                btnRechazar.Attributes("class") = "btn btn-default btn-md enabled"
+                mostrarMensaje3("", "exito")
+            Else
+                liberarSolicitud()
+                btnAprobar.Attributes("class") = "btn btn-vitalicia btn-md disabled"
+                btnRechazar.Attributes("class") = "btn btn-default btn-md disabled"
+                mostrarMensaje3("La solicitud esta en uso por " & a & "", "error")
+            End If
         End If
     End Sub
+
+
+
 
     Sub mostrarMensaje3(ByVal mensaje As String, ByVal tipo As String)
         If mensaje = "" Then
@@ -626,7 +642,7 @@ Partial Class logistica_pospuestos
         If (e.Row.RowType = DataControlRowType.DataRow) Then
             'Find the DropDownList in the Row
             Dim cmbBodegas As DropDownList = CType(e.Row.FindControl("cmbBodegas"), DropDownList)
-            cmbBodegas.DataSource = GetData("SELECT DISTINCT BODEGA, NOMBRE FROM VITALERP.VITALICIA.BODEGA ORDER BY BODEGA")
+            cmbBodegas.DataSource = GetData("SELECT DISTINCT BODEGA, NOMBRE FROM SOL_PEDIDOS.VITALICIA.BODEGA ORDER BY BODEGA")
             cmbBodegas.DataTextField = "bodega"
             cmbBodegas.DataValueField = "Bodega"
             cmbBodegas.DataBind()
@@ -952,7 +968,7 @@ Partial Class logistica_pospuestos
     End Sub
 
     Protected Sub btnAprobarSi_Click(sender As Object, e As EventArgs) Handles btnAprobarSi.ServerClick
-        Dim contador As Integer
+
         Dim contadorSQL As Integer
         Dim bodegasNA As String = ""
 
@@ -1062,12 +1078,12 @@ Partial Class logistica_pospuestos
             'dtgdetalles-********ojo con cambios en la cantidad de columnas
             bodega = TryCast(row.Cells(13).FindControl("cmbBodegas"), DropDownList).SelectedItem.Value
             query = " SELECT "
-            query += " ISNULL((SELECT LOCALIZACION FROM VITALERP.VITALICIA.LOCALIZACION B"
+            query += " ISNULL((SELECT LOCALIZACION FROM SOL_PEDIDOS.VITALICIA.LOCALIZACION B"
             query += " WHERE B.LOCALIZACION=A.BODEGA"
             query += " AND A.BODEGA=B.BODEGA),(SELECT TOP 1 LOCALIZACION "
-            query += " FROM VITALERP.VITALICIA.LOCALIZACION B "
+            query += " FROM SOL_PEDIDOS.VITALICIA.LOCALIZACION B "
             query += " WHERE A.BODEGA=B.BODEGA))LOCALIZACION"
-            query += "  FROM VITALERP.VITALICIA.BODEGA A"
+            query += "  FROM SOL_PEDIDOS.VITALICIA.BODEGA A"
             query += " WHERE BODEGA='" & bodega & "'"
 
             localizacion = fn.DevolverDatoQuery(query)

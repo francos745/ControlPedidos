@@ -11,11 +11,7 @@
     <meta name="generator" content="Bootply" />
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
     
-    
-    
-    
-    
-    
+        
     <link href="../css/dataTables.bootstrap.min.css" rel="stylesheet" />
     <link href="../css/responsive.bootstrap.min.css" rel="stylesheet" />
 
@@ -39,16 +35,9 @@
     <script src="../js/daterangepicker.js"></script>
     <!-- botones de exportacion a excel en tablas -->
     <script src="../js/dataTables.buttons.min.js"></script>
-     <script src="../js/jszip.min.js"></script>    
-     <script src="../js/buttons.html5.min.js"></script>
-   
-    
-    
-    
-
-    
-   
-
+    <script src="../js/jszip.min.js"></script>    
+    <script src="../js/buttons.html5.min.js"></script>
+      
     <style type="text/css">
         body{font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;color:#444;font-size:13px;}
         p,div,ul,li{padding:0px; margin-right: 0px;
@@ -345,6 +334,7 @@
                                     <th>CANTIDAD DISPONIBLE</th>
                                     <th>FECHA APROBACIÓN INGENIERÍA</th>
                                     
+                                    
                                 </tr>
                             </thead>
                         </table>
@@ -475,7 +465,11 @@
 
       }
 
-      );
+             );
+          
+
+
+
             var table;
             var table1;
 
@@ -568,7 +562,7 @@
 
                     "lengthMenu": [[-1, 5, 10, 15], ["Todos", 5, 10, 15]],
                     "responsive": true,
-                    //"stateSave": true,
+                    "stateSave": true,
                     "paging": false,
                     "ordering": true,
                     "info": true,
@@ -581,6 +575,8 @@
                             title: 'Detalle de Materiales',
                         }
                     ],
+
+                   
                     "columnDefs": [
                         {
                             "className": 'text-left',
@@ -615,6 +611,7 @@
                             "visible": true,
                             "targets": [8]
                         }, {
+                            
                             "className": 'text-right',
                             "visible": true,
                             "targets": [9]
@@ -993,8 +990,8 @@
                                this['c6'],
                                this['c7'],
                                this['c8'],
-                               this['c9'],
-                               this['c10']
+                               "<p style='display:none;'>"+this['c10']+"---</p>" + this['c9']
+                               
                                 ]).draw(false);
 
                              //   t2aux.row.add([

@@ -106,6 +106,7 @@ Partial Class ingenieria_presupuestoMateriales
         material = HttpContext.Current.Server.HtmlDecode(material)
 
         query = " SELECT NOM_MATERIAL,UM_P,CODIGO_SOLICITUD,FORMAT(SUM(CANT_SOL_APROB_P),'##,0.00')CANT_SOL_APROB_P,FORMAT(SUM(CANT_APROB_ACTAS_P),'##,0.00')CANT_APROB_ACTAS_P,FORMAT(SUM(CANT_SOL_PEND_P),'##,0.00')CANT_SOL_PEND_P,FORMAT(SUM(CANT_SOL_RECH_P),'##,0.00')CANT_SOL_RECH_P,FORMAT(CANT_DISP_P2,'##,0.00')CANT_DISP_P,FECHA_APROBACION "
+        query += " ,CONCAT(SUBSTRING(FECHA_APROBACION,7,4),SUBSTRING(FECHA_APROBACION,4,2),LEFT(FECHA_APROBACION,2)) FECHA "
         query += " FROM SOL_PEDIDOS.PEDIDOS.PRECIO_UNITARIO_DET "
         query += " WHERE NOM_MATERIAL='" & material & "' "
         query += " AND PROYECTO='" & proyecto & "'"
@@ -133,7 +134,8 @@ Partial Class ingenieria_presupuestoMateriales
                             .c6 = sdr("CANT_SOL_PEND_P").ToString(),
                             .c7 = sdr("CANT_SOL_RECH_P").ToString(),
                             .c8 = sdr("CANT_DISP_P").ToString(),
-                            .c9 = sdr("FECHA_APROBACION").ToString()})
+                            .c9 = sdr("FECHA_APROBACION").ToString(),
+                            .c10 = sdr("FECHA").ToString()})
                     End While
                 End Using
                 con.Close()

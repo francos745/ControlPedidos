@@ -966,7 +966,7 @@
                                this['c7'],
                                this['c8'],
                                this['c9'],
-                               this['c10']
+                               "<p style='display:none;'>" + this['c11'] + "---</p>" + this['c10']
                                 ]).draw(false);
 
                              //   t2aux.row.add([

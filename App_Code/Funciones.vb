@@ -291,6 +291,21 @@ Public Class Funciones
 
     End Function
 
+    'Funcion que ejecuta un comando sql, como: Insert,Update,Delete, Etc.
+    Function ejecutarComandoSQL4(ByVal query As String) As String
+        Try
+            conectar()
+            enunciado = New SqlCommand(query, conexion)
+            enunciado.CommandTimeout = 6000
+            Dim t As Integer = enunciado.ExecuteNonQuery()
+            Desconectar()
+        Catch ex As Exception
+            Return ex.Message
+        End Try
+        Return "ok"
+
+    End Function
+
 #End Region
 
 #Region "CONEXION XML"

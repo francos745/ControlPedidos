@@ -8,15 +8,21 @@ Partial Class logistica_conversionUM
     Dim com As New comun
     Sub llenarTablaConversion()
 
-        query = " SELECT DISTINCT PROYECTO,ARTICULO,DESCRIPCION,UM_P,UM_A,FORMAT((FACTOR),'####,0.0000')FACTOR,"
-        query += " (SELECT TOP 1 ORDEN_CAMBIO FROM SOL_PEDIDOS.PEDIDOS.CONVERSION B"
-        query += " WHERE A.PROYECTO=B.PROYECTO"
-        query += " AND A.ARTICULO=B.ARTICULO"
-        query += " ORDER BY ORDEN_CAMBIO)OC"
-
+        query = " SELECT DISTINCT PROYECTO,ARTICULO,DESCRIPCION,UM_P,UM_A, FORMAT((FACTOR),'##,0.0000')FACTOR,'1' OC"
         query += " FROM SOL_PEDIDOS.PEDIDOS.CONVERSION A"
-        query += lblOC.Text
-        query += " ORDER BY ARTICULO"
+        query += " WHERE ORDEN_CAMBIO=1"
+        If lblOC.Text = "2" Then
+            query += " UNION ALL"
+            query += " SELECT DISTINCT PROYECTO,ARTICULO,DESCRIPCION,UM_P,UM_A, FORMAT((FACTOR),'##,0.0000')FACTOR,"
+            query += " (SELECT TOP 1 ORDEN_CAMBIO FROM SOL_PEDIDOS.PEDIDOS.CONVERSION B"
+            query += " WHERE A.PROYECTO=B.PROYECTO"
+            query += " And A.ARTICULO = B.ARTICULO"
+            query += " ORDER BY ORDEN_CAMBIO DESC)OC"
+            query += " FROM SOL_PEDIDOS.PEDIDOS.CONVERSION A"
+            query += " WHERE ORDEN_CAMBIO<>1"
+
+        End If
+
         Detalles.ConnectionString = fn.ObtenerCadenaConexion("conn")
         Detalles.SelectCommand = query
 
@@ -26,16 +32,20 @@ Partial Class logistica_conversionUM
     Protected Sub dtgDetalle_PreRender(sender As Object, e As EventArgs) Handles dtgDetalle.PreRender
 
 
-        query = " SELECT DISTINCT PROYECTO,ARTICULO,DESCRIPCION,UM_P,UM_A, FORMAT((FACTOR),'##,0.0000')FACTOR,"
-        query += " (SELECT TOP 1 ORDEN_CAMBIO FROM SOL_PEDIDOS.PEDIDOS.CONVERSION B"
-        query += " WHERE A.PROYECTO=B.PROYECTO"
-        query += " AND A.ARTICULO=B.ARTICULO"
-        query += " ORDER BY ORDEN_CAMBIO)OC"
-
+        query = " SELECT DISTINCT PROYECTO,ARTICULO,DESCRIPCION,UM_P,UM_A, FORMAT((FACTOR),'##,0.0000')FACTOR,'1' OC"
         query += " FROM SOL_PEDIDOS.PEDIDOS.CONVERSION A"
-        query += lblOC.Text
-        query += " ORDER BY ARTICULO"
+        query += " WHERE ORDEN_CAMBIO=1"
+        If lblOC.Text = "2" Then
+            query += " UNION ALL"
+            query += " SELECT DISTINCT PROYECTO,ARTICULO,DESCRIPCION,UM_P,UM_A, FORMAT((FACTOR),'##,0.0000')FACTOR,"
+            query += " (SELECT TOP 1 ORDEN_CAMBIO FROM SOL_PEDIDOS.PEDIDOS.CONVERSION B"
+            query += " WHERE A.PROYECTO=B.PROYECTO"
+            query += " And A.ARTICULO = B.ARTICULO"
+            query += " ORDER BY ORDEN_CAMBIO DESC)OC"
+            query += " FROM SOL_PEDIDOS.PEDIDOS.CONVERSION A"
+            query += " WHERE ORDEN_CAMBIO<>1"
 
+        End If
         Detalles.ConnectionString = fn.ObtenerCadenaConexion("conn")
         Detalles.SelectCommand = query
 
@@ -57,13 +67,46 @@ Partial Class logistica_conversionUM
 
     'LLENAR TABLA 
     Sub insertarRegistros()
-        query = " INSERT INTO SOL_PEDIDOS.PEDIDOS.CONVERSION (PROYECTO,FASE,ARTICULO,DESCRIPCION,UM_P, UM_A,ORDEN_CAMBIO,RowPointer)"
-        query += " SELECT A.PROYECTO, A.FASE, B.ARTICULO,B.DESCRIPCION,B.UNIDAD_ALMACEN,B.UNIDAD_ALMACEN,A.ORDEN_CAMBIO, A.RowPointer"
-        query += " FROM VITALERP.VITALICIA.FASE_DESGLOSE_PY A"
-        query += " LEFT JOIN VITALERP.VITALICIA.ARTICULO B ON A.ARTICULO=B.ARTICULO"
-        query += " LEFT JOIN VITALERP.VITALICIA.FASE_PY C ON A.FASE=C.FASE"
+
+        query += " SELECT *"
+        query += " INTO SOL_PEDIDOS.PEDIDOS.CONVERSION_AUX"
+        query += " FROM SOL_PEDIDOS.PEDIDOS.CONVERSION"
+
+        query += " UPDATE SOL_PEDIDOS.PEDIDOS.CONVERSION "
+        query += " set UM_P = t2.UM_P, FACTOR=t2.FACTOR"
+        query += " from  SOL_PEDIDOS.PEDIDOS.CONVERSION t1, SOL_PEDIDOS.PEDIDOS.CONVERSION_AUX t2"
+        query += " where t1.PROYECTO = t2.PROYECTO"
+        query += " AND t1.ARTICULO=T2.articulo"
+        query += " and t2.FACTOR is not null"
+        query += " AND T1.FACTOR IS NULL"
+        query += " and t1.ORDEN_CAMBIO<>1"
+        query += " AND T2.ORDEN_CAMBIO=1"
+
+        query += " DROP TABLE SOL_PEDIDOS.PEDIDOS.CONVERSION_AUX"
+
+        fn.ejecutarComandoSQL2(query)
+
+
+        query = "INSERT INTO SOL_PEDIDOS.PEDIDOS.CONVERSION (PROYECTO,FASE,ARTICULO,DESCRIPCION,UM_P, UM_A,FACTOR,ORDEN_CAMBIO,RowPointer)"
+        query += " SELECT A.PROYECTO, A.FASE, B.ARTICULO,B.DESCRIPCION,"
+        query += " ISNULL((SELECT TOP 1 B.UNIDAD_ALMACEN FROM SOL_PEDIDOS.PEDIDOS.CONVERSION Z"
+        query += " WHERE Z.ARTICULO= A.ARTICULO"
+        query += "  And Z.PROYECTO = A.PROYECTO"
+        query += " ),B.UNIDAD_ALMACEN),"
+        query += " B.UNIDAD_ALMACEN,"
+        query += " (SELECT TOP 1 FACTOR FROM SOL_PEDIDOS.PEDIDOS.CONVERSION Z"
+        query += " WHERE Z.ARTICULO= A.ARTICULO"
+        query += " AND Z.PROYECTO=A.PROYECTO"
+        query += " ),"
+
+        query += " A.ORDEN_CAMBIO, A.RowPointer"
+        query += " FROM SOL_PEDIDOS.VITALICIA.FASE_DESGLOSE_PY A"
+        query += " LEFT JOIN SOL_PEDIDOS.VITALICIA.ARTICULO B ON A.ARTICULO=B.ARTICULO"
+        query += " LEFT JOIN SOL_PEDIDOS.VITALICIA.FASE_PY C ON A.FASE=C.FASE"
         query += " WHERE A.RowPointer NOT IN ("
         query += " SELECT B.RowPointer FROM SOL_PEDIDOS.PEDIDOS.CONVERSION B)"
+
+
         fn.ejecutarComandoSQL2(query)
     End Sub
 
@@ -77,10 +120,10 @@ Partial Class logistica_conversionUM
         End If
         If Session("modulo") = "P" Then
             divBoton.Attributes("Style") = ""
-            lblOC.Text = " WHERE ORDEN_CAMBIO=1"
+            lblOC.Text = "1"
         Else
             divBoton.Attributes("Style") = "display:none;"
-            lblOC.Text = " WHERE ORDEN_CAMBIO<>0"
+            lblOC.Text = "2"
         End If
 
         If Not Page.IsPostBack Then
@@ -173,14 +216,26 @@ Partial Class logistica_conversionUM
         Dim err As Integer = 0
 
         query = " UPDATE SOL_PEDIDOS.PEDIDOS.CONVERSION SET FACTOR='" & res & "', UM_P='" & um & "', UpdatedBy='" & usuario & "', RecordDate=GETDATE()"
-        query += oc + " AND PROYECTO='" & proyecto & "' AND ARTICULO='" & articulo & "'"
+        query += " WHERE PROYECTO='" & proyecto & "' AND ARTICULO='" & articulo & "'"
+
+        If oc = "2" Then
+            query += " AND ORDEN_CAMBIO<>'1'"
+        Else
+            query += " AND ORDEN_CAMBIO='1'"
+        End If
+
         err = fn.ejecutarComandoSQL3(query)
         If err = -1 Then
             res = Replace(res, ",", ".")
 
             query = " UPDATE SOL_PEDIDOS.PEDIDOS.CONVERSION SET FACTOR='" & res & "', UM_P='" & um & "', UpdatedBy='" & usuario & "', RecordDate=GETDATE()"
-            query += oc + " AND PROYECTO='" & proyecto & "' AND ARTICULO='" & articulo & "'"
+            query += " WHERE PROYECTO='" & proyecto & "' AND ARTICULO='" & articulo & "'"
 
+            If oc = "2" Then
+                query += " AND ORDEN_CAMBIO<>'1'"
+            Else
+                query += " AND ORDEN_CAMBIO='1'"
+            End If
             err = fn.ejecutarComandoSQL3(query)
 
         End If

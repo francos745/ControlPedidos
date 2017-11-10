@@ -165,6 +165,18 @@
                 var articulo = $("#txtArticulo").val();
                 var usuario = document.getElementById('<%= lblUsuario.ClientID %>').innerHTML
                 var oc = document.getElementById('<%= lblOC.ClientID %>').innerText
+                var posPunto = -1;
+                
+                factor = factor.replace(",", ".");
+                posPunto = factor.indexOf(".");
+               
+                if (posPunto == -1) {
+                    factor = factor + ".0"
+                } else {
+                    factor = factor + ""
+                }
+
+                    
 
                 $.ajax({
                     type: "POST",
@@ -396,7 +408,7 @@
                         <asp:BoundField DataField="FACTOR" HeaderText="FACTOR DE CONVERSIÓN"  SortExpression="SOL" DataFormatString="{0:N4}" />
 
                         <asp:BoundField DataField="OC" HeaderText="OC" ReadOnly="True" SortExpression="OC" />
-                                                 
+                   
                     </Columns>
                 </asp:GridView>
                 
